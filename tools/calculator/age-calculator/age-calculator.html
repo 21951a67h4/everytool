@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator - Calculate Your Exact Age</title>
+    <meta name="description" content="Calculate your exact age in years, months, days, hours, and more with our free online age calculator tool. Find out how old you are with precision.">
+    <link rel="stylesheet" href="age-calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="icon" href="../../landing-page/favicon-32x32.png" type="image/png">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="../../landing-page/index.html">Everytool</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../../landing-page/index.html">Home</a></li>
+                <li><a href="../../tools-page/tools.html" class="active">Tools</a></li>
+                <li><a href="../../about-page/about.html">About</a></li>
+                <li><a href="../../contact-page/contact.html">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <div class="mobile-menu">
+        <div class="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+        <ul>
+            <li><a href="../../landing-page/index.html">Home</a></li>
+            <li><a href="../../tools-page/tools.html" class="active">Tools</a></li>
+            <li><a href="../../about-page/about.html">About</a></li>
+            <li><a href="../../contact-page/contact.html">Contact</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <section class="tool-header">
+            <h1><i class="fas fa-calendar-alt"></i> Age Calculator</h1>
+            <p>Calculate your exact age in years, months, days, and more</p>
+        </section>
+
+        <div class="calculator-container">
+            <div class="calculator-card">
+                <div class="input-section">
+                    <h2>Enter Birth Details</h2>
+                    
+                    <div class="datepicker-option">
+                        <label for="birth-date">Select Birth Date:</label>
+                        <input type="date" id="birth-date" name="birth-date">
+                    </div>
+                    
+                    <div class="date-inputs">
+                        <div class="input-group">
+                            <label for="birth-day">Day</label>
+                            <input type="number" id="birth-day" min="1" max="31" placeholder="DD">
+                        </div>
+                        <div class="input-group">
+                            <label for="birth-month">Month</label>
+                            <select id="birth-month">
+                                <option value="" disabled selected>Select Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="birth-year">Year</label>
+                            <input type="number" id="birth-year" min="1900" max="2099" placeholder="YYYY">
+                        </div>
+                    </div>
+                    
+                    <div class="reference-date-toggle">
+                        <input type="checkbox" id="use-reference-date">
+                        <label for="use-reference-date">Calculate age as of a specific date (not today)</label>
+                    </div>
+                    
+                    <div class="reference-date-section hidden" id="reference-date-section">
+                        <h3>Reference Date</h3>
+                        <div class="datepicker-option">
+                            <label for="reference-date">Select Reference Date:</label>
+                            <input type="date" id="reference-date" name="reference-date">
+                        </div>
+                        
+                        <div class="date-inputs">
+                            <div class="input-group">
+                                <label for="reference-day">Day</label>
+                                <input type="number" id="reference-day" min="1" max="31" placeholder="DD">
+                            </div>
+                            <div class="input-group">
+                                <label for="reference-month">Month</label>
+                                <select id="reference-month">
+                                    <option value="" disabled selected>Select Month</option>
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="reference-year">Year</label>
+                                <input type="number" id="reference-year" min="1900" max="2099" placeholder="YYYY">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="calculate-btn" class="calculate-btn">Calculate Age</button>
+                    <div id="error-message" class="error-message hidden"></div>
+                </div>
+                
+                <div id="result-section" class="result-section hidden">
+                    <h2>Your Age Results</h2>
+                    
+                    <div class="result-boxes">
+                        <div class="result-box">
+                            <div id="years" class="result-value">0</div>
+                            <div class="result-label">Years</div>
+                        </div>
+                        <div class="result-box">
+                            <div id="months" class="result-value">0</div>
+                            <div class="result-label">Months</div>
+                        </div>
+                        <div class="result-box">
+                            <div id="days" class="result-value">0</div>
+                            <div class="result-label">Days</div>
+                        </div>
+                    </div>
+                    
+                    <div class="detailed-results">
+                        <h3>Detailed Age Breakdown</h3>
+                        <div class="detailed-result-item">
+                            <span class="label">Total Years</span>
+                            <span id="total-years" class="value">0</span>
+                        </div>
+                        <div class="detailed-result-item">
+                            <span class="label">Total Months</span>
+                            <span id="total-months" class="value">0</span>
+                        </div>
+                        <div class="detailed-result-item">
+                            <span class="label">Total Weeks</span>
+                            <span id="total-weeks" class="value">0</span>
+                        </div>
+                        <div class="detailed-result-item">
+                            <span class="label">Total Days</span>
+                            <span id="total-days" class="value">0</span>
+                        </div>
+                        <div class="detailed-result-item">
+                            <span class="label">Total Hours</span>
+                            <span id="total-hours" class="value">0</span>
+                        </div>
+                        <div class="detailed-result-item">
+                            <span class="label">Total Minutes</span>
+                            <span id="total-minutes" class="value">0</span>
+                        </div>
+                    </div>
+                    
+                    <div id="next-birthday" class="next-birthday">
+                        <i class="fas fa-birthday-cake"></i> <span id="next-birthday-text">Your next birthday is in 0 days</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="how-to-use">
+                <h2>How to Use the Age Calculator</h2>
+                <p>This age calculator helps you determine your exact age in years, months, days, and even hours and minutes.</p>
+                
+                <h3>To calculate your age:</h3>
+                <ol>
+                    <li>Enter your date of birth using either the date picker or by manually entering the day, month, and year.</li>
+                    <li>By default, your age will be calculated as of today's date.</li>
+                    <li>If you want to calculate your age as of a different date, check the "Calculate age as of a specific date" option and enter the reference date.</li>
+                    <li>Click the "Calculate Age" button to see your results.</li>
+                </ol>
+                
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Age Calculation Method</h3>
+                    <p>This calculator uses precise date arithmetic to calculate your exact age. It accounts for leap years, variable month lengths, and other calendar complexities to give you accurate results.</p>
+                </div>
+                
+                <div class="tip-box">
+                    <h3><i class="fas fa-lightbulb"></i> Did You Know?</h3>
+                    <p>Different cultures have different ways of calculating age. For example, in some East Asian countries, you're considered 1 year old at birth, and everyone adds a year to their age on New Year's Day, rather than on their birthday.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../../about-page/about.html">About Us</a>
+            <a href="../../privacy policy-page/privacy policy.html">Privacy Policy</a>
+            <a href="../../contact-page/contact.html">Contact</a>
+        </div>
+        <p>&copy; 2025 Everytool. All rights reserved.</p>
+    </footer>
+
+    <script src="age-calculator.js"></script>
+</body>
+</html>

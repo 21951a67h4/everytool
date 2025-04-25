@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Calculator - Calculate Monthly Payments & Interest</title>
+    <meta name="description" content="Free online loan calculator to estimate monthly payments, total interest, and payoff schedule for mortgages, auto loans, personal loans, and more.">
+    <link rel="stylesheet" href="loan-calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="icon" href="../../../landing-page/favicon-32x32.png" type="image/png">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="../../../landing-page/index.html">Everytool</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../../../landing-page/index.html">Home</a></li>
+                <li><a href="../../../tools-page/tools.html" class="active">Tools</a></li>
+                <li><a href="../../../about-page/about.html">About</a></li>
+                <li><a href="../../../contact-page/contact.html">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <div class="mobile-menu">
+        <div class="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+        <ul>
+            <li><a href="../../../landing-page/index.html">Home</a></li>
+            <li><a href="../../../tools-page/tools.html" class="active">Tools</a></li>
+            <li><a href="../../../about-page/about.html">About</a></li>
+            <li><a href="../../../contact-page/contact.html">Contact</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <section class="tool-header">
+            <h1><i class="fas fa-chart-line"></i> Loan Calculator</h1>
+            <p>Calculate monthly payments, total interest, and view amortization schedule</p>
+        </section>
+
+        <div class="calculator-container">
+            <div class="calculator-card">
+                <div class="loan-type-toggle">
+                    <button id="mortgage-btn" class="loan-type-btn active">Mortgage</button>
+                    <button id="auto-btn" class="loan-type-btn">Auto Loan</button>
+                    <button id="personal-btn" class="loan-type-btn">Personal Loan</button>
+                    <button id="custom-btn" class="loan-type-btn">Custom</button>
+                </div>
+
+                <div class="input-section">
+                    <h2>Loan Details</h2>
+                    
+                    <div class="input-group">
+                        <label for="loan-amount">Loan Amount ($)</label>
+                        <input type="number" id="loan-amount" min="1" placeholder="e.g., 250000">
+                    </div>
+                    
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="interest-rate">Interest Rate (% per year)</label>
+                            <input type="number" id="interest-rate" min="0.1" max="30" step="0.01" placeholder="e.g., 4.5">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="loan-term">Loan Term</label>
+                            <div class="term-inputs">
+                                <input type="number" id="loan-term" min="1" max="50" placeholder="e.g., 30">
+                                <select id="term-unit">
+                                    <option value="year">Years</option>
+                                    <option value="month">Months</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="extra-options">
+                        <div class="collapsible-header">
+                            <span>Advanced Options</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        
+                        <div class="collapsible-content">
+                            <div class="input-group">
+                                <label for="start-date">Start Date</label>
+                                <input type="date" id="start-date">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="extra-payment">Extra Monthly Payment ($)</label>
+                                <input type="number" id="extra-payment" min="0" placeholder="e.g., 100">
+                            </div>
+                            
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="compound-interest">
+                                <label for="compound-interest">Use compound interest calculation</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="calculate-btn" class="calculate-btn">Calculate Loan</button>
+                    <div id="error-message" class="error-message hidden"></div>
+                </div>
+                
+                <div id="result-section" class="result-section hidden">
+                    <h2>Loan Summary</h2>
+                    
+                    <div class="result-grid">
+                        <div class="result-box">
+                            <div class="result-label">Monthly Payment</div>
+                            <div id="monthly-payment" class="result-value">$0</div>
+                        </div>
+                        
+                        <div class="result-box">
+                            <div class="result-label">Total Payment</div>
+                            <div id="total-payment" class="result-value">$0</div>
+                        </div>
+                        
+                        <div class="result-box">
+                            <div class="result-label">Total Interest</div>
+                            <div id="total-interest" class="result-value">$0</div>
+                        </div>
+                        
+                        <div class="result-box">
+                            <div class="result-label">Payoff Date</div>
+                            <div id="payoff-date" class="result-value">-</div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-breakdown">
+                        <div class="pie-chart-container">
+                            <div class="pie-chart">
+                                <div id="principal-slice" class="slice principal-slice"></div>
+                                <div id="interest-slice" class="slice interest-slice"></div>
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color principal-color"></div>
+                                    <div class="legend-text">Principal</div>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color interest-color"></div>
+                                    <div class="legend-text">Interest</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="amortization-section">
+                        <h3>Amortization Schedule</h3>
+                        <div class="amortization-controls">
+                            <button id="view-schedule-btn">View Full Schedule</button>
+                            <div class="schedule-options">
+                                <label for="schedule-view">View by:</label>
+                                <select id="schedule-view">
+                                    <option value="yearly">Yearly</option>
+                                    <option value="monthly">Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div id="amortization-table-container" class="hidden">
+                            <table id="amortization-table">
+                                <thead>
+                                    <tr>
+                                        <th>Period</th>
+                                        <th>Payment</th>
+                                        <th>Principal</th>
+                                        <th>Interest</th>
+                                        <th>Total Interest</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="amortization-tbody">
+                                    <!-- Table rows will be inserted here by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="how-to-use">
+                <h2>How to Use the Loan Calculator</h2>
+                <p>This loan calculator helps you estimate monthly payments and total interest costs for different types of loans.</p>
+                
+                <div class="steps">
+                    <h3>To calculate your loan:</h3>
+                    <ol>
+                        <li>Select your loan type (Mortgage, Auto, Personal, or Custom)</li>
+                        <li>Enter the loan amount</li>
+                        <li>Specify the interest rate as an annual percentage</li>
+                        <li>Set the loan term in years or months</li>
+                        <li>For more detailed calculations, expand the Advanced Options section</li>
+                        <li>Click "Calculate Loan" to see your results</li>
+                    </ol>
+                </div>
+                
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> About the Calculations</h3>
+                    <p>This calculator uses the standard amortization formula to calculate monthly payments:</p>
+                    <p class="formula">M = P × [r(1 + r)ⁿ] ÷ [(1 + r)ⁿ - 1]</p>
+                    <p>Where:</p>
+                    <ul>
+                        <li>M = Monthly payment</li>
+                        <li>P = Principal (loan amount)</li>
+                        <li>r = Monthly interest rate (annual rate ÷ 12 ÷ 100)</li>
+                        <li>n = Total number of payments (term in years × 12)</li>
+                    </ul>
+                </div>
+                
+                <div class="tip-box">
+                    <h3><i class="fas fa-lightbulb"></i> Tips for Borrowers</h3>
+                    <ul>
+                        <li>Making extra payments can significantly reduce your total interest and shorten your loan term</li>
+                        <li>Compare different loan terms to find the best balance between monthly payment and total interest</li>
+                        <li>A shorter loan term usually means higher monthly payments but less total interest</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../../../about-page/about.html">About Us</a>
+            <a href="../../../privacy policy-page/privacy policy.html">Privacy Policy</a>
+            <a href="../../../contact-page/contact.html">Contact</a>
+        </div>
+        <p>&copy; 2025 Everytool. All rights reserved.</p>
+    </footer>
+
+    <script src="loan-calculator.js"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Calculator - Calculate Speed, Distance and Time</title>
+    <meta name="description" content="Calculate speed, distance, and time with our free online speed calculator. Convert between different units of speed and solve distance-time problems.">
+    <link rel="stylesheet" href="speed-calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="icon" href="../../../landing-page/favicon-32x32.png" type="image/png">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="../../../landing-page/index.html">Everytool</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../../../landing-page/index.html">Home</a></li>
+                <li><a href="../../../tools-page/tools.html" class="active">Tools</a></li>
+                <li><a href="../../../about-page/about.html">About</a></li>
+                <li><a href="../../../contact-page/contact.html">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <div class="mobile-menu">
+        <div class="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+        <ul>
+            <li><a href="../../../landing-page/index.html">Home</a></li>
+            <li><a href="../../../tools-page/tools.html" class="active">Tools</a></li>
+            <li><a href="../../../about-page/about.html">About</a></li>
+            <li><a href="../../../contact-page/contact.html">Contact</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <section class="tool-header">
+            <h1><i class="fas fa-tachometer-alt"></i> Speed Calculator</h1>
+            <p>Calculate speed, distance, and time with ease</p>
+        </section>
+
+        <div class="calculator-container">
+            <div class="calculator-card">
+                <div class="calculator-tabs">
+                    <button class="tab-btn active" data-tab="speed">Calculate Speed</button>
+                    <button class="tab-btn" data-tab="distance">Calculate Distance</button>
+                    <button class="tab-btn" data-tab="time">Calculate Time</button>
+                    <button class="tab-btn" data-tab="convert">Speed Converter</button>
+                </div>
+                
+                <!-- Calculate Speed Tab -->
+                <div class="tab-content active" id="speed-tab">
+                    <h2>Calculate Speed</h2>
+                    <p class="tab-description">Calculate speed using distance and time (Speed = Distance ÷ Time).</p>
+                    
+                    <div class="input-group">
+                        <label for="speed-distance">Distance:</label>
+                        <input type="number" id="speed-distance" step="any" placeholder="Enter distance">
+                        <select id="speed-distance-unit">
+                            <option value="km">kilometers</option>
+                            <option value="m">meters</option>
+                            <option value="mi">miles</option>
+                            <option value="ft">feet</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="speed-time">Time:</label>
+                        <input type="number" id="speed-time" step="any" placeholder="Enter time">
+                        <select id="speed-time-unit">
+                            <option value="hr">hours</option>
+                            <option value="min">minutes</option>
+                            <option value="sec">seconds</option>
+                        </select>
+                    </div>
+                    
+                    <button id="calculate-speed" class="calculate-btn">Calculate Speed</button>
+                    
+                    <div class="result-container">
+                        <h3>Result:</h3>
+                        <p id="speed-result">The calculated speed will appear here</p>
+                    </div>
+                </div>
+                
+                <!-- Calculate Distance Tab -->
+                <div class="tab-content" id="distance-tab">
+                    <h2>Calculate Distance</h2>
+                    <p class="tab-description">Calculate distance using speed and time (Distance = Speed × Time).</p>
+                    
+                    <div class="input-group">
+                        <label for="distance-speed">Speed:</label>
+                        <input type="number" id="distance-speed" step="any" placeholder="Enter speed">
+                        <select id="distance-speed-unit">
+                            <option value="km/hr">km/h</option>
+                            <option value="m/s">m/s</option>
+                            <option value="mph">mph</option>
+                            <option value="ft/s">ft/s</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="distance-time">Time:</label>
+                        <input type="number" id="distance-time" step="any" placeholder="Enter time">
+                        <select id="distance-time-unit">
+                            <option value="hr">hours</option>
+                            <option value="min">minutes</option>
+                            <option value="sec">seconds</option>
+                        </select>
+                    </div>
+                    
+                    <button id="calculate-distance" class="calculate-btn">Calculate Distance</button>
+                    
+                    <div class="result-container">
+                        <h3>Result:</h3>
+                        <p id="distance-result">The calculated distance will appear here</p>
+                    </div>
+                </div>
+                
+                <!-- Calculate Time Tab -->
+                <div class="tab-content" id="time-tab">
+                    <h2>Calculate Time</h2>
+                    <p class="tab-description">Calculate time using distance and speed (Time = Distance ÷ Speed).</p>
+                    
+                    <div class="input-group">
+                        <label for="time-distance">Distance:</label>
+                        <input type="number" id="time-distance" step="any" placeholder="Enter distance">
+                        <select id="time-distance-unit">
+                            <option value="km">kilometers</option>
+                            <option value="m">meters</option>
+                            <option value="mi">miles</option>
+                            <option value="ft">feet</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="time-speed">Speed:</label>
+                        <input type="number" id="time-speed" step="any" placeholder="Enter speed">
+                        <select id="time-speed-unit">
+                            <option value="km/hr">km/h</option>
+                            <option value="m/s">m/s</option>
+                            <option value="mph">mph</option>
+                            <option value="ft/s">ft/s</option>
+                        </select>
+                    </div>
+                    
+                    <button id="calculate-time" class="calculate-btn">Calculate Time</button>
+                    
+                    <div class="result-container">
+                        <h3>Result:</h3>
+                        <p id="time-result">The calculated time will appear here</p>
+                    </div>
+                </div>
+                
+                <!-- Speed Converter Tab -->
+                <div class="tab-content" id="convert-tab">
+                    <h2>Speed Converter</h2>
+                    <p class="tab-description">Convert between different units of speed.</p>
+                    
+                    <div class="input-group">
+                        <label for="convert-speed">Speed:</label>
+                        <input type="number" id="convert-speed" step="any" placeholder="Enter speed">
+                        <select id="convert-from-unit">
+                            <option value="km/hr">kilometers per hour (km/h)</option>
+                            <option value="m/s">meters per second (m/s)</option>
+                            <option value="mph">miles per hour (mph)</option>
+                            <option value="ft/s">feet per second (ft/s)</option>
+                            <option value="knot">knots</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="convert-to-unit">Convert to:</label>
+                        <select id="convert-to-unit">
+                            <option value="km/hr">kilometers per hour (km/h)</option>
+                            <option value="m/s">meters per second (m/s)</option>
+                            <option value="mph">miles per hour (mph)</option>
+                            <option value="ft/s">feet per second (ft/s)</option>
+                            <option value="knot">knots</option>
+                        </select>
+                    </div>
+                    
+                    <button id="convert-speed-btn" class="calculate-btn">Convert</button>
+                    
+                    <div class="result-container">
+                        <h3>Result:</h3>
+                        <p id="convert-result">The converted speed will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Everytool</div>
+            <div class="footer-links">
+                <a href="../../../privacy policy-page/privacy policy.html">Privacy Policy</a>
+                <a href="../../../contact-page/contact.html">Contact Us</a>
+                <a href="../../../about-page/about.html">About Us</a>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2023 Everytool. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="speed-calculator.js"></script>
+</body>
+</html>

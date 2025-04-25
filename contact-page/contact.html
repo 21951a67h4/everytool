@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Everytool.tech</title>
+    <link rel="stylesheet" href="contact.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="../landing-page/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <meta name="description" content="Contact Everytool.tech for tool requests, feedback, or support. We're here to help with all your tool-related needs.">
+    <meta property="og:title" content="Contact Everytool.tech">
+    <meta property="og:description" content="Get in touch with Everytool.tech for support, feedback, or tool requests.">
+    <meta property="og:image" content="../landing-page/favicon-32x32.png">
+    <meta property="og:url" content="https://everytool.tech/contact">
+    <meta property="og:type" content="website">
+</head>
+<body>
+    <header>
+        <nav aria-label="Main Navigation">
+            <div class="logo"><a href="../landing-page/index.html">Everytool</a></div>
+            <ul class="nav-links">
+            <li><a href="../landing-page/index.html">Home</a></li>
+            <li><a href="../tools-page/tools.html">Tools</a></li>
+            <li><a href="../about-page/about.html">About</a></li>
+            <li><a href="#contact-form">Contact</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Contact Us</h1>
+            <p>Have questions, feedback, or tool requests? We'd love to hear from you!</p>
+        </section>
+
+        <section class="contact-options">
+            <div class="contact-option-card">
+                <i class="fas fa-tools fa-3x"></i>
+                <h3>Request a Tool</h3>
+                <p>Need a specific online tool? Let us know and we'll consider adding it to our collection.</p>
+            </div>
+            <div class="contact-option-card">
+                <i class="fas fa-question-circle fa-3x"></i>
+                <h3>Get Help</h3>
+                <p>Having trouble with one of our tools? We're here to help you sort it out.</p>
+            </div>
+            <div class="contact-option-card">
+                <i class="fas fa-lightbulb fa-3x"></i>
+                <h3>Share Feedback</h3>
+                <p>Your insights help us improve. Tell us what you love or what we could do better.</p>
+            </div>
+        </section>
+
+        <section id="contact-form" class="contact-form-section">
+            <h2>Get In Touch</h2>
+            <p>Fill out the form below and we'll get back to you as soon as possible.</p>
+            
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Name <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" required placeholder="Your name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required placeholder="Your email address">
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject <span class="required">*</span></label>
+                    <select id="subject" name="subject" required>
+                        <option value="" disabled selected>Select a subject</option>
+                        <option value="tool-request">Tool Request</option>
+                        <option value="feedback">Feedback</option>
+                        <option value="bug-report">Bug Report</option>
+                        <option value="general-inquiry">General Question</option>
+                        <option value="partnership">Partnership Inquiry</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tool-name">Tool Name</label>
+                    <input type="text" id="tool-name" name="tool-name" placeholder="If requesting or reporting a tool, enter its name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message <span class="required">*</span></label>
+                    <textarea id="message" name="message" rows="6" required placeholder="Please describe your request, feedback, or question in detail"></textarea>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="privacy-policy" name="privacy-policy" required>
+                    <label for="privacy-policy">I agree to the <a href="../privacy policy-page/privacy policy.html">Privacy Policy</a> <span class="required">*</span></label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="primary-button">Send Message</button>
+                    <button type="reset" class="secondary-button">Clear Form</button>
+                </div>
+            </form>
+        </section>
+        
+        <section id="faq" class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Are all the tools really free to use?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Yes, all tools on Everytool.tech are completely free to use. We generate revenue through non-intrusive advertisements to keep the service free for everyone.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>How do I request a new tool?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>You can request a new tool by filling out the contact form above. Select "Tool Request" from the subject dropdown and provide details about the tool you'd like to see added.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>How do you handle my data?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>We take your privacy seriously. Most of our tools process data directly in your browser without sending it to our servers. For contact form submissions, we only use your information to respond to your inquiry. Please see our <a href="../privacy policy-page/privacy policy.html">Privacy Policy</a> for more details.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Can I use your tools for commercial purposes?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Yes, you can use our tools for personal or commercial purposes. However, automated access or embedding our tools directly into other applications is not permitted without prior written consent.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>How often do you add new tools?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>We aim to add new tools every week based on user requests and our development capacity. We prioritize tools that are most requested by our users.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="alternative-contact">
+            <h2>Other Ways to Reach Us</h2>
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <i class="fas fa-envelope fa-2x"></i>
+                    <h3>Email</h3>
+                    <p><a href="mailto:contact@everytool.tech">contact@everytool.tech</a></p>
+                </div>
+                <div class="contact-method">
+                    <i class="fab fa-twitter fa-2x"></i>
+                    <h3>Twitter</h3>
+                    <p><a href="https://twitter.com/everytooltech" target="_blank">@everytooltech</a></p>
+                </div>
+                <div class="contact-method">
+                    <i class="fab fa-github fa-2x"></i>
+                    <h3>GitHub</h3>
+                    <p><a href="https://github.com/everytooltech" target="_blank">everytooltech</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../landing-page/index.html">Home</a>
+            <a href="../about-page/about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="../privacy policy-page/privacy policy.html">Privacy Policy</a>
+        </div>
+        <p>&copy; 2025 Everytool.tech. All rights reserved.</p>
+    </footer>
+
+    <button id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="contact.js"></script>
+</body>
+</html>

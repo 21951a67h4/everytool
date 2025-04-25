@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Calculator - Calculate Addition & Subtraction of Time</title>
+    <meta name="description" content="Free online time calculator tool that allows you to add or subtract hours, minutes, and seconds. Perfect for calculating time differences, time intervals, and more.">
+    <link rel="stylesheet" href="time-calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="../../landing-page/index.html">EveryTool</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../../landing-page/index.html">Home</a></li>
+                <li><a href="../../tools-page/tools.html">Tools</a></li>
+                <li><a href="../../about-page/about.html">About</a></li>
+                <li><a href="../../contact-page/contact.html">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+        <ul>
+            <li><a href="../../landing-page/index.html">Home</a></li>
+            <li><a href="../../tools-page/tools.html">Tools</a></li>
+            <li><a href="../../about-page/about.html">About</a></li>
+            <li><a href="../../contact-page/contact.html">Contact</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <section class="tool-header">
+            <h1><i class="fas fa-clock"></i> Time Calculator</h1>
+            <p>Add or subtract times in hours, minutes, and seconds with ease.</p>
+        </section>
+
+        <div class="calculator-container">
+            <div class="calculator-card">
+                <div class="calculator-tabs">
+                    <button class="tab-btn active" data-tab="add">Add Time</button>
+                    <button class="tab-btn" data-tab="subtract">Subtract Time</button>
+                    <button class="tab-btn" data-tab="convert">Convert Time</button>
+                    <button class="tab-btn" data-tab="duration">Duration Calculator</button>
+                </div>
+
+                <!-- Add Time Tab -->
+                <div id="add-tab" class="tab-content active">
+                    <h2>Add Time</h2>
+                    <p class="tab-description">Add multiple time values together to find the total time.</p>
+
+                    <div class="time-inputs">
+                        <div class="time-input-row">
+                            <div class="time-item">
+                                <label>Hours</label>
+                                <input type="number" min="0" id="add-hours-1" placeholder="0">
+                            </div>
+                            <div class="time-item">
+                                <label>Minutes</label>
+                                <input type="number" min="0" max="59" id="add-minutes-1" placeholder="0">
+                            </div>
+                            <div class="time-item">
+                                <label>Seconds</label>
+                                <input type="number" min="0" max="59" id="add-seconds-1" placeholder="0">
+                            </div>
+                        </div>
+                        
+                        <div class="operation-sign">+</div>
+                        
+                        <div class="time-input-row">
+                            <div class="time-item">
+                                <label>Hours</label>
+                                <input type="number" min="0" id="add-hours-2" placeholder="0">
+                            </div>
+                            <div class="time-item">
+                                <label>Minutes</label>
+                                <input type="number" min="0" max="59" id="add-minutes-2" placeholder="0">
+                            </div>
+                            <div class="time-item">
+                                <label>Seconds</label>
+                                <input type="number" min="0" max="59" id="add-seconds-2" placeholder="0">
+                            </div>
+                        </div>
+                        
+                        <button id="add-more-time" class="add-more-btn">
+                            <i class="fas fa-plus"></i> Add Another Time
+                        </button>
+                        
+                        <button id="calculate-add" class="calculate-btn">Calculate Total Time</button>
+                    </div>
+                    
+                    <div class="result-container">
+                        <h3>Result:</h3>
+                        <div id="add-result" class="result-display">
+                            00:00:00
+                        </div>
+                        <div class="result-in-words" id="add-result-words"></div>
+                    </div>
+                </div>
+
+                <!-- Subtract Time Tab -->
+                <div id="subtract-tab" class="tab-content">
+                    <h2>Subtract Time</h2>
+                    <p class="tab-description">Calculate the difference between two time values.</p>
+
+                    <div class="time-inputs">
+                        <div class="time-input-row">
+                            <div class="time-item">
+                                <label>Hours</label>
+                                <input type="number" min="0" id="subtract-hours-1" placeholder="0">
+                            </div>
+                            <div class="time-item">
+                                <label>Minutes</label>
+                                <input type="number" min="0" max="59" id="subtract-minutes-1" placeholder="0">
+                            </div>
+                            <div class="time-item">
+                                <label>Seconds</label>
+                                <input type="number" min="0" max="59" id="subtract-seconds-1" placeholder="0">
+                            </div>
+                        </div>
+                        
+                        <div class="operation-sign">-</div>
+                        
+                        <div class="time-input-row">
+                            <div class="time-item">
+                                <label>Hours</label>
+                                <input type="number" min="0" id="subtract-hours-2" placeholder="0">
+                            </div>
+                            <div class="time-item">
+                                <label>Minutes</label>
+                                <input type="number" min="0" max="59" id="subtract-minutes-2" placeholder="0">
+                            </div>
+                            <div class="time-item">
+                                <label>Seconds</label>
+                                <input type="number" min="0" max="59" id="subtract-seconds-2" placeholder="0">
+                            </div>
+                        </div>
+                        
+                        <button id="calculate-subtract" class="calculate-btn">Calculate Time Difference</button>
+                    </div>
+                    
+                    <div class="result-container">
+                        <h3>Result:</h3>
+                        <div id="subtract-result" class="result-display">
+                            00:00:00
+                        </div>
+                        <div class="result-in-words" id="subtract-result-words"></div>
+                    </div>
+                </div>
+
+                <!-- Convert Time Tab -->
+                <div id="convert-tab" class="tab-content">
+                    <h2>Convert Time</h2>
+                    <p class="tab-description">Convert between different time units.</p>
+
+                    <div class="conversion-form">
+                        <div class="input-group">
+                            <label for="convert-value">Enter Value:</label>
+                            <input type="number" id="convert-value" placeholder="Enter value" min="0">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="convert-from">From:</label>
+                            <select id="convert-from">
+                                <option value="seconds">Seconds</option>
+                                <option value="minutes">Minutes</option>
+                                <option value="hours">Hours</option>
+                                <option value="days">Days</option>
+                                <option value="weeks">Weeks</option>
+                                <option value="months">Months (30 days)</option>
+                                <option value="years">Years (365 days)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="convert-to">To:</label>
+                            <select id="convert-to">
+                                <option value="seconds">Seconds</option>
+                                <option value="minutes">Minutes</option>
+                                <option value="hours" selected>Hours</option>
+                                <option value="days">Days</option>
+                                <option value="weeks">Weeks</option>
+                                <option value="months">Months (30 days)</option>
+                                <option value="years">Years (365 days)</option>
+                            </select>
+                        </div>
+                        
+                        <button id="calculate-convert" class="calculate-btn">Convert</button>
+                    </div>
+                    
+                    <div class="result-container">
+                        <h3>Result:</h3>
+                        <div id="convert-result" class="result-display">
+                            0
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Duration Calculator Tab -->
+                <div id="duration-tab" class="tab-content">
+                    <h2>Duration Calculator</h2>
+                    <p class="tab-description">Calculate the time duration between two dates and times.</p>
+
+                    <div class="duration-form">
+                        <div class="duration-input-group">
+                            <h3>Start Date & Time</h3>
+                            <div class="date-time-input">
+                                <div class="input-group">
+                                    <label for="start-date">Date:</label>
+                                    <input type="date" id="start-date">
+                                </div>
+                                <div class="input-group">
+                                    <label for="start-time">Time:</label>
+                                    <input type="time" id="start-time">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="duration-input-group">
+                            <h3>End Date & Time</h3>
+                            <div class="date-time-input">
+                                <div class="input-group">
+                                    <label for="end-date">Date:</label>
+                                    <input type="date" id="end-date">
+                                </div>
+                                <div class="input-group">
+                                    <label for="end-time">Time:</label>
+                                    <input type="time" id="end-time">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button id="calculate-duration" class="calculate-btn">Calculate Duration</button>
+                    </div>
+                    
+                    <div class="result-container">
+                        <h3>Time Duration:</h3>
+                        <div id="duration-result" class="result-display">
+                            0 days, 00:00:00
+                        </div>
+                        <div class="duration-details" id="duration-details"></div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- How To Use section -->
+            <div class="how-to-use">
+                <h2>How to Use</h2>
+                <div class="how-to-item">
+                    <h3>Adding Time</h3>
+                    <p>Enter hours, minutes, and seconds in the input fields and click "Calculate Total Time". You can add more than two time values by clicking "Add Another Time".</p>
+                </div>
+                
+                <div class="how-to-item">
+                    <h3>Subtracting Time</h3>
+                    <p>Enter the larger time value in the first row and the time to subtract in the second row. Click "Calculate Time Difference" to get the result.</p>
+                </div>
+                
+                <div class="how-to-item">
+                    <h3>Converting Time</h3>
+                    <p>Enter a value, select the original time unit and the unit you want to convert to, then click "Convert".</p>
+                </div>
+                
+                <div class="how-to-item">
+                    <h3>Duration Calculator</h3>
+                    <p>Select start and end dates and times, then click "Calculate Duration" to find the exact time span between them.</p>
+                </div>
+                
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Time Units</h3>
+                    <p>Time calculations use the following standard conversions:</p>
+                    <ul>
+                        <li>1 minute = 60 seconds</li>
+                        <li>1 hour = 60 minutes</li>
+                        <li>1 day = 24 hours</li>
+                        <li>1 week = 7 days</li>
+                        <li>1 month = 30 days (for simplicity)</li>
+                        <li>1 year = 365 days (standard year)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">EveryTool</div>
+            <div class="footer-links">
+                <a href="../../privacy policy-page/privacy policy.html">Privacy Policy</a>
+                <a href="../../about-page/about.html">About Us</a>
+                <a href="../../contact-page/contact.html">Contact</a>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2025 EveryTool. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="time-calculator.js"></script>
+</body>
+</html>
