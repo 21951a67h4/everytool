@@ -78,6 +78,13 @@ Each tool is hosted at a clean, readable URL. Examples:
 | QR Generator       | `/generator/qr-code-generator/`         |
 | Meta Tag Generator | `/seo/meta-tag-generator/`              |
 
+
+Example:-
+
+For each calculator, create three files in this format
+[calculator-name].html
+[calculator-name].css
+[calculator-name].js
 ---
 
 ## 🎨 Page Design & Standards
