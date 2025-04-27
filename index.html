@@ -1,10 +1,9 @@
-<base href="https://tool.everytool.tech/">
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Everytool.tech</title>
+    <title>Everytool</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
@@ -17,22 +16,36 @@
     <meta property="og:url" content="https://everytool.tech">
     <meta property="og:type" content="website">
 </head>
-<body>
-    <header>
+<body style="margin: 0; padding: 0;">
+    <header style="margin: 0; padding-bottom: 0;">
         <nav aria-label="Main Navigation">
             <div class="logo"><a href="index.html">Everytool</a></div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="../tools-page/tools.html">Tools</a></li>
+                <li><a href="tools-page/index.html">Tools</a></li>
                 <li><a href="#why-us">Why Us</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="../contact-page/contact.html">Contact</a></li>
+                <li><a href="contact-page/index.html">Contact</a></li>
             </ul>
         </nav>
     </header>
+    
+    <!-- News Ticker / Scrolling Announcements -->
+    <section class="news-ticker" style="margin: 0; padding: 8px 0; border-radius: 0;">
+        <div class="ticker-wrapper">
+            <div class="ticker-content">
+                <span><i class="fas fa-star"></i> New Tool Added: BMI Calculator</span>
+                <span><i class="fas fa-bell"></i> Coming Soon: Password Generator Tool</span>
+                <span><i class="fas fa-info-circle"></i> Weekly updates every Friday</span>
+                <span><i class="fas fa-award"></i> Over 15 free tools available now!</span>
+                <span><i class="fas fa-gift"></i> Send us your tool suggestions via the Contact page</span>
+            </div>
+        </div>
+    </section>
 
-    <main>
-        <section id="home" class="hero">
+    <main style="margin: 0; padding: 0;">
+        <section id="home" class="hero" style="margin: 0; padding-top: 60px;">
+            <div class="hero-image"></div>
             <h1>Everytool</h1>
             <h2>Free Online Tools for Everyone</h2>
             <p>Your central hub for all the online tools you'll ever need – all in one place.</p>
@@ -59,7 +72,7 @@
                 <div id="recent-searches"></div>
             </div>
 
-            <a href="../tools-page/tools.html" class="cta-button" target="_blank" rel="noopener noreferrer">Explore Tool Hub</a>
+            <a href="tools-page/index.html" class="cta-button">Explore Tool Hub</a>
         </section>
 
         <section id="about" class="about-section">
@@ -133,7 +146,7 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="accordion-content">
-                        <p>You can request a new tool by visiting our <a href="../contact-page/contact.html">Contact page</a>. Provide details about the tool you'd like to see added, and we'll consider it for development.</p>
+                        <p>You can request a new tool by visiting our <a href="contact-page/index.html">Contact page</a>. Provide details about the tool you'd like to see added, and we'll consider it for development.</p>
                     </div>
                 </div>
                 
@@ -143,7 +156,7 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="accordion-content">
-                        <p>We take your privacy seriously. Most of our tools process data directly in your browser without sending it to our servers. For contact form submissions, we only use your information to respond to your inquiry. Please see our <a href="../privacy policy-page/privacy policy.html">Privacy Policy</a> for more details.</p>
+                        <p>We take your privacy seriously. Most of our tools process data directly in your browser without sending it to our servers. For contact form submissions, we only use your information to respond to your inquiry. Please see our <a href="privacy-policy/index.html">Privacy Policy</a> for more details.</p>
                     </div>
                 </div>
                 
@@ -173,9 +186,9 @@
     <footer>
         <div class="footer-links">
             <a href="index.html">Home</a>
-            <a href="../about-page/about.html">About Us</a>
-            <a href="../contact-page/contact.html">Contact</a>
-            <a href="../privacy policy-page/privacy policy.html">Privacy Policy</a>
+            <a href="about-page/index.html">About Us</a>
+            <a href="contact-page/index.html">Contact</a>
+            <a href="privacy-policy/index.html">Privacy Policy</a>
         </div>
         <p>&copy; 2024 Everytool.All rights reserved.</p>
     </footer>
