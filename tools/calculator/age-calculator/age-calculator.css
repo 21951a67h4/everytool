@@ -595,3 +595,137 @@ footer p {
         font-size: 2rem;
     }
 }
+
+/* Blog Section Styling */
+.blog-section {
+    margin: 50px 0;
+    background-color: #f9f9f9;
+    padding: 40px 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.blog-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.blog-section article {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
+
+.blog-section h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.blog-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: #3498db;
+}
+
+.blog-section h3 {
+    color: #3498db;
+    font-size: 1.4rem;
+    margin: 30px 0 15px;
+}
+
+.blog-intro {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #34495e;
+    margin-bottom: 25px;
+    font-weight: 500;
+}
+
+.blog-section p {
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.blog-list {
+    margin-left: 20px;
+    margin-bottom: 25px;
+}
+
+.blog-list li {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.blog-list strong {
+    color: #2c3e50;
+}
+
+.blog-img {
+    margin: 20px 0 30px;
+    text-align: center;
+}
+
+.blog-img img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.blog-callout {
+    background-color: #e8f4fd;
+    border-left: 4px solid #3498db;
+    padding: 15px 20px;
+    margin: 25px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.blog-callout p {
+    margin-bottom: 0;
+    font-size: 1.05rem;
+}
+
+@media (max-width: 768px) {
+    .blog-container {
+        padding: 0 15px;
+    }
+    
+    .blog-section article {
+        padding: 20px;
+    }
+    
+    .blog-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .blog-section h3 {
+        font-size: 1.2rem;
+    }
+    
+    .blog-intro {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .blog-section article {
+        padding: 15px;
+    }
+    
+    .blog-section h2 {
+        font-size: 1.3rem;
+    }
+    
+    .blog-list li {
+        margin-bottom: 12px;
+    }
+}
