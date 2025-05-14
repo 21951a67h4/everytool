@@ -569,30 +569,90 @@ footer p {
         margin: 1.5rem auto;
     }
     
-    .calculator-card, .how-to-use {
-        padding: 1.5rem;
+    .calculator-card {
+        padding: 1.2rem;
+        margin-bottom: 20px;
     }
     
-    .date-inputs {
-        grid-template-columns: 1fr;
+    .input-group input, 
+    .input-group select,
+    .datepicker-option input[type="date"] {
+        padding: 12px 10px;
+        font-size: 16px; /* Prevents iOS zoom */
+    }
+    
+    .calculate-btn {
+        height: 50px; /* Larger touch target */
+        font-size: 16px;
+    }
+    
+    .detailed-results {
+        padding: 15px;
+    }
+    
+    .detailed-result-item {
+        flex-direction: column;
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .detailed-result-item .value {
+        margin-top: 5px;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .footer-links a {
+        display: block;
+        padding: 8px 0;
     }
 }
 
 @media (max-width: 480px) {
+    nav {
+        padding: 10px 15px;
+    }
+    
+    .logo {
+        font-size: 1.3rem;
+    }
+    
     .tool-header h1 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
     }
     
-    .calculator-card, .how-to-use {
-        padding: 1.2rem;
+    .tool-header p {
+        font-size: 0.9rem;
     }
     
-    .result-boxes {
-        grid-template-columns: 1fr;
+    .how-to-use h2,
+    .how-to-use h3,
+    .calculator-card h2 {
+        font-size: 1.2rem;
+    }
+    
+    .input-group label {
+        font-size: 0.9rem;
+    }
+    
+    .result-box {
+        padding: 10px;
     }
     
     .result-value {
-        font-size: 2rem;
+        font-size: 1.6rem;
+    }
+    
+    .result-label {
+        font-size: 0.8rem;
+    }
+    
+    .mobile-menu {
+        width: 85%;
+        padding: 3rem 1.5rem;
     }
 }
 

@@ -6,32 +6,36 @@
     <title>Everytool</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="icon" href="images/favicon-32x32.png" type="image/png" sizes="32x32">
     <meta name="description" content="Everytool.tech offers free online tools for daily tasks, including calculators, converters, and more. Simplify your workflow today!">
     <meta property="og:title" content="Everytool.tech - Free Online Tools for Everyone">
     <meta property="og:description" content="Explore a wide range of free online tools for daily tasks. No signup required!">
-    <meta property="og:image" content="favicon-32x32.png">
+    <meta property="og:image" content="images/favicon-32x32.png">
     <meta property="og:url" content="https://everytool.tech">
     <meta property="og:type" content="website">
 </head>
-<body style="margin: 0; padding: 0;">
-    <header style="margin: 0; padding-bottom: 0;">
-        <nav aria-label="Main Navigation">
-            <div class="logo"><a href="index.html">Everytool</a></div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="tools-page/index.html">Tools</a></li>
-                <li><a href="#why-us">Why Us</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="contact-page/index.html">Contact</a></li>
-            </ul>
-        </nav>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Everytool</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="tools-page/index.html">Tools</a></li>
+                    <li><a href="#why-us">Why Us</a></li>
+                    <li><a href="about-page/index.html">About</a></li>
+                    <li><a href="contact-page/index.html">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
     </header>
     
-    <!-- News Ticker / Scrolling Announcements -->
-    <section class="news-ticker" style="margin: 0; padding: 8px 0; border-radius: 0;">
+    <!-- News Ticker -->
+    <section class="news-ticker">
         <div class="ticker-wrapper">
             <div class="ticker-content">
                 <span><i class="fas fa-star"></i> New Tool Added: BMI Calculator</span>
@@ -43,157 +47,169 @@
         </div>
     </section>
 
-    <main style="margin: 0; padding: 0;">
-        <section id="home" class="hero" style="margin: 0; padding-top: 60px;">
-            <div class="hero-image"></div>
-            <h1>Everytool</h1>
-            <h2>Free Online Tools for Everyone</h2>
-            <p>Your central hub for all the online tools you'll ever need – all in one place.</p>
+    <main>
+        <div class="container">
+            <section class="hero-section">
+                <div class="hero-bg"></div>
+                <div class="hero-content">
+                    <h1>Everytool</h1>
+                    <h2>Free Online Tools for Everyone</h2>
+                    <p>Your central hub for all the online tools you'll ever need – all in one place.</p>
+                    
+                    <div class="tools-categories">
+                        <a href="tools-page/index.html#calculators" class="category">Calculators</a>
+                        <a href="tools-page/index.html#converters" class="category">Converters</a>
+                        <a href="tools-page/index.html#generators" class="category">Generators</a>
+                        <a href="tools-page/index.html#seo-tools" class="category">SEO Tools</a>
+                    </div>
+                    
+                    <div class="search-box">
+                        <input type="text" placeholder="Search for tools..." id="tool-search">
+                        <button type="submit" aria-label="Search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <a href="tools-page/index.html" class="cta-button">Explore Tool Hub</a>
+                </div>
+            </section>
             
-            <!-- Search section with enhanced functionality -->
-            <div class="search-container">
-                <div class="search-filters">
-                    <button class="filter-btn active" data-category="all">All</button>
-                    <button class="filter-btn" data-category="calculator">Calculators</button>
-                    <button class="filter-btn" data-category="converter">Converters</button>
-                    <button class="filter-btn" data-category="generator">Generators</button>
-                    <button class="filter-btn" data-category="seo">SEO Tools</button>
-                </div>
-                <div class="search-box">
-                    <input type="text" placeholder="Search for tools..." id="tool-search">
-                    <button class="voice-search-button" id="voice-search">
-                        <i class="fas fa-microphone"></i>
-                    </button>
-                    <button class="search-button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                <!-- Recent searches will be injected here -->
-                <div id="recent-searches"></div>
-            </div>
-
-            <a href="tools-page/index.html" class="cta-button">Explore Tool Hub</a>
-        </section>
-
-        <section id="about" class="about-section">
-            <h2>About Everytool</h2>
-            <p>
-              I'm building Everytool.tech to provide a comprehensive collection
-              of free, easy-to-use online utilities to help with daily tasks.
-              My mission is to simplify your workflow and save you time. 
-              I'm a solo developer and I'm working on this project in my free time.
-              I'm not affiliated with any company and I'm not a company.
-              My goal is to make this website useful for everyone.
-            </p>
-        </section>
-        
-        <section id="why-us" class="why-us">
-            <h2>Why Choose Our Tool Hub?</h2>
-            <ul class="why-us">
-                <li><i class="fas fa-check-circle"></i> One central hub for all your tool needs</li>
-                <li><i class="fas fa-check-circle"></i> No signup required</li>
-                <li><i class="fas fa-check-circle"></i> 100% free to use</li>
-                <li><i class="fas fa-check-circle"></i> Works on all devices</li>
-                <li><i class="fas fa-check-circle"></i> New tools added every week</li>
-                <li><i class="fas fa-check-circle"></i> with some Ads (not annoying)</li>
-                <li><i class="fas fa-check-circle"></i> WE earn money from ads (not you)</li>
-            </ul>
-        </section>
-
-        <section id="hub-benefits" class="hub-benefits">
-            <h2>Your All-in-One Tool Hub</h2>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <i class="fas fa-bolt fa-2x"></i>
+            <section id="about" class="about-section">
+                <h2>About Everytool</h2>
+                <p>
+                  I'm building Everytool.tech to provide a comprehensive collection
+                  of free, easy-to-use online utilities to help with daily tasks.
+                  My mission is to simplify your workflow and save you time. 
+                  I'm a solo developer and I'm working on this project in my free time.
+                  I'm not affiliated with any company and I'm not a company.
+                  My goal is to make this website useful for everyone.
+                </p>
+            </section>
+            
+            <section id="why-us" class="why-us">
+                <h2>Why Choose Our Tool Hub?</h2>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> One central hub for all your tool needs</li>
+                    <li><i class="fas fa-check-circle"></i> No signup required</li>
+                    <li><i class="fas fa-check-circle"></i> 100% free to use</li>
+                    <li><i class="fas fa-check-circle"></i> Works on all devices</li>
+                    <li><i class="fas fa-check-circle"></i> New tools added every week</li>
+                    <li><i class="fas fa-check-circle"></i> With some Ads (not annoying)</li>
+                    <li><i class="fas fa-check-circle"></i> WE earn money from ads (not you)</li>
+                </ul>
+            </section>
+            
+            <section id="tool-hub" class="tool-hub">
+                <h2>Your All-in-One Tool Hub</h2>
+                
+                <div class="feature">
+                    <i class="fas fa-bolt"></i>
                     <h3>Quick Access</h3>
                     <p>Find any tool in seconds with our intuitive search</p>
                 </div>
-                <div class="benefit-card">
-                    <i class="fas fa-bookmark fa-2x"></i>
+                
+                <div class="feature">
+                    <i class="fas fa-star"></i>
                     <h3>Save Favorites</h3>
                     <p>Bookmark tools you use frequently for easy access</p>
                 </div>
-                <div class="benefit-card">
-                    <i class="fas fa-sync fa-2x"></i>
+                
+                <div class="feature">
+                    <i class="fas fa-sync"></i>
                     <h3>Always Updated</h3>
                     <p>New tools and improvements added regularly</p>
                 </div>
-                <div class="benefit-card">
-                    <i class="fas fa-laptop-house fa-2x"></i>
+                
+                <div class="feature">
+                    <i class="fas fa-home"></i>
                     <h3>One-Stop Solution</h3>
                     <p>No need to visit multiple websites for different tools</p>
                 </div>
-            </div>
-        </section>
-
-        <section id="faq" class="faq-section">
-            <h2>Frequently Asked Questions</h2>
+            </section>
             
-            <div class="accordion">
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>Are all the tools really free to use?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <p>Yes, all tools on Everytool.tech are completely free to use. We generate revenue through non-intrusive advertisements to keep the service free for everyone.</p>
-                    </div>
-                </div>
+            <section id="faq" class="faq-section">
+                <h2>Frequently Asked Questions</h2>
                 
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>How do I request a new tool?</h3>
-                        <i class="fas fa-chevron-down"></i>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3>Are all the tools really free to use?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Yes, all tools on Everytool.tech are completely free to use. We generate revenue through non-intrusive advertisements to keep the service free for everyone.</p>
+                        </div>
                     </div>
-                    <div class="accordion-content">
-                        <p>You can request a new tool by visiting our <a href="contact-page/index.html">Contact page</a>. Provide details about the tool you'd like to see added, and we'll consider it for development.</p>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3>How do I request a new tool?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>You can request a new tool by visiting our <a href="contact-page/index.html">Contact page</a>. Provide details about the tool you'd like to see added, and we'll consider it for development.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3>How do you handle my data?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>We take your privacy seriously. Most of our tools process data directly in your browser without sending it to our servers. For contact form submissions, we only use your information to respond to your inquiry. Please see our <a href="privacy-policy/index.html">Privacy Policy</a> for more details.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3>Can I use your tools for commercial purposes?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Yes, you can use our tools for personal or commercial purposes. However, automated access or embedding our tools directly into other applications is not permitted without prior written consent.</p>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>How do you handle my data?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <p>We take your privacy seriously. Most of our tools process data directly in your browser without sending it to our servers. For contact form submissions, we only use your information to respond to your inquiry. Please see our <a href="privacy-policy/index.html">Privacy Policy</a> for more details.</p>
-                    </div>
-                </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>Can I use your tools for commercial purposes?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <p>Yes, you can use our tools for personal or commercial purposes. However, automated access or embedding our tools directly into other applications is not permitted without prior written consent.</p>
-                    </div>
-                </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>How often do you add new tools?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <p>We aim to add new tools every week based on user requests and our development capacity. We prioritize tools that are most requested by our users.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </main>
 
+    <!-- Footer -->
     <footer>
-        <div class="footer-links">
-            <a href="index.html">Home</a>
-            <a href="about-page/index.html">About Us</a>
-            <a href="contact-page/index.html">Contact</a>
-            <a href="privacy-policy/index.html">Privacy Policy</a>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="tools-page/index.html">Tools</a>
+                    <a href="about-page/index.html">About Us</a>
+                    <a href="contact-page/index.html">Contact</a>
+                    <a href="privacy-policy/index.html">Privacy Policy</a>
+                </div>
+                <p>&copy; 2025 Everytool. All rights reserved.</p>
+            </div>
         </div>
-        <p>&copy; 2024 Everytool.All rights reserved.</p>
     </footer>
 
-    <button id="back-to-top" style="display:none; position:fixed; bottom:20px; right:20px; background-color:#3498db; color:white; border:none; border-radius:50%; cursor:pointer;">
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="mobile-menu-header">
+            <span class="mobile-logo">Everytool</span>
+            <button class="close-btn" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="tools-page/index.html">Tools</a></li>
+            <li><a href="#why-us">Why Us</a></li>
+            <li><a href="about-page/index.html">About</a></li>
+            <li><a href="contact-page/index.html">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
 

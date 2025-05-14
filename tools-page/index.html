@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tools Overview | Everytool</title>
+    <title>Tools | Everytool</title>
     <link rel="stylesheet" href="tools.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="../images/favicon-32x32.png" type="image/png" sizes="32x32">
     <meta name="description" content="Explore our comprehensive collection of free online tools at Everytool.tech - calculators, converters, generators, and SEO tools.">
 </head>
 <body>
-    <!-- Standard Everytool Header -->
+    <!-- Header -->
     <header>
         <nav aria-label="Main Navigation">
-            <div class="logo"><a href="../index.html">Everytool</a></div>
+            <div class="logo">
+                <a href="../index.html">
+                    <span class="logo-text">Everytool</span>
+                    <span class="logo-dot"></span>
+                </a>
+            </div>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="index.html" class="active">Tools</a></li>
@@ -27,89 +32,182 @@
         </nav>
     </header>
 
-    <!-- Tools Page Content -->
-    <div class="tools-hero">
-        <h1>Our Tools Collection</h1>
-        <p>Find the perfect tool for your next project or everyday task</p>
-    </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Powerful Tools <span>for Everyone</span></h1>
+            <p>Discover our collection of free online tools designed to make your life easier</p>
+            <a href="#categories-nav" class="btn-primary">Explore Tools</a>
+            <a href="../contact-page/index.html" class="btn-secondary">Suggest a Tool</a>
+        </div>
+        <div class="hero-bg">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </section>
 
-    <!-- Sticky Category Navigation -->
+    <!-- Tool Categories Navigation -->
     <nav id="categories-nav" aria-label="Tool Categories">
         <div class="container">
-            <div class="categories-wrapper">
+            <div class="categories-content">
                 <div class="search-container">
-                    <input type="text" id="tool-search" placeholder="Search tools..." aria-label="Search tools">
-                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="tool-search" placeholder="Find a tool...">
+                    <button id="search-clear" class="search-clear" aria-label="Clear search">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <span class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </span>
                 </div>
-                <ul>
-                    <li><a href="#all" class="category-btn active" data-category="all" aria-current="true">
-                        <i class="fas fa-th"></i> All Tools <span class="tool-count">24</span>
-                    </a></li>
-                    <li><a href="#calculators" class="category-btn" data-category="calculators" aria-current="false">
-                        <i class="fas fa-calculator"></i> Calculators <span class="tool-count">6</span>
-                    </a></li>
-                    <li><a href="#converters" class="category-btn" data-category="converters">
-                        <i class="fas fa-exchange-alt"></i> Converters <span class="tool-count">6</span>
-                    </a></li>
-                    <li><a href="#generators" class="category-btn" data-category="generators">
-                        <i class="fas fa-magic"></i> Generators <span class="tool-count">6</span>
-                    </a></li>
-                    <li><a href="#seo-tools" class="category-btn" data-category="seo-tools">
-                        <i class="fas fa-search"></i> SEO Tools <span class="tool-count">6</span>
-                    </a></li>
-                </ul>
-                <button id="scroll-left" class="scroll-btn" aria-label="Scroll categories left"><i class="fas fa-chevron-left"></i></button>
-                <button id="scroll-right" class="scroll-btn" aria-label="Scroll categories right"><i class="fas fa-chevron-right"></i></button>
+                <div class="search-results-counter"></div>
+                <div class="categories-wrapper">
+                    <button id="scroll-left" class="scroll-btn" aria-label="Scroll categories left">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <ul class="categories-list">
+                        <li>
+                            <a href="#" class="category-btn active" data-category="all" aria-current="true">
+                                <i class="fas fa-th"></i>
+                                <span>All Tools</span>
+                                <span class="tool-count">23</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#calculators" class="category-btn" data-category="calculators" aria-current="false">
+                                <i class="fas fa-calculator"></i>
+                                <span>Calculators</span>
+                                <span class="tool-count">6</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#converters" class="category-btn" data-category="converters">
+                                <i class="fas fa-exchange-alt"></i>
+                                <span>Converters</span>
+                                <span class="tool-count">6</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#generators" class="category-btn" data-category="generators">
+                                <i class="fas fa-magic"></i>
+                                <span>Generators</span>
+                                <span class="tool-count">5</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#seo-tools" class="category-btn" data-category="seo-tools">
+                                <i class="fas fa-search"></i>
+                                <span>SEO Tools</span>
+                                <span class="tool-count">6</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <button id="scroll-right" class="scroll-btn" aria-label="Scroll categories right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
+    <!-- Tools Display -->
     <main>
+        <div id="no-results-message">
+            <div class="no-results-content">
+                <i class="fas fa-search-minus"></i>
+                <h3>No tools found</h3>
+                <p>Try adjusting your search terms or browse our categories</p>
+                <button id="clear-search" class="btn-primary">Clear Search</button>
+            </div>
+        </div>
+
         <!-- Calculators Section -->
         <section id="calculators" class="tools-section">
             <h2><i class="fas fa-calculator"></i> Calculators</h2>
             <div class="tools-grid">
                 <!-- Calculator Cards -->
                 <div class="tool-card" data-category="calculators">
-                    <div class="tool-icon"><i class="fas fa-calendar-alt"></i></div>
-                    <h3>Age Calculator</h3>
-                    <p>Calculate exact age based on birth date</p>
-                    <a href="../tools/calculator/age-calculator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <h3>Age Calculator</h3>
+                        <p>Calculate exact age based on birth date with precision to years, months, and days</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Find out your exact age or time between dates</p>
+                                <a href="../tools/calculator/age-calculator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="tool-card" data-category="calculators">
-                    <div class="tool-icon"><i class="fas fa-coins"></i></div>
-                    <h3>Loan Calculator</h3>
-                    <p>Calculate loan payments and interest</p>
-                    <a href="../tools/calculator/loan-calculator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-coins"></i></div>
+                        <h3>Loan Calculator</h3>
+                        <p>Calculate loan payments, interest rates, and compare different loan options</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Plan your finances with accurate loan calculations</p>
+                                <a href="../tools/calculator/loan-calculator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="tool-card" data-category="calculators">
-                    <div class="tool-icon"><i class="fas fa-percentage"></i></div>
-                    <h3>Percentage Calculator</h3>
-                    <p>Calculate percentages with ease</p>
-                    <a href="../tools/calculator/percentage-calculator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-percentage"></i></div>
+                        <h3>Percentage Calculator</h3>
+                        <p>Calculate percentages, increases, decreases, and proportional values</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Solve percentage problems with just a few clicks</p>
+                                <a href="../tools/calculator/percentage-calculator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="tool-card" data-category="calculators">
-                    <div class="tool-icon"><i class="fas fa-weight"></i></div>
-                    <h3>BMI Calculator</h3>
-                    <p>Calculate your Body Mass Index</p>
-                    <a href="../tools/calculator/bmi-calculator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-weight"></i></div>
+                        <h3>BMI Calculator</h3>
+                        <p>Calculate your Body Mass Index and get health insights based on your results</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Check your BMI and understand what it means</p>
+                                <a href="../tools/calculator/bmi-calculator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tool-card" data-category="calculators">
-                    <div class="tool-icon"><i class="fas fa-clock"></i></div>
-                    <h3>Time Calculator</h3>
-                    <p>Add or subtract hours, minutes and seconds</p>
-                    <a href="../tools/calculator/time-calculator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-clock"></i></div>
+                        <h3>Time Calculator</h3>
+                        <p>Add or subtract hours, minutes, and seconds with support for different time formats</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Perfect for time tracking and planning</p>
+                                <a href="../tools/calculator/time-calculator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tool-card" data-category="calculators">
-                    <div class="tool-icon"><i class="fas fa-tachometer-alt"></i></div>
-                    <h3>Speed Calculator</h3>
-                    <p>Calculate speed, distance and time</p>
-                    <a href="../tools/calculator/speed-calculator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <h3>Speed Calculator</h3>
+                        <p>Calculate speed, distance, and time with support for various units of measurement</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Solve speed-related problems instantly</p>
+                                <a href="../tools/calculator/speed-calculator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -120,43 +218,88 @@
             <div class="tools-grid">
                 <!-- Converter Cards -->
                 <div class="tool-card" data-category="converters">
-                    <div class="tool-icon"><i class="fas fa-ruler"></i></div>
-                    <h3>Length Converter</h3>
-                    <p>Convert between various length units</p>
-                    <a href="../tools/converter/length-converter/length-converter.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-ruler"></i></div>
+                        <h3>Length Converter</h3>
+                        <p>Convert between different units of length and distance</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Easily convert between inches, feet, meters, kilometers, and more</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="tool-card" data-category="converters">
-                    <div class="tool-icon"><i class="fas fa-balance-scale"></i></div>
-                    <h3>Weight Converter</h3>
-                    <p>Convert between weight measurements</p>
-                    <a href="../tools/converter/weight-converter/weight-converter.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-weight"></i></div>
+                        <h3>Weight Converter</h3>
+                        <p>Convert between different units of weight and mass</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Convert pounds, kilograms, ounces, stones, and more</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="tool-card" data-category="converters">
-                    <div class="tool-icon"><i class="fas fa-thermometer-half"></i></div>
-                    <h3>Temperature Converter</h3>
-                    <p>Convert between Celsius, Fahrenheit and Kelvin</p>
-                    <a href="../tools/converter/temperature-converter/temperature-converter.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-temperature-high"></i></div>
+                        <h3>Temperature Converter</h3>
+                        <p>Convert between Celsius, Fahrenheit, and Kelvin</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Quick and accurate temperature unit conversions</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="tool-card" data-category="converters">
-                    <div class="tool-icon"><i class="fas fa-dollar-sign"></i></div>
-                    <h3>Currency Converter</h3>
-                    <p>Convert between different currencies</p>
-                    <a href="../tools/converter/currency-converter/currency-converter.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <h3>Speed Converter</h3>
+                        <p>Convert between different units of speed and velocity</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Convert mph, km/h, knots, and other speed measurements</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tool-card" data-category="converters">
-                    <div class="tool-icon"><i class="fas fa-tint"></i></div>
-                    <h3>Volume Converter</h3>
-                    <p>Convert between volume units</p>
-                    <a href="../tools/converter/volume-converter/volume-converter.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-globe-americas"></i></div>
+                        <h3>Area Converter</h3>
+                        <p>Convert between different units of area measurement</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Convert square meters, acres, hectares, and more</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tool-card" data-category="converters">
-                    <div class="tool-icon"><i class="fas fa-file"></i></div>
-                    <h3
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-cubes"></i></div>
+                        <h3>Volume Converter</h3>
+                        <p>Convert between different units of volume</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Convert between liters, gallons, cubic meters, and more</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -166,125 +309,260 @@
             <div class="tools-grid">
                 <!-- Generator Cards -->
                 <div class="tool-card" data-category="generators">
-                    <div class="tool-icon"><i class="fas fa-key"></i></div>
-                    <h3>Password Generator</h3>
-                    <p>Create strong, secure passwords</p>
-                    <a href="../tools/generator/password-generator/password-generator.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-key"></i></div>
+                        <h3>Password Generator</h3>
+                        <p>Create strong, secure passwords instantly</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Generate passwords with customizable length and complexity</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="tool-card" data-category="generators">
-                    <div class="tool-icon"><i class="fas fa-font"></i></div>
-                    <h3>Lorem Ipsum Generator</h3>
-                    <p>Generate placeholder text for designs</p>
-                    <a href="../tools/generator/lorem-ipsum-generator/lorem-ipsum-generator.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-random"></i></div>
+                        <h3>Random Number Generator</h3>
+                        <p>Generate random numbers with custom ranges</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Perfect for raffles, drawings, and statistical sampling</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="tool-card" data-category="generators">
-                    <div class="tool-icon"><i class="fas fa-qrcode"></i></div>
-                    <h3>QR Code Generator</h3>
-                    <p>Create QR codes for URLs or text</p>
-                    <a href="/tools/generator/qr-code-generator/qr-code-generator.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-qrcode"></i></div>
+                        <h3>QR Code Generator</h3>
+                        <p>Create QR codes for URLs, text, or contact info</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Customizable QR codes with download options</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="tool-card" data-category="generators">
-                    <div class="tool-icon"><i class="fas fa-palette"></i></div>
-                    <h3>Color Palette Generator</h3>
-                    <p>Create harmonious color combinations</p>
-                    <a href="/tools/generator/color-palette-generator/color-palette-generator.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-font"></i></div>
+                        <h3>Lorem Ipsum Generator</h3>
+                        <p>Generate placeholder text for design mockups</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Create custom lengths of placeholder text for your designs</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
+                
                 <div class="tool-card" data-category="generators">
-                    <div class="tool-icon"><i class="fas fa-dice"></i></div>
-                    <h3>Random Number Generator</h3>
-                    <p>Generate random numbers in any range</p>
-                    <a href="/tools/generator/random-number-generator/random-number-generator.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
-                </div>
-
-                <div class="tool-card" data-category="generators">
-                    <div class="tool-icon"><i class="fas fa-id-card"></i></div>
-                    <h3>UUID Generator</h3>
-                    <p>Generate unique identifiers</p>
-                    <a href="/tools/generator/uuid-generator/uuid-generator.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-barcode"></i></div>
+                        <h3>Barcode Generator</h3>
+                        <p>Create various barcode formats for retail and inventory</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Supports EAN, UPC, Code 128, and more barcode formats</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-
         <!-- SEO Tools Section -->
         <section id="seo-tools" class="tools-section">
             <h2><i class="fas fa-search"></i> SEO Tools</h2>
             <div class="tools-grid">
                 <!-- SEO Tool Cards -->
                 <div class="tool-card" data-category="seo-tools">
-                    <div class="tool-icon"><i class="fas fa-file-alt"></i></div>
-                    <h3>Keyword Density Checker</h3>
-                    <p>Analyze keyword usage in content</p>
-                    <a href="../tools/seo/keyword-density-checker/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-file-alt"></i></div>
+                        <h3>Keyword Density Checker</h3>
+                        <p>Analyze keyword usage and density in your content</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Optimize your content for search engines</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
                 <div class="tool-card" data-category="seo-tools">
-                    <div class="tool-icon"><i class="fas fa-tags"></i></div>
-                    <h3>Meta Tag Generator</h3>
-                    <p>Create optimized meta tags for SEO</p>
-                    <a href="../tools/seo/meta-tag-generator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-tags"></i></div>
+                        <h3>Meta Tag Generator</h3>
+                        <p>Create optimized meta tags for better SEO performance</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Generate SEO-friendly meta tags in seconds</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
                 <div class="tool-card" data-category="seo-tools">
-                    <div class="tool-icon"><i class="fas fa-robot"></i></div>
-                    <h3>Robots.txt Generator</h3>
-                    <p>Create robots.txt files for your website</p>
-                    <a href="../tools/seo/robots-txt-generator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-robot"></i></div>
+                        <h3>Robots.txt Generator</h3>
+                        <p>Create robots.txt files to control search engine crawling</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Manage how search engines access your site</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
                 <div class="tool-card" data-category="seo-tools">
-                    <div class="tool-icon"><i class="fas fa-sitemap"></i></div>
-                    <h3>XML Sitemap Generator</h3>
-                    <p>Create XML sitemaps for search engines</p>
-                    <a href="../tools/seo/xml-sitemap-generator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-sitemap"></i></div>
+                        <h3>XML Sitemap Generator</h3>
+                        <p>Create XML sitemaps for better search engine indexing</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Help search engines find all your web pages</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
                 <div class="tool-card" data-category="seo-tools">
-                    <div class="tool-icon"><i class="fas fa-link"></i></div>
-                    <h3>SERP Snippet Generator</h3>
-                    <p>Preview how your page appears in search results</p>
-                    <a href="../tools/seo/serp-snippet-generator/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-link"></i></div>
+                        <h3>SERP Snippet Generator</h3>
+                        <p>Preview how your page appears in search results</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Optimize your snippets for higher click-through rates</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
                 <div class="tool-card" data-category="seo-tools">
-                    <div class="tool-icon"><i class="fas fa-text-height"></i></div>
-                    <h3>Word Counter</h3>
-                    <p>Count words, characters and reading time</p>
-                    <a href="../tools/seo/word-counter/index.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
+                    <div class="card-content">
+                        <div class="tool-icon"><i class="fas fa-text-height"></i></div>
+                        <h3>Word Counter</h3>
+                        <p>Count words, characters, paragraphs, and estimate reading time</p>
+                        <div class="card-hover">
+                            <div class="hover-content">
+                                <p>Get detailed statistics about your content</p>
+                                <a href="#coming-soon" class="tool-btn" aria-disabled="true">Coming Soon <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2>Have a tool suggestion?</h2>
+                <p>We're always working to expand our collection. Let us know what tools you'd like to see.</p>
+                <a href="../contact-page/index.html" class="cta-button">Suggest a Tool</a>
+            </div>
+            <div class="cta-bg"></div>
+        </section>
     </main>
 
+    <!-- Footer -->
     <footer>
-        <div class="footer-links">
-            <a href="/index.html">Home</a>
-            <a href="/about-page/index.html">About Us</a>
-            <a href="/contact-page/index.html">Contact</a>
-            <a href="/privacy-policy/index.html">Privacy Policy</a>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo">
+                    <a href="../index.html">Everytool</a>
+                </div>
+                <p>Free online tools for everyone</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>Pages</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="index.html">Tools</a></li>
+                        <li><a href="../about-page/index.html">About Us</a></li>
+                        <li><a href="../contact-page/index.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#calculators">Calculators</a></li>
+                        <li><a href="#converters">Converters</a></li>
+                        <li><a href="#generators">Generators</a></li>
+                        <li><a href="#seo-tools">SEO Tools</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="../privacy-policy/index.html">Privacy Policy</a></li>
+                        <li><a href="../privacy-policy/index.html#terms">Terms & Conditions</a></li>
+                        <li><a href="../privacy-policy/index.html#cookies">Cookie Notice</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <p>&copy; 2025 Everytool. All rights reserved.</p>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Everytool. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
     </footer>
 
-    <button id="back-to-top" style="display:none;">
+    <!-- Back to Top Button -->
+    <button id="back-to-top" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
 
     <!-- Mobile Menu -->
     <div class="mobile-menu">
-        <div class="close-btn"><i class="fas fa-times"></i></div>
+        <div class="mobile-menu-header">
+            <div class="logo">Everytool</div>
+            <button class="close-btn" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
         <ul>
-            <li><a href="../landing-page/index.html">Home</a></li>
-            <li><a href="tools.html" class="active">Tools</a></li>
-            <li><a href="../landing-page/index.html#why-us">Why Us</a></li>
-            <li><a href="../about-page/about.html">About</a></li>
-            <li><a href="../contact-page/contact.html">Contact</a></li>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="index.html" class="active">Tools</a></li>
+            <li><a href="../index.html#why-us">Why Us</a></li>
+            <li><a href="../about-page/index.html">About</a></li>
+            <li><a href="../contact-page/index.html">Contact</a></li>
         </ul>
+        <div class="mobile-categories">
+            <h3>Categories</h3>
+            <div class="mobile-category-buttons">
+                <a href="#calculators" class="mobile-category-btn" data-category="calculators">
+                    <i class="fas fa-calculator"></i> Calculators
+                </a>
+                <a href="#converters" class="mobile-category-btn" data-category="converters">
+                    <i class="fas fa-exchange-alt"></i> Converters
+                </a>
+                <a href="#generators" class="mobile-category-btn" data-category="generators">
+                    <i class="fas fa-magic"></i> Generators
+                </a>
+                <a href="#seo-tools" class="mobile-category-btn" data-category="seo-tools">
+                    <i class="fas fa-search"></i> SEO Tools
+                </a>
+            </div>
+        </div>
     </div>
-
     <script src="tools.js"></script>
 </body>
 </html>
