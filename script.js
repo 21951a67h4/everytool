@@ -558,12 +558,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (mobileMenuBtn && mobileMenu) {
         mobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
         });
     }
 
     if (closeMenuBtn && mobileMenu) {
         closeMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
         });
     }
 
@@ -589,5 +591,116 @@ document.addEventListener('DOMContentLoaded', function() {
         lastScrollTop = scrollTop;
     });
 
-    // Rest of your existing code for the home page...
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                // Close mobile menu if open
+                if (mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    });
+
+    // Search Box Animation
+    const searchBox = document.querySelector('.search-box');
+    const searchInput = document.querySelector('#tool-search');
+
+    searchInput.addEventListener('focus', () => {
+        searchBox.style.transform = 'scale(1.02)';
+    });
+
+    searchInput.addEventListener('blur', () => {
+        searchBox.style.transform = 'scale(1)';
+    });
+
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe elements for fade-in animation
+    document.querySelectorAll('.feature, .accordion-item, .category').forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(20px)';
+        element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(element);
+    });
+
+    // Add fade-in class
+    document.querySelectorAll('.fade-in').forEach(element => {
+        element.style.opacity = '1';
+        element.style.transform = 'translateY(0)';
+    });
+
+    // Tool Categories Hover Effect
+    const categories = document.querySelectorAll('.category');
+    categories.forEach(category => {
+        category.addEventListener('mouseenter', () => {
+            category.style.transform = 'translateY(-2px)';
+        });
+        
+        category.addEventListener('mouseleave', () => {
+            category.style.transform = 'translateY(0)';
+        });
+    });
+
+    // News Ticker Pause on Hover
+    const tickerContent = document.querySelector('.ticker-content');
+    tickerContent.addEventListener('mouseenter', () => {
+        tickerContent.style.animationPlayState = 'paused';
+    });
+
+    tickerContent.addEventListener('mouseleave', () => {
+        tickerContent.style.animationPlayState = 'running';
+    });
+
+    // Add loading animation to images
+    document.querySelectorAll('img').forEach(img => {
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 0.3s ease';
+        
+        img.addEventListener('load', () => {
+            img.style.opacity = '1';
+        });
+    });
+
+    // Add ripple effect to buttons
+    document.querySelectorAll('.cta-button, .category').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${e.clientX - rect.left - size/2}px`;
+            ripple.style.top = `${e.clientY - rect.top - size/2}px`;
+            
+            ripple.addEventListener('animationend', () => {
+                ripple.remove();
+            });
+        });
+    });
 });
