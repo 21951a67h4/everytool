@@ -1,190 +1,244 @@
-// Wait for DOM to load completely
+// Sticky Category Navigation with enhanced functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling for category navigation
-    setupSmoothScrolling();
+    // Elements
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const toolCards = document.querySelectorAll('.tool-card');
+    const categoriesNav = document.getElementById('categories-nav');
+    const searchInput = document.getElementById('tool-search');
+    const categoriesWrapper = document.querySelector('.categories-wrapper ul');
+    const scrollLeftBtn = document.getElementById('scroll-left');
+    const scrollRightBtn = document.getElementById('scroll-right');
     
-    // Lazy loading for tool cards
-    setupLazyLoading();
+    // Initial scroll position check
+    checkScrollButtons();
     
-    // Back to top button functionality
-    setupBackToTopButton();
+    // Event Listeners
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', filterTools);
+    });
     
-    // Mobile menu toggle
-    setupMobileMenu();
+    if (searchInput) {
+        searchInput.addEventListener('keyup', searchTools);
+        searchInput.addEventListener('search', searchTools); // For the 'x' clear button
+    }
     
-    // Active category highlight based on scroll position
-    setupScrollSpy();
-});
-
-/**
- * Sets up smooth scrolling for category navigation links
- */
-function setupSmoothScrolling() {
-    const navLinks = document.querySelectorAll('#categories-nav a');
+    if (scrollLeftBtn && scrollRightBtn) {
+        scrollLeftBtn.addEventListener('click', () => {
+            categoriesWrapper.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+        
+        scrollRightBtn.addEventListener('click', () => {
+            categoriesWrapper.scrollBy({ left: 200, behavior: 'smooth' });
+        });
+        
+        // Check scroll position on horizontal scroll
+        if (categoriesWrapper) {
+            categoriesWrapper.addEventListener('scroll', checkScrollButtons);
+            // Check on window resize too
+            window.addEventListener('resize', checkScrollButtons);
+        }
+    }
     
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
+    // Initialize counters for each category
+    updateCategoryCounts();
+    
+    // Enhanced Sticky Navigation
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function() {
+        const st = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Add shadow and reduce padding when scrolling down
+        if (st > 100) {
+            categoriesNav.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            categoriesNav.style.padding = '0.5rem 0';
+        } else {
+            categoriesNav.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+            categoriesNav.style.padding = '0.75rem 0';
+        }
+        
+        // Hide navigation when scrolling down rapidly
+        if (st > lastScrollTop && st > 300 && (st - lastScrollTop) > 50) {
+            categoriesNav.style.transform = 'translateY(-100%)';
+        } else {
+            categoriesNav.style.transform = 'translateY(0)';
+        }
+        
+        lastScrollTop = st <= 0 ? 0 : st;
+    });
+    
+    // Functions
+    function filterTools(e) {
+        e.preventDefault();
+        
+        // Update active button
+        categoryBtns.forEach(btn => btn.classList.remove('active'));
+        categoryBtns.forEach(btn => btn.setAttribute('aria-current', 'false'));
+        this.classList.add('active');
+        this.setAttribute('aria-current', 'true');
+        
+        const category = this.getAttribute('data-category');
+        
+        // Filter tools
+        toolCards.forEach(card => {
+            if (category === 'all') {
+                card.style.display = 'flex';
+            } else if (card.classList.contains(category)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        // Smooth scroll to section
+        const section = document.getElementById(category);
+        if (section) {
+            // Get the sticky navigation height to offset scroll
+            const navHeight = categoriesNav.offsetHeight;
+            const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
             
-            // Get the target section
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            // Update active states
-            document.querySelectorAll('#categories-nav a').forEach(navLink => {
-                navLink.classList.remove('active');
-            });
-            this.classList.add('active');
-            
-            // Smooth scroll to the section
             window.scrollTo({
-                top: targetSection.offsetTop - 120, // Adjusted for header height
+                top: sectionTop,
                 behavior: 'smooth'
             });
-            
-            // Update URL without page reload
-            history.pushState(null, null, targetId);
-        });
-    });
-}
-
-/**
- * Sets up lazy loading for tool cards using Intersection Observer
- */
-function setupLazyLoading() {
-    // Get all tool cards
-    const toolCards = document.querySelectorAll('.tool-card');
+        }
+    }
     
-    // Create Intersection Observer
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            // If element is in viewport
-            if (entry.isIntersecting) {
-                // Add visible class with a slight delay for staggered effect
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, 100);
+    function searchTools() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        
+        // If search is empty, reapply current category filter
+        if (searchTerm === '') {
+            const activeCategory = document.querySelector('.category-btn.active');
+            if (activeCategory) {
+                const category = activeCategory.getAttribute('data-category');
+                filterByCategory(category);
+            }
+            return;
+        }
+        
+        // Clear active category when searching
+        categoryBtns.forEach(btn => btn.classList.remove('active'));
+        categoryBtns.forEach(btn => btn.setAttribute('aria-current', 'false'));
+        
+        // Filter tools by search term
+        let matchFound = false;
+        toolCards.forEach(card => {
+            const toolName = card.querySelector('h3').textContent.toLowerCase();
+            const toolDesc = card.querySelector('p').textContent.toLowerCase();
+            
+            if (toolName.includes(searchTerm) || toolDesc.includes(searchTerm)) {
+                card.style.display = 'flex';
+                matchFound = true;
                 
-                // Stop observing the element after it's visible
-                observer.unobserve(entry.target);
+                // Highlight the matching text (optional)
+                highlightMatches(card, searchTerm);
+            } else {
+                card.style.display = 'none';
             }
         });
-    }, {
-        // Options
-        root: null, // viewport
-        rootMargin: '0px 0px 50px 0px', // Load slightly before coming into view
-        threshold: 0.1 // 10% of the item visible
-    });
-    
-    // Start observing all tool cards
-    toolCards.forEach(card => {
-        observer.observe(card);
         
-        // Ensure images use lazy loading
-        const images = card.querySelectorAll('img');
-        images.forEach(img => {
-            img.setAttribute('loading', 'lazy');
-        });
-    });
-}
-
-/**
- * Sets up the back-to-top button functionality
- */
-function setupBackToTopButton() {
-    const backToTopButton = document.getElementById('back-to-top');
-    
-    // Show button when user scrolls down 300px
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTopButton.style.display = 'flex';
-        } else {
-            backToTopButton.style.display = 'none';
+        // Show no results message
+        const noResultsMsg = document.getElementById('no-results-message');
+        if (noResultsMsg) {
+            noResultsMsg.style.display = matchFound ? 'none' : 'block';
         }
-    });
+    }
     
-    // Scroll to top when button is clicked
-    backToTopButton.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-}
-
-/**
- * Sets up the mobile menu functionality
- */
-function setupMobileMenu() {
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const closeBtn = document.querySelector('.close-btn');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    
-    if (mobileMenuBtn && closeBtn && mobileMenu) {
-        // Open mobile menu
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
-        });
-        
-        // Close mobile menu
-        closeBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = ''; // Re-enable scrolling
-        });
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = '';
-            });
+    function filterByCategory(category) {
+        toolCards.forEach(card => {
+            if (category === 'all') {
+                card.style.display = 'flex';
+            } else if (card.classList.contains(category)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
         });
     }
-}
-
-/**
- * Sets up scroll spy functionality to highlight active category
- * based on the user's scroll position
- */
-function setupScrollSpy() {
-    const sections = document.querySelectorAll('.tools-section');
-    const navLinks = document.querySelectorAll('#categories-nav a');
     
-    window.addEventListener('scroll', () => {
-        let current = '';
-        const offset = 150; // Adjust based on header height
+    function highlightMatches(card, term) {
+        // Remove any existing highlights first
+        card.querySelectorAll('.highlight').forEach(el => {
+            const parent = el.parentNode;
+            parent.replaceChild(document.createTextNode(el.textContent), el);
+            parent.normalize();
+        });
         
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - offset;
-            const sectionHeight = section.offsetHeight;
+        // Highlight new matches
+        const title = card.querySelector('h3');
+        const desc = card.querySelector('p');
+        
+        [title, desc].forEach(element => {
+            if (!element) return;
             
-            if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-                current = section.getAttribute('id');
+            const html = element.innerHTML;
+            const regex = new RegExp(`(${term})`, 'gi');
+            element.innerHTML = html.replace(regex, '<span class="highlight">$1</span>');
+        });
+    }
+    
+    function checkScrollButtons() {
+        if (!categoriesWrapper || !scrollLeftBtn || !scrollRightBtn) return;
+        
+        // Show left button only if scrolled
+        if (categoriesWrapper.scrollLeft > 0) {
+            scrollLeftBtn.style.opacity = '1';
+            scrollLeftBtn.style.visibility = 'visible';
+        } else {
+            scrollLeftBtn.style.opacity = '0';
+            scrollLeftBtn.style.visibility = 'hidden';
+        }
+        
+        // Show right button only if there's more to scroll
+        const isScrollable = categoriesWrapper.scrollWidth > categoriesWrapper.clientWidth;
+        const hasScrolledToEnd = categoriesWrapper.scrollLeft + categoriesWrapper.clientWidth >= categoriesWrapper.scrollWidth - 10;
+        
+        if (isScrollable && !hasScrolledToEnd) {
+            scrollRightBtn.style.opacity = '1';
+            scrollRightBtn.style.visibility = 'visible';
+        } else {
+            scrollRightBtn.style.opacity = '0';
+            scrollRightBtn.style.visibility = 'hidden';
+        }
+    }
+    
+    function updateCategoryCounts() {
+        // Get counts for each category
+        const counts = {};
+        const allToolsCount = document.querySelectorAll('.tool-card').length;
+        
+        // Set the count for "all" category
+        categoryBtns.forEach(btn => {
+            const category = btn.getAttribute('data-category');
+            if (category === 'all') {
+                const countEl = btn.querySelector('.tool-count');
+                if (countEl) {
+                    countEl.textContent = allToolsCount;
+                }
+                counts[category] = allToolsCount;
             }
         });
         
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
+        // Count tools for each specific category
+        toolCards.forEach(card => {
+            const cardCategory = card.getAttribute('data-category');
+            if (cardCategory) {
+                if (!counts[cardCategory]) {
+                    counts[cardCategory] = 0;
+                }
+                counts[cardCategory]++;
             }
         });
-    });
-}
-
-/**
- * Filter tools by category (can be expanded for search functionality)
- * @param {string} category - Category to filter by
- */
-function filterTools(category) {
-    const toolCards = document.querySelectorAll('.tool-card');
-    
-    toolCards.forEach(card => {
-        if (category === 'all' || card.dataset.category === category) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-}
+        
+        // Update the count display for specific categories
+        categoryBtns.forEach(btn => {
+            const category = btn.getAttribute('data-category');
+            if (category !== 'all') {
+                const countEl = btn.querySelector('.tool-count');
+                if (countEl) {
+                    countEl.textContent = counts[category] || 0;
+                }
+            }
+        });
+    }
+});

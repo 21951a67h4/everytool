@@ -36,20 +36,31 @@
     <!-- Sticky Category Navigation -->
     <nav id="categories-nav" aria-label="Tool Categories">
         <div class="container">
-            <ul>
-                <li><a href="#calculators" class="category-btn active" data-category="calculators">
-                    <i class="fas fa-calculator"></i> Calculators
-                </a></li>
-                <li><a href="#converters" class="category-btn" data-category="converters">
-                    <i class="fas fa-exchange-alt"></i> Converters
-                </a></li>
-                <li><a href="#generators" class="category-btn" data-category="generators">
-                    <i class="fas fa-magic"></i> Generators
-                </a></li>
-                <li><a href="#seo-tools" class="category-btn" data-category="seo-tools">
-                    <i class="fas fa-search"></i> SEO Tools
-                </a></li>
-            </ul>
+            <div class="categories-wrapper">
+                <div class="search-container">
+                    <input type="text" id="tool-search" placeholder="Search tools..." aria-label="Search tools">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                <ul>
+                    <li><a href="#all" class="category-btn active" data-category="all" aria-current="true">
+                        <i class="fas fa-th"></i> All Tools <span class="tool-count">24</span>
+                    </a></li>
+                    <li><a href="#calculators" class="category-btn" data-category="calculators" aria-current="false">
+                        <i class="fas fa-calculator"></i> Calculators <span class="tool-count">6</span>
+                    </a></li>
+                    <li><a href="#converters" class="category-btn" data-category="converters">
+                        <i class="fas fa-exchange-alt"></i> Converters <span class="tool-count">6</span>
+                    </a></li>
+                    <li><a href="#generators" class="category-btn" data-category="generators">
+                        <i class="fas fa-magic"></i> Generators <span class="tool-count">6</span>
+                    </a></li>
+                    <li><a href="#seo-tools" class="category-btn" data-category="seo-tools">
+                        <i class="fas fa-search"></i> SEO Tools <span class="tool-count">6</span>
+                    </a></li>
+                </ul>
+                <button id="scroll-left" class="scroll-btn" aria-label="Scroll categories left"><i class="fas fa-chevron-left"></i></button>
+                <button id="scroll-right" class="scroll-btn" aria-label="Scroll categories right"><i class="fas fa-chevron-right"></i></button>
+            </div>
         </div>
     </nav>
 
@@ -145,10 +156,7 @@
 
                 <div class="tool-card" data-category="converters">
                     <div class="tool-icon"><i class="fas fa-file"></i></div>
-                    <h3>File Size Converter</h3>
-                    <p>Convert between KB, MB, GB and TB</p>
-                    <a href="../tools/converter/file-size-converter/file-size-converter.html" class="tool-btn">Open Tool <i class="fas fa-arrow-right"></i></a>
-                </div>
+                    <h3
             </div>
         </section>
 
