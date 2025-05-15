@@ -112,35 +112,219 @@ const toolsData = [
 
 // Hero section particles background effect
 function createParticle(container) {
+    // Create different types of particles for visual variety
+    const particleTypes = ['particle-dot', 'particle-circle', 'particle-square', 'particle-gradient'];
     const particle = document.createElement('div');
     particle.classList.add('particle');
     
-    // Random properties
-    const size = Math.random() * 30 + 10; // 10-40px
+    // Randomly select particle type
+    const particleType = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+    particle.classList.add(particleType);
+    
+    // Random properties with wider ranges for more variety
+    const size = Math.random() * 35 + 5; // 5-40px
     const posX = Math.random() * 100;
     const posY = Math.random() * 100;
-    const delay = Math.random() * 5;
-    const duration = Math.random() * 15 + 10; // 10-25s
+    const delay = Math.random() * 8; // Longer delays for more natural feel
+    const duration = Math.random() * 20 + 15; // 15-35s for slower, more gentle movement
     
-    // Apply styles
+    // Random movement pattern variables
+    const x1 = (Math.random() * 40 - 20) + 'px'; // Random x movement
+    const y1 = (Math.random() * 40 - 20) + 'px'; // Random y movement
+    const x2 = (Math.random() * 60 - 30) + 'px';
+    const y2 = (Math.random() * 60 - 30) + 'px';
+    const x3 = (Math.random() * 40 - 20) + 'px';
+    const y3 = (Math.random() * 40 - 20) + 'px';
+    
+    // Random rotation and scale for more dynamic motion
+    const r1 = Math.random() * 20 - 10 + 'deg';
+    const r2 = Math.random() * 40 - 20 + 'deg';
+    const r3 = Math.random() * 20 - 10 + 'deg';
+    
+    const s1 = 0.8 + Math.random() * 0.4;
+    const s2 = 0.8 + Math.random() * 0.6;
+    const s3 = 0.9 + Math.random() * 0.3;
+    
+    // Custom opacity based on size (smaller particles less opaque)
+    const maxOpacity = Math.min(0.2 + (size / 60), 0.5);
+    const peakOpacity = Math.min(maxOpacity + 0.2, 0.6);
+    
+    // Apply styles and custom properties for animations
     particle.style.width = `${size}px`;
     particle.style.height = `${size}px`;
     particle.style.left = `${posX}%`;
     particle.style.top = `${posY}%`;
     particle.style.animationDelay = `${delay}s`;
-    particle.style.animationDuration = `${duration}s`;
+    particle.style.animationDuration = `${duration}s, ${duration * 0.8}s`; // Different durations for float and fade
     
+    // Set custom properties for animation keyframes
+    particle.style.setProperty('--x1', x1);
+    particle.style.setProperty('--y1', y1);
+    particle.style.setProperty('--x2', x2);
+    particle.style.setProperty('--y2', y2);
+    particle.style.setProperty('--x3', x3);
+    particle.style.setProperty('--y3', y3);
+    particle.style.setProperty('--r1', r1);
+    particle.style.setProperty('--r2', r2);
+    particle.style.setProperty('--r3', r3);
+    particle.style.setProperty('--s1', s1);
+    particle.style.setProperty('--s2', s2);
+    particle.style.setProperty('--s3', s3);
+    particle.style.setProperty('--max-opacity', maxOpacity);
+    particle.style.setProperty('--peak-opacity', peakOpacity);
+    
+    // Add particle to container
     container.appendChild(particle);
+}
+
+// Enhanced particle initialization
+function initializeParticles() {
+    const particlesContainer = document.getElementById('particles-background');
+    if (!particlesContainer) return;
+    
+    // Clear any existing particles
+    particlesContainer.innerHTML = '';
+    
+    // Create shimmer effect overlay
+    const shimmer = document.createElement('div');
+    shimmer.classList.add('particle-shimmer');
+    particlesContainer.appendChild(shimmer);
+    
+    // Create more particles for a denser effect
+    const particleCount = window.innerWidth < 768 ? 20 : 35; // Fewer on mobile
+    for (let i = 0; i < particleCount; i++) {
+        createParticle(particlesContainer);
+    }
 }
 
 // Main initialization when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize particles background
-    const particlesContainer = document.getElementById('particles-background');
-    if (particlesContainer) {
-        // Create particles with different sizes and positions
-        for (let i = 0; i < 20; i++) {
-            createParticle(particlesContainer);
+    // Initialize enhanced particles
+    initializeParticles();
+    
+    // Re-initialize particles on window resize (debounced)
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(initializeParticles, 250);
+    });
+    
+    // ---- Improved section animation with consistent approach ----
+    // Create dedicated function for handling section animations
+    function initSectionAnimations() {
+        // Create a single observer with proper logic for section animations
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add the correct class to make the section visible
+                    entry.target.classList.add('section-visible');
+                    
+                    // No need for setTimeout for animate-element children
+                    // CSS transitions will handle the staggered effect
+                    
+                    // Stop observing once section is visible
+                    sectionObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1, // Lower threshold for earlier animation triggering
+            rootMargin: '0px'
+        });
+        
+        // Select all sections to animate
+        const animatedSections = document.querySelectorAll('.section-animate');
+        
+        // Special handling for hero section - make it visible immediately
+        const heroSection = document.querySelector('.hero.section-animate');
+        if (heroSection) {
+            // Simply add the visible class to the hero section
+            // The CSS transitions will handle the animations
+            heroSection.classList.add('section-visible');
+            
+            // Don't observe hero since we've already handled it
+            animatedSections.forEach(section => {
+                if (section !== heroSection) {
+                    sectionObserver.observe(section);
+                }
+            });
+        } else {
+            // If for some reason hero section isn't found, observe all sections
+            animatedSections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+        }
+        
+        // Add CSS helper for staggered animations of child elements
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            /* Add staggered delays to animate-element children */
+            .section-visible .animate-element:nth-child(1) { transition-delay: 0.1s; }
+            .section-visible .animate-element:nth-child(2) { transition-delay: 0.2s; }
+            .section-visible .animate-element:nth-child(3) { transition-delay: 0.3s; }
+            .section-visible .animate-element:nth-child(4) { transition-delay: 0.4s; }
+            .section-visible .animate-element:nth-child(5) { transition-delay: 0.5s; }
+        `;
+        document.head.appendChild(styleSheet);
+    }
+    
+    // Call the animation initialization function directly
+    initSectionAnimations();
+    
+    // ---- Fixed Intersection Observer implementation ----
+    // Create a single observer with proper logic for section animations
+    function handleIntersection(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Add the correct class to make the section visible
+                entry.target.classList.add('section-visible');
+                
+                // Animate child elements with staggered timing
+                const animElements = entry.target.querySelectorAll('.animate-element');
+                animElements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, 200 * index);
+                });
+                
+                // Stop observing once section is visible
+                observer.unobserve(entry.target);
+            }
+        });
+    }
+    
+    // Create a single observer instance
+    const sectionObserver = new IntersectionObserver(handleIntersection, {
+        threshold: 0.2,
+        rootMargin: '0px'
+    });
+    
+    // Select all sections to animate
+    const animatedSections = document.querySelectorAll('.section-animate');
+    
+    // Observe each section
+    animatedSections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+    
+    // Special handling for hero section - make it visible immediately if in viewport
+    const heroSection = document.querySelector('.hero.section-animate');
+    if (heroSection) {
+        const rect = heroSection.getBoundingClientRect();
+        if (rect.top >= 0 && rect.top <= window.innerHeight) {
+            heroSection.classList.add('section-visible');
+            
+            // Also animate hero elements
+            const animElements = heroSection.querySelectorAll('.animate-element');
+            animElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 200 * index);
+            });
+            
+            // Don't observe hero section since we've already handled it
+            sectionObserver.unobserve(heroSection);
         }
     }
     
@@ -404,1093 +588,626 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }
         
-        // Animate nav links with staggered delay
-        navLinks.forEach((link, index) => {
-            link.style.opacity = '0';
-            link.style.transform = 'translateY(-15px)';
+                // Animate nav links with staggered delay
+                navLinks.forEach((link, index) => {
+                    link.style.opacity = '0';
+                    link.style.transform = 'translateY(-20px)';
+                    setTimeout(() => {
+                        link.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        link.style.opacity = '1';
+                        link.style.transform = 'translateY(0)';
+                    }, 300 + index * 100);
+                });
+            }
+        });
+// Enhanced search input with advanced micro-animations and glowing effects
+function initSearchBoxEnhancements() {
+    const searchInput = document.getElementById('tool-search');
+    const searchBox = document.querySelector('.search-box');
+    const searchButton = document.querySelector('.search-submit-btn');
+    const voiceButton = document.getElementById('voice-search');
+    const searchTags = document.querySelectorAll('.search-tag-btn');
+    
+    if (!searchInput || !searchBox) return;
+    
+    // Focus effects with glowing animation
+    searchInput.addEventListener('focus', function() {
+        if (searchBox) {
+            searchBox.classList.add('search-focused');
+            
+            // Add subtle input animation
+            this.style.transform = 'translateX(5px)';
             setTimeout(() => {
-                link.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                link.style.opacity = '1';
-                link.style.transform = 'translateY(0)';
-            }, 400 + (index * 100));
-        });
-    }
-    
-    // Call the animation function with slight delay
-    setTimeout(animateHeaderElements, 200);
-    
-    // Add interactive hover effects for nav links
-    navLinks.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            const siblings = Array.from(navLinks).filter(item => item !== link);
-            siblings.forEach(sibling => {
-                sibling.style.opacity = '0.6';
-                sibling.style.transform = 'scale(0.95)';
-            });
-            
-            // Add highlight effect to current link
-            link.style.transform = 'translateY(-2px) scale(1.05)';
-            
-            // Add glow effect to logo dot when hovering on links
-            if (logoDot) {
-                logoDot.style.boxShadow = '0 0 15px rgba(6, 214, 160, 0.7)';
-                logoDot.style.transform = 'scale(1.2)';
-            }
-        });
-        
-        link.addEventListener('mouseleave', () => {
-            navLinks.forEach(item => {
-                item.style.opacity = '1';
-                item.style.transform = '';
-            });
-            
-            // Reset logo dot
-            if (logoDot) {
-                logoDot.style.boxShadow = '';
-                logoDot.style.transform = '';
-            }
-        });
-        
-        // Add ripple effect to nav links
-        link.addEventListener('click', createRippleEffect);
+                this.style.transform = '';
+            }, 300);
+        }
     });
     
-    // Function to create ripple effect on click
-    function createRippleEffect(e) {
-        const element = this;
-        
-        // Create ripple element
-        const ripple = document.createElement('span');
-        ripple.classList.add('nav-ripple');
-        element.appendChild(ripple);
-        
-        // Set ripple position based on click
-        const rect = element.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height) * 2;
-        
-        ripple.style.width = ripple.style.height = `${size}px`;
-        ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
-        ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
-        
-        // Remove ripple after animation completes
-        ripple.addEventListener('animationend', () => {
-            ripple.remove();
+    searchInput.addEventListener('blur', function() {
+        if (searchBox) {
+            setTimeout(() => {
+                // Only remove if we're not focusing on something inside the search box
+                if (!searchBox.contains(document.activeElement)) {
+                    searchBox.classList.remove('search-focused');
+                }
+            }, 150);
+        }
+    });
+    
+    // Add ripple effect to search button
+    if (searchButton) {
+        searchButton.addEventListener('click', function(e) {
+            // Create ripple effect
+            const ripple = document.createElement('span');
+            ripple.classList.add('btn-ripple');
+            
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height) * 2;
+            
+            // Calculate ripple position
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            this.appendChild(ripple);
+            
+            // Remove ripple after animation
+            setTimeout(() => {
+                ripple.remove();
+            }, 700);
+            
+            // Trigger search
+            performSearch();
         });
     }
     
-    // Add logo interactive effects
-    if (logo) {
-        logo.addEventListener('mouseenter', () => {
-            logo.style.transform = 'scale(1.05)';
-            if (logoDot) {
-                logoDot.style.transform = 'scale(1.3) rotate(45deg)';
-                logoDot.style.boxShadow = '0 0 20px rgba(6, 214, 160, 0.8)';
+    // Add micro-animation effects for voice search
+    if (voiceButton) {
+        voiceButton.addEventListener('mouseenter', function() {
+            if (!this.classList.contains('listening')) {
+                this.style.transform = 'translateY(-2px)';
             }
         });
         
-        logo.addEventListener('mouseleave', () => {
-            logo.style.transform = '';
-            if (logoDot) {
-                logoDot.style.transform = '';
-                logoDot.style.boxShadow = '';
+        voiceButton.addEventListener('mouseleave', function() {
+            if (!this.classList.contains('listening')) {
+                this.style.transform = '';
             }
         });
         
-        // Add click animation
-        logo.addEventListener('click', () => {
-            if (logoDot) {
-                logoDot.style.transform = 'scale(1.5) rotate(90deg)';
+        voiceButton.addEventListener('click', function(e) {
+            // Create ripple effect if not already listening
+            if (!this.classList.contains('listening')) {
+                const ripple = document.createElement('span');
+                ripple.classList.add('btn-ripple');
+                
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height) * 2;
+                
+                // Calculate ripple position
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = `${size}px`;
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                
+                this.appendChild(ripple);
+                
+                // Remove ripple after animation
                 setTimeout(() => {
-                    logoDot.style.transform = '';
-                }, 300);
+                    ripple.remove();
+                }, 700);
             }
         });
     }
     
-    // Back to Top Button functionality
-    const backToTopButton = document.getElementById('back-to-top');
-    if (backToTopButton) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 500) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
-
-        backToTopButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+    // Enhanced tag click effect with typing animation
+    if (searchTags.length) {
+        searchTags.forEach(tag => {
+            tag.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            
+            tag.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+            
+            tag.addEventListener('click', function() {
+                // Add click animation
+                this.classList.add('tag-clicked');
+                setTimeout(() => this.classList.remove('tag-clicked'), 600);
+                
+                // Get tag value
+                const tagValue = this.getAttribute('data-tag');
+                
+                // Set input focus
+                searchInput.focus();
+                searchBox.classList.add('search-focused');
+                
+                // Animate typing effect
+                animateTypingEffect(searchInput, tagValue);
             });
         });
-        
-        // Add hover animation
-        backToTopButton.addEventListener('mouseenter', () => {
-            const icon = backToTopButton.querySelector('i');
-            if (icon) {
-                icon.style.transform = 'translateY(-3px)';
-                backToTopButton.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
-            }
-        });
-        
-        backToTopButton.addEventListener('mouseleave', () => {
-            const icon = backToTopButton.querySelector('i');
-            if (icon) {
-                icon.style.transform = '';
-                backToTopButton.style.boxShadow = '';
-            }
-        });
     }
     
-    // Enhanced Mobile menu toggle with micro-animations
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const closeMenuBtn = document.querySelector('.close-btn');
-    const body = document.body;
+    // Simulate typing effect
+    function animateTypingEffect(input, text) {
+        // Clear current input
+        input.value = '';
+        
+        // Focus the input
+        input.focus();
+        
+        let i = 0;
+        const typingSpeed = 50; // ms between characters
+        
+        function typeNextChar() {
+            if (i < text.length) {
+                input.value += text.charAt(i);
+                i++;
+                setTimeout(typeNextChar, typingSpeed);
+            } else {
+                // Trigger input event to show suggestions when done typing
+                const inputEvent = new Event('input', { bubbles: true });
+                input.dispatchEvent(inputEvent);
+                
+                // Add slight pulsing effect to input when done typing
+                input.classList.add('typing-complete');
+                setTimeout(() => {
+                    input.classList.remove('typing-complete');
+                }, 500);
+            }
+        }
+        
+        // Start the typing effect
+        setTimeout(typeNextChar, 100);
+    }
+    
+    // Placeholder cycling with smooth transitions
+    initPlaceholderCycling(searchInput);
+}
 
-    if (mobileMenuBtn && mobileMenu) {
-        // Add hover effect to menu button
-        mobileMenuBtn.addEventListener('mouseenter', () => {
-            mobileMenuBtn.style.transform = 'scale(1.1)';
-            const icon = mobileMenuBtn.querySelector('i');
-            if (icon) {
-                icon.style.transform = 'rotate(90deg)';
-            }
-        });
-        
-        mobileMenuBtn.addEventListener('mouseleave', () => {
-            mobileMenuBtn.style.transform = '';
-            const icon = mobileMenuBtn.querySelector('i');
-            if (icon) {
-                icon.style.transform = '';
-            }
-        });
-        
-        // Opening animation
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.style.display = 'block';
-            setTimeout(() => {
-                mobileMenu.classList.add('open');
-                body.classList.add('menu-open');
-            }, 10);
-        });
-    }
+// Placeholder cycling function with smoother animations
+function initPlaceholderCycling(input) {
+    if (!input) return;
     
-    if (closeMenuBtn && mobileMenu) {
-        // Add hover effect to close button
-        closeMenuBtn.addEventListener('mouseenter', () => {
-            closeMenuBtn.style.transform = 'scale(1.1) rotate(90deg)';
-        });
-        
-        closeMenuBtn.addEventListener('mouseleave', () => {
-            closeMenuBtn.style.transform = '';
-        });
-        
-        // Closing animation
-        closeMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            body.classList.remove('menu-open');
+    const placeholders = [
+        'Search for a tool...',
+        'Try "password generator"...',
+        'Need a "currency converter"?',
+        'Looking for a "BMI calculator"?',
+        'Try "color converter"...'
+    ];
+    
+    let currentIndex = 0;
+    
+    // Change placeholder every 3.5 seconds if not focused
+    const changePlaceholder = () => {
+        if (document.activeElement !== input) {
+            // Fade out
+            input.style.opacity = '0.6';
+            
             setTimeout(() => {
-                mobileMenu.style.display = 'none';
+                // Change placeholder
+                currentIndex = (currentIndex + 1) % placeholders.length;
+                input.setAttribute('placeholder', placeholders[currentIndex]);
+                
+                // Fade in
+                input.style.opacity = '1';
             }, 300);
-        });
-    }
+        }
+    };
     
-    // Close mobile menu when clicking on a menu link with added animations
-    const mobileMenuLinks = document.querySelectorAll('.mobile-nav-links a');
-    if (mobileMenuLinks.length > 0) {
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                if (mobileMenu) {
-                    // Animate the clicked link before closing
-                    link.style.transform = 'scale(1.1)';
-                    link.style.opacity = '0.7';
+    // Start cycling after initial delay
+    setTimeout(() => {
+        setInterval(changePlaceholder, 3500);
+    }, 5000);
+}
+
+// Main initialization when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize enhanced particles
+    initializeParticles();
+    
+    // Re-initialize particles on window resize (debounced)
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(initializeParticles, 250);
+    });
+    
+    // ---- Improved section animation with consistent approach ----
+    // Create dedicated function for handling section animations
+    function initSectionAnimations() {
+        // Create a single observer with proper logic for section animations
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add the correct class to make the section visible
+                    entry.target.classList.add('section-visible');
                     
-                    setTimeout(() => {
-                        mobileMenu.classList.remove('open');
-                        body.classList.remove('menu-open');
-                        setTimeout(() => {
-                            mobileMenu.style.display = 'none';
-                            // Reset link styles
-                            link.style.transform = '';
-                            link.style.opacity = '';
-                        }, 300);
-                    }, 100);
+                    // No need for setTimeout for animate-element children
+                    // CSS transitions will handle the staggered effect
+                    
+                    // Stop observing once section is visible
+                    sectionObserver.unobserve(entry.target);
                 }
             });
+        }, {
+            threshold: 0.1, // Lower threshold for earlier animation triggering
+            rootMargin: '0px'
+        });
+        
+        // Select all sections to animate
+        const animatedSections = document.querySelectorAll('.section-animate');
+        
+        // Special handling for hero section - make it visible immediately
+        const heroSection = document.querySelector('.hero.section-animate');
+        if (heroSection) {
+            // Simply add the visible class to the hero section
+            // The CSS transitions will handle the animations
+            heroSection.classList.add('section-visible');
+            
+            // Don't observe hero since we've already handled it
+            animatedSections.forEach(section => {
+                if (section !== heroSection) {
+                    sectionObserver.observe(section);
+                }
+            });
+        } else {
+            // If for some reason hero section isn't found, observe all sections
+            animatedSections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+        }
+        
+        // Add CSS helper for staggered animations of child elements
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            /* Add staggered delays to animate-element children */
+            .section-visible .animate-element:nth-child(1) { transition-delay: 0.1s; }
+            .section-visible .animate-element:nth-child(2) { transition-delay: 0.2s; }
+            .section-visible .animate-element:nth-child(3) { transition-delay: 0.3s; }
+            .section-visible .animate-element:nth-child(4) { transition-delay: 0.4s; }
+            .section-visible .animate-element:nth-child(5) { transition-delay: 0.5s; }
+        `;
+        document.head.appendChild(styleSheet);
+    }
+    
+    // Call the animation initialization function directly
+    initSectionAnimations();
+    
+    // ---- Fixed Intersection Observer implementation ----
+    // Create a single observer with proper logic for section animations
+    function handleIntersection(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Add the correct class to make the section visible
+                entry.target.classList.add('section-visible');
+                
+                // Animate child elements with staggered timing
+                const animElements = entry.target.querySelectorAll('.animate-element');
+                animElements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, 200 * index);
+                });
+                
+                // Stop observing once section is visible
+                observer.unobserve(entry.target);
+            }
         });
     }
     
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (event) => {
-        if (mobileMenu && mobileMenu.classList.contains('open')) {
-            // If click is outside the mobile menu and not on the toggle button
-            if (!mobileMenu.contains(event.target) && 
-                !event.target.closest('.mobile-menu-btn')) {
-                mobileMenu.classList.remove('open');
-                body.classList.remove('menu-open');
+    // Create a single observer instance
+    const sectionObserver = new IntersectionObserver(handleIntersection, {
+        threshold: 0.2,
+        rootMargin: '0px'
+    });
+    
+    // Select all sections to animate
+    const animatedSections = document.querySelectorAll('.section-animate');
+    
+    // Observe each section
+    animatedSections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+    
+    // Special handling for hero section - make it visible immediately if in viewport
+    const heroSection = document.querySelector('.hero.section-animate');
+    if (heroSection) {
+        const rect = heroSection.getBoundingClientRect();
+        if (rect.top >= 0 && rect.top <= window.innerHeight) {
+            heroSection.classList.add('section-visible');
+            
+            // Also animate hero elements
+            const animElements = heroSection.querySelectorAll('.animate-element');
+            animElements.forEach((el, index) => {
                 setTimeout(() => {
-                    mobileMenu.style.display = 'none';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 200 * index);
+            });
+            
+            // Don't observe hero section since we've already handled it
+            sectionObserver.unobserve(heroSection);
+        }
+    }
+    
+    // Handle popular search tag clicks
+    const searchTags = document.querySelectorAll('.search-tag');
+    const searchInput = document.getElementById('tool-search');
+    
+    if (searchTags && searchInput) {
+        searchTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                // Get tag value
+                const tagValue = this.getAttribute('data-tag');
+                
+                // Set search input value
+                searchInput.value = tagValue;
+                searchInput.focus();
+                
+                // Trigger input event to show suggestions
+                const inputEvent = new Event('input', { bubbles: true });
+                searchInput.dispatchEvent(inputEvent);
+                
+                // Add slight highlight animation to the tag
+                this.classList.add('tag-clicked');
+                setTimeout(() => {
+                    this.classList.remove('tag-clicked');
+                }, 500);
+            });
+        });
+    }
+    
+    // Enhance search input with focus effects
+    if (searchInput) {
+        const searchBox = document.querySelector('.search-box');
+        
+        searchInput.addEventListener('focus', function() {
+            if (searchBox) {
+                searchBox.classList.add('search-focused');
+            }
+        });
+        
+        searchInput.addEventListener('blur', function() {
+            if (searchBox) {
+                setTimeout(() => {
+                    // Only remove if we're not focusing on something inside the search box
+                    if (!searchBox.contains(document.activeElement)) {
+                        searchBox.classList.remove('search-focused');
+                    }
+                }, 100);
+            }
+        });
+    }
+    
+    // Dynamic placeholder text
+    if (searchInput) {
+        const placeholders = [
+            'Search for a tool...',
+            'Try "password generator"...',
+            'Need a "currency converter"?',
+            'Looking for a "BMI calculator"?',
+            'Try "color converter"...'
+        ];
+        
+        let currentPlaceholder = 0;
+        
+        // Change placeholder every 3 seconds if not focused
+        const changePlaceholder = () => {
+            if (document.activeElement !== searchInput) {
+                currentPlaceholder = (currentPlaceholder + 1) % placeholders.length;
+                
+                // Fade out
+                searchInput.style.opacity = '0.7';
+                
+                setTimeout(() => {
+                    searchInput.setAttribute('placeholder', placeholders[currentPlaceholder]);
+                    
+                    // Fade in
+                    searchInput.style.opacity = '1';
                 }, 300);
             }
-        }
-    });
-    
-    // Update tool counts
-    updateToolCounts();
-});
-
-// Enhanced initialization of search filters with keyboard accessibility
-function initSearchFilters() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    
-    filterButtons.forEach(button => {
-        // Add keyboard accessibility
-        button.setAttribute('tabindex', '0');
+        };
         
-        // Handle click event
-        button.addEventListener('click', function() {
-            activateFilterButton(this);
+        // Start changing placeholders after 3 seconds
+        setTimeout(() => {
+            setInterval(changePlaceholder, 3000);
+        }, 3000);
+    }
+    
+    // FAQ Accordion functionality
+    const accordionItems = document.querySelectorAll('.accordion-item');
+    
+    accordionItems.forEach(item => {
+        const header = item.querySelector('.accordion-header');
+        const content = item.querySelector('.accordion-content');
+        const icon = item.querySelector('.accordion-icon i');
+        
+        // Add hover effect
+        header.addEventListener('mouseenter', () => {
+            if (!item.classList.contains('active')) {
+                header.style.backgroundColor = 'var(--background-alt)';
+                if (icon) {
+                    icon.style.transform = 'rotate(45deg) scale(1.1)';
+                }
+            }
         });
         
-        // Handle keyboard event
-        button.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                activateFilterButton(this);
+        header.addEventListener('mouseleave', () => {
+            if (!item.classList.contains('active')) {
+                header.style.backgroundColor = '';
+                if (icon) {
+                    icon.style.transform = '';
+                }
+            }
+        });
+        
+        header.addEventListener('click', () => {
+            // Check if this item is already active
+            const isActive = item.classList.contains('active');
+            
+            // Close all accordion items with animation
+            accordionItems.forEach(accItem => {
+                const accContent = accItem.querySelector('.accordion-content');
+                const accIcon = accItem.querySelector('.accordion-icon i');
+                
+                if (accItem.classList.contains('active')) {
+                    accItem.classList.remove('active');
+                    if (accIcon) {
+                        accIcon.style.transform = '';
+                    }
+                }
+            });
+            
+            // If the clicked item wasn't active, open it with animation
+            if (!isActive) {
+                item.classList.add('active');
+                if (icon) {
+                    icon.style.transform = 'rotate(45deg)';
+                    icon.style.transition = 'transform 0.3s ease';
+                }
+                
+                // Highlight the content briefly
+                if (content) {
+                    content.style.backgroundColor = 'var(--background-alt)';
+                    setTimeout(() => {
+                        content.style.backgroundColor = '';
+                        content.style.transition = 'background-color 1s ease';
+                    }, 200);
+                }
             }
         });
     });
     
-    function activateFilterButton(clickedButton) {
-        // Update aria-pressed states
-        filterButtons.forEach(btn => {
-            btn.setAttribute('aria-pressed', 'false');
-            btn.classList.remove('active');
-        });
+    // Initialize search components
+    initSearchFilters();
+    initEnhancedSearchAutocomplete();
+    initVoiceSearch();
+    showRecentSearches();
+    
+    // Handle search functionality
+    const searchButton = document.querySelector('.search-button');
+    const searchError = document.getElementById('search-error');
+    const searchStatus = document.querySelector('.search-status');
+    
+    function performSearch() {
+        // Clear previous error messages
+        clearSearchError();
         
-        clickedButton.setAttribute('aria-pressed', 'true');
-        clickedButton.classList.add('active');
-        
-        // Announce filter change to screen readers
-        const searchStatus = document.querySelector('.search-status');
-        if (searchStatus) {
-            searchStatus.textContent = `Filter changed to: ${clickedButton.textContent}`;
-            searchStatus.classList.add('visible');
-            
-            // Hide status after a moment
-            setTimeout(() => {
-                searchStatus.classList.remove('visible');
-            }, 2000);
-        }
-        
-        // Clear the search input to show fresh results for the selected category
-        const searchInput = document.getElementById('tool-search');
-        if (searchInput && searchInput.value.trim().length > 0) {
-            // Trigger the input event to refresh suggestions based on the new category
-            const inputEvent = new Event('input', { bubbles: true });
-            searchInput.dispatchEvent(inputEvent);
-        }
-    }
-}
-
-// Find the best matching tool for a query
-function findBestMatchingTool(query) {
-    const selectedCategory = document.querySelector('.filter-btn.active')?.dataset.category || 'all';
-    
-    // First try to find an exact match in name
-    let matches = toolsData.filter(tool => {
-        const nameMatch = tool.name.toLowerCase().includes(query);
-        const categoryMatch = selectedCategory === 'all' || tool.category === selectedCategory;
-        return nameMatch && categoryMatch;
-    });
-    
-    // If no matches in name, try tags and description
-    if (!matches.length) {
-        matches = toolsData.filter(tool => {
-            const tagMatch = tool.tags.some(tag => tag.includes(query));
-            const descMatch = tool.description.toLowerCase().includes(query);
-            const categoryMatch = selectedCategory === 'all' || tool.category === selectedCategory;
-            return (tagMatch || descMatch) && categoryMatch;
-        });
-    }
-    
-    // Return the first match or null if no matches
-    return matches.length ? matches[0] : null;
-}
-
-// Enhanced autocomplete with category filtering and better UI
-function initEnhancedSearchAutocomplete() {
-    const searchInput = document.getElementById('tool-search');
-    if (!searchInput) return;
-    
-    // Create suggestions container if it doesn't exist
-    let suggestionsContainer = document.querySelector('.search-suggestions');
-    if (!suggestionsContainer) {
-        suggestionsContainer = document.createElement('div');
-        suggestionsContainer.className = 'search-suggestions';
-        suggestionsContainer.style.display = 'none'; // Hide by default
-        searchInput.parentNode.appendChild(suggestionsContainer);
-    }
-    
-    // Add input event to show suggestions
-    searchInput.addEventListener('input', function() {
-        const query = this.value.toLowerCase().trim();
-        const selectedCategory = document.querySelector('.filter-btn.active')?.dataset.category || 'all';
-        
-        // Clear suggestions if query is too short
-        if (query.length < 2) {
-            suggestionsContainer.innerHTML = '';
-            suggestionsContainer.style.display = 'none'; // Hide when query is cleared or too short
-            suggestionsContainer.classList.remove('visible');
+        const query = searchInput.value.trim().toLowerCase();
+        if (query.length === 0) {
+            showSearchError('Please enter a search term');
+            searchInput.focus();
             return;
         }
         
-        // Get matching tools filtered by category
-        const matches = toolsData.filter(tool => {
-            // Apply category filter if not "all"
-            const categoryMatch = selectedCategory === 'all' || tool.category === selectedCategory;
-            if (!categoryMatch) return false;
-            
-            // Check name, description, and tags
-            const nameMatch = tool.name.toLowerCase().includes(query);
-            const descMatch = tool.description.toLowerCase().includes(query);
-            const tagMatch = tool.tags.some(tag => tag.includes(query));
-            
-            return nameMatch || descMatch || tagMatch;
-        }).slice(0, 6); // Limit to 6 suggestions
+        // Show searching status
+        showSearchStatus('Searching...');
         
-        // Display matches with enhanced UI
-        suggestionsContainer.innerHTML = '';
-        if (matches.length > 0 || query.length >= 2) {
-            suggestionsContainer.style.display = 'block'; // Show only when there's content
-            
-            // Add the visible class for CSS transitions
+        // Track this search in recent searches
+        trackSearch(query);
+        
+        // Find the first matching tool and redirect to it
+        const matchingTool = findBestMatchingTool(query);
+        if (matchingTool) {
+            showSearchStatus('Tool found! Redirecting...');
             setTimeout(() => {
-                suggestionsContainer.classList.add('visible');
-            }, 10);
-            
-            if (matches.length > 0) {
-                matches.forEach(match => {
-                    const suggestion = document.createElement('div');
-                    suggestion.className = 'suggestion-item';
-                    
-                    // Create icon element
-                    const iconSpan = document.createElement('span');
-                    iconSpan.className = 'suggestion-icon';
-                    iconSpan.innerHTML = `<i class="fas ${match.icon}"></i>`;
-                    
-                    // Create content div for text
-                    const contentDiv = document.createElement('div');
-                    contentDiv.className = 'suggestion-content';
-                    
-                    // Add tool name with highlighted query
-                    const nameEl = document.createElement('div');
-                    nameEl.className = 'suggestion-name';
-                    const nameParts = match.name.split(new RegExp(`(${query})`, 'i'));
-                    let nameHTML = '';
-                    nameParts.forEach(part => {
-                        if (part.toLowerCase() === query.toLowerCase()) {
-                            nameHTML += `<strong>${part}</strong>`;
-                        } else {
-                            nameHTML += part;
-                        }
-                    });
-                    nameEl.innerHTML = nameHTML;
-                    
-                    // Add description (truncated if needed)
-                    const descEl = document.createElement('div');
-                    descEl.className = 'suggestion-description';
-                    let desc = match.description;
-                    if (desc.length > 60) {
-                        desc = desc.substring(0, 57) + '...';
-                    }
-                    descEl.textContent = desc;
-                    
-                    // Add category badge
-                    const categoryEl = document.createElement('span');
-                    categoryEl.className = 'suggestion-category';
-                    categoryEl.textContent = match.category.charAt(0).toUpperCase() + match.category.slice(1);
-                    
-                    // Assemble the content div
-                    contentDiv.appendChild(nameEl);
-                    contentDiv.appendChild(descEl);
-                    
-                    // Add everything to the suggestion item
-                    suggestion.appendChild(iconSpan);
-                    suggestion.appendChild(contentDiv);
-                    suggestion.appendChild(categoryEl);
-                    
-                    // Add click event to navigate to the tool
-                    suggestion.addEventListener('click', () => {
-                        trackSearch(match.name.toLowerCase()); // Track this click as a search
-                        window.location.href = match.url;
-                    });
-                    
-                    suggestionsContainer.appendChild(suggestion);
-                });
-            } else {
-                // No matches found
-                const noResults = document.createElement('div');
-                noResults.className = 'suggestion-item no-results';
-                noResults.innerHTML = `<span class="no-results-icon"><i class="fas fa-search"></i></span> No matching tools found for "${query}"`;
-                suggestionsContainer.appendChild(noResults);
-            }
-        }
-    });
-    
-    // Hide suggestions when clicking elsewhere
-    document.addEventListener('click', function(e) {
-        if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
-            suggestionsContainer.classList.remove('visible');
-            // Wait for transition to complete before hiding
-            setTimeout(() => {
-                suggestionsContainer.style.display = 'none';
-            }, 200);
-        }
-    });
-    
-    // Show suggestions when search input is focused with content
-    searchInput.addEventListener('focus', function() {
-        if (this.value.trim().length >= 2) {
-            suggestionsContainer.style.display = 'block'; // Show when focused with valid content
-            
-            // Add the visible class after a small delay
-            setTimeout(() => {
-                suggestionsContainer.classList.add('visible');
-            }, 10);
-            
-            // Simulate input event to show suggestions
-            const inputEvent = new Event('input', { bubbles: true });
-            this.dispatchEvent(inputEvent);
-        }
-    });
-    
-    // Hide suggestions when search input loses focus (with delay to allow clicking on suggestions)
-    searchInput.addEventListener('blur', function(e) {
-        // Use setTimeout to allow clicking on suggestions before hiding
-        setTimeout(() => {
-            // Only hide if the active element is not within the suggestions container
-            if (!suggestionsContainer.contains(document.activeElement)) {
-                suggestionsContainer.classList.remove('visible');
-                // Wait for transition to complete before hiding
-                setTimeout(() => {
-                    suggestionsContainer.style.display = 'none';
-                }, 200);
-            }
-        }, 150);
-    });
-    
-    // Add escape key to hide suggestions
-    searchInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            suggestionsContainer.classList.remove('visible');
-            // Wait for transition to complete before hiding
-            setTimeout(() => {
-                suggestionsContainer.style.display = 'none';
-            }, 200);
-        }
-        
-        // Enable keyboard navigation for suggestions
-        const suggestions = suggestionsContainer.querySelectorAll('.suggestion-item:not(.no-results)');
-        if (!suggestions.length) return;
-        
-        // Find currently focused suggestion
-        const focused = suggestionsContainer.querySelector('.suggestion-item.focused');
-        let index = -1;
-        
-        if (focused) {
-            suggestions.forEach((suggestion, i) => {
-                if (suggestion === focused) index = i;
-            });
-        }
-        
-        // Handle arrow keys
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            if (index < suggestions.length - 1) {
-                if (focused) focused.classList.remove('focused');
-                suggestions[index + 1].classList.add('focused');
-                suggestions[index + 1].scrollIntoView({ block: 'nearest' });
-            }
-        } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            if (index > 0) {
-                if (focused) focused.classList.remove('focused');
-                suggestions[index - 1].classList.add('focused');
-                suggestions[index - 1].scrollIntoView({ block: 'nearest' });
-            }
-        } else if (e.key === 'Enter' && focused) {
-            e.preventDefault();
-            focused.click();
-        }
-    });
-}
-
-// Initialize voice search functionality
-function initVoiceSearch() {
-  const voiceButton = document.getElementById('voice-search');
-  const searchInput = document.getElementById('tool-search');
-  const searchError = document.getElementById('search-error');
-  const searchStatus = document.querySelector('.search-status');
-  
-  if (!voiceButton || !searchInput) return;
-  
-  voiceButton.addEventListener('click', function() {
-    // Clear previous errors
-    if (searchError) {
-      searchError.textContent = '';
-      searchError.classList.remove('visible');
-    }
-    
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      // Use the appropriate recognition object based on browser support
-      const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognition = new Recognition();
-      
-      recognition.lang = 'en-US';
-      recognition.interimResults = false; // We only want final results
-      recognition.maxAlternatives = 1;
-      
-      // Start listening
-      recognition.start();
-      
-      // Show visual feedback
-      voiceButton.innerHTML = '<i class="fas fa-microphone-slash"></i>';
-      voiceButton.classList.add('listening');
-      
-      // Show status message
-      if (searchStatus) {
-        searchStatus.textContent = 'Listening...';
-        searchStatus.classList.add('visible');
-      }
-      
-      // Process result
-      recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        const confidence = event.results[0][0].confidence;
-        
-        searchInput.value = transcript;
-        searchInput.focus();
-        
-        // Animate the input to show it was updated
-        searchInput.classList.add('voice-input-updated');
-        setTimeout(() => {
-          searchInput.classList.remove('voice-input-updated');
-        }, 1000);
-        
-        // Show status message based on confidence
-        if (searchStatus) {
-          if (confidence < 0.5) {
-            searchStatus.textContent = 'I heard: "' + transcript + '" (low confidence)';
-          } else {
-            searchStatus.textContent = 'I heard: "' + transcript + '"';
-          }
-        }
-        
-        // Trigger search after brief delay
-        setTimeout(() => {
-          const searchButton = document.querySelector('.search-button');
-          if (searchButton) searchButton.click();
-        }, 1000);
-      };
-      
-      // Reset button when done
-      recognition.onend = function() {
-        voiceButton.innerHTML = '<i class="fas fa-microphone"></i>';
-        voiceButton.classList.remove('listening');
-        
-        // Clear status after a delay
-        setTimeout(() => {
-          if (searchStatus) {
-            searchStatus.classList.remove('visible');
-          }
-        }, 3000);
-      };
-      
-      // Handle errors
-      recognition.onerror = function(event) {
-        voiceButton.innerHTML = '<i class="fas fa-microphone"></i>';
-        voiceButton.classList.remove('listening');
-        
-        // Show appropriate error message based on the error
-        let errorMsg = 'Voice recognition failed. Please try again or type your search.';
-        
-        if (event.error === 'no-speech') {
-          errorMsg = 'No speech was detected. Please try again.';
-        } else if (event.error === 'audio-capture') {
-          errorMsg = 'No microphone was found. Ensure that a microphone is installed.';
-        } else if (event.error === 'not-allowed') {
-          errorMsg = 'Permission to use microphone was denied. Please enable microphone access.';
-        }
-        
-        if (searchError) {
-          searchError.textContent = errorMsg;
-          searchError.classList.add('visible');
+                window.location.href = matchingTool.url;
+            }, 500);
         } else {
-          // Fallback to alert if search error element doesn't exist
-          alert(errorMsg);
+            showSearchError('No matching tools found. Try another search term.');
+            showRecentSearches(); // Show recent searches as suggestions
         }
-      };
-    } else {
-      if (searchError) {
-        searchError.textContent = 'Voice search is not supported in your browser. Please use Chrome, Edge, or Safari.';
+    }
+    
+    function showSearchError(message) {
+        if (!searchError) return;
+        
+        searchError.textContent = message;
         searchError.classList.add('visible');
-      } else {
-        alert('Voice search is not supported in your browser. Please use Chrome, Edge, or Safari.');
-      }
-    }
-  });
-}
-
-// Track search queries for recent searches
-function trackSearch(query) {
-  if (query.length === 0) return;
-  
-  // Get existing recent searches from localStorage
-  const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
-  
-  // Add this search to the beginning if it's not already there
-  if (!recentSearches.includes(query)) {
-    recentSearches.unshift(query);
-    
-    // Limit to 5 recent searches
-    if (recentSearches.length > 5) {
-      recentSearches.pop();
-    }
-    
-    // Save back to localStorage
-    localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
-  }
-}
-
-// Display recent searches below the search box
-function showRecentSearches() {
-  const recentSearchesDiv = document.getElementById('recent-searches');
-  if (!recentSearchesDiv) return;
-  
-  // Get recent searches from localStorage
-  const searches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
-  
-  // Only show if we have searches
-  if (searches.length === 0) return;
-  
-  // Create recent searches UI
-  recentSearchesDiv.className = 'recent-searches';
-  recentSearchesDiv.innerHTML = '<h4>Recent Searches</h4>';
-  
-  const list = document.createElement('ul');
-  searches.forEach(search => {
-    const item = document.createElement('li');
-    item.innerHTML = `<a href="/tools-page/search-results.html?q=${encodeURIComponent(search)}">${search}</a>`;
-    list.appendChild(item);
-  });
-  
-  // Add a clear button
-  const clearItem = document.createElement('li');
-  const clearLink = document.createElement('a');
-  clearLink.textContent = 'Clear recent searches';
-  clearLink.href = '#';
-  clearLink.style.color = '#7f8c8d';
-  clearLink.addEventListener('click', function(e) {
-    e.preventDefault();
-    localStorage.removeItem('recentSearches');
-    recentSearchesDiv.remove();
-  });
-  clearItem.appendChild(clearLink);
-  list.appendChild(clearItem);
-  
-  recentSearchesDiv.appendChild(list);
-}
-
-// Update tool counts for each category
-function updateToolCounts() {
-  const toolCounts = {
-    calculator: 0,
-    converter: 0,
-    generator: 0,
-    seo: 0
-  };
-  
-  // Count tools by category
-  toolsData.forEach(tool => {
-    if (toolCounts.hasOwnProperty(tool.category)) {
-      toolCounts[tool.category]++;
-    }
-  });
-  
-  // Update tool count badges
-  const toolCountElements = document.querySelectorAll('.tool-count');
-  toolCountElements.forEach(element => {
-    const category = element.getAttribute('data-category');
-    if (toolCounts.hasOwnProperty(category)) {
-      element.textContent = toolCounts[category];
-    }
-  });
-}
-
-// Enhanced News Ticker Functionality with Error Handling
-class NewsTicker {
-  constructor(options = {}) {
-    // Default configuration
-    this.config = {
-      tickerId: options.tickerId || 'ticker',
-      tickerProgressBarId: options.tickerProgressBarId || 'ticker-progress-bar',
-      tickerPauseBtn: options.tickerPauseBtn || '.ticker-pause',
-      animationDuration: options.animationDuration || 30000, // 30 seconds
-      errorRetryDelay: options.errorRetryDelay || 3000,
-      maxRetries: options.maxRetries || 3
-    };
-    
-    // State
-    this.state = {
-      isPaused: false,
-      isInitialized: false,
-      retryCount: 0
-    };
-    
-    this.init();
-  }
-  
-  init() {
-    try {
-      // Get DOM elements
-      this.ticker = document.getElementById(this.config.tickerId);
-      this.progressBar = document.getElementById(this.config.tickerProgressBarId);
-      this.pauseBtn = document.querySelector(this.config.tickerPauseBtn);
-      
-      // Validate DOM elements
-      if (!this.ticker || !this.progressBar) {
-        throw new Error('Required ticker elements not found');
-      }
-      
-      // Setup event listeners
-      this.setupEventListeners();
-      
-      // Recalculate animation based on content
-      this.calculateAnimationDistance();
-      
-      // Add resize listener for responsive behavior
-      window.addEventListener('resize', this.debounce(this.calculateAnimationDistance.bind(this), 250));
-      
-      // Set initialization flag
-      this.state.isInitialized = true;
-      
-      // Log success
-      console.log('News ticker initialized successfully');
-    } catch (error) {
-      this.handleError(error);
-    }
-  }
-  
-  setupEventListeners() {
-    try {
-      // Pause button click handler
-      if (this.pauseBtn) {
-        this.pauseBtn.addEventListener('click', this.togglePause.bind(this));
         
-        // Handle button keyboard interaction for accessibility
-        this.pauseBtn.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            this.togglePause();
-          }
+        // Vibration feedback if supported
+        if (navigator.vibrate) {
+            navigator.vibrate(100);
+        }
+        
+        // Auto-hide error after 5 seconds
+        setTimeout(() => {
+            clearSearchError();
+        }, 5000);
+    }
+    
+    function clearSearchError() {
+        if (!searchError) return;
+        searchError.textContent = '';
+        searchError.classList.remove('visible');
+        
+        // Also clear status
+        if (searchStatus) {
+            searchStatus.textContent = '';
+            searchStatus.classList.remove('visible');
+        }
+    }
+    
+    function showSearchStatus(message) {
+        if (!searchStatus) return;
+        searchStatus.textContent = message;
+        searchStatus.classList.add('visible');
+    }
+    
+    // Event listeners for search functionality
+    if (searchButton) {
+        searchButton.addEventListener('click', performSearch);
+    }
+    
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
         });
-      }
-      
-      // Mouse interaction with ticker content
-      this.ticker.addEventListener('mouseenter', () => this.pause());
-      this.ticker.addEventListener('mouseleave', () => {
-        if (!this.state.isPaused) {
-          this.play();
-        }
-      });
-      
-      // Touch interaction for mobile
-      this.ticker.addEventListener('touchstart', () => this.pause(), { passive: true });
-      this.ticker.addEventListener('touchend', () => {
-        if (!this.state.isPaused) {
-          this.play();
-        }
-      });
-      
-      // Animation end handling
-      this.ticker.addEventListener('animationiteration', () => {
-        // Emit event when ticker completes a cycle
-        const event = new CustomEvent('tickerIteration');
-        document.dispatchEvent(event);
-      });
-    } catch (error) {
-      this.handleError(error, 'Error setting up event listeners');
     }
-  }
-  
-  calculateAnimationDistance() {
-    try {
-      if (!this.ticker) return;
-      
-      console.log('Calculating ticker animation distance');
-      
-      // Reset any inline styles first
-      this.ticker.style.animationDuration = '';
-      if (this.progressBar) {
-        this.progressBar.style.animationDuration = '';
-      }
-      
-      // Get all ticker items
-      const tickerItems = this.ticker.querySelectorAll('.ticker-item:not(.ticker-duplicate)');
-      if (tickerItems.length === 0) {
-        console.warn('No ticker items found');
-        return;
-      }
-      
-      console.log(`Found ${tickerItems.length} ticker items`);
-      
-      // Calculate total width of original items
-      let totalWidth = 0;
-      tickerItems.forEach(item => {
-        const itemWidth = item.offsetWidth;
-        totalWidth += itemWidth;
-        console.log(`Item width: ${itemWidth}px`);
-      });
-      
-      // Get container width
-      const containerWidth = this.ticker.parentElement.offsetWidth;
-      console.log(`Container width: ${containerWidth}px, Total content width: ${totalWidth}px`);
-      
-      // Set direct translation distance in pixels instead of percentage
-      const pixelDistance = totalWidth + 100; // Add extra space
-      
-      // Update direct inline style for more reliable animation
-      this.ticker.style.animation = `none`;
-      
-      // Force reflow
-      void this.ticker.offsetWidth;
-      
-      // Update animation with direct pixel values
-      const duration = Math.max(this.config.animationDuration, totalWidth * 20);
-      console.log(`Setting animation duration: ${duration}ms, distance: -${pixelDistance}px`);
-      
-      // Apply the animation with direct values
-      this.ticker.style.animation = `ticker-scroll ${duration}ms linear infinite`;
-      
-      // Set explicit translation distance using CSS custom property
-      document.documentElement.style.setProperty('--ticker-distance', `-${pixelDistance}px`);
-      
-      // Also update direct keyframe animation
-      const styleSheet = document.createElement('style');
-      styleSheet.textContent = `
-        @keyframes ticker-scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-${pixelDistance}px); }
+    
+    // Mobile Menu functionality and enhanced header animations
+    const header = document.querySelector('header');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const logo = document.querySelector('.logo');
+    const logoDot = document.querySelector('.logo-dot');
+    
+    // Add loading class to enable animations
+    if (header) {
+        header.classList.add('header-loading');
+    }
+    
+    // Initial animations for header elements
+    function animateHeaderElements() {
+        if (logo) {
+            logo.style.opacity = '0';
+            logo.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                logo.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                logo.style.opacity = '1';
+                logo.style.transform = 'translateY(0)';
+            }, 300);
         }
         
-        #ticker {
-          animation: ticker-scroll ${duration}ms linear infinite;
-        }
-        
-        #ticker-progress-bar {
-          animation: ticker-progress ${duration}ms linear infinite;
-        }
-      `;
-      document.head.appendChild(styleSheet);
-      
-      // Update progress bar animation
-      if (this.progressBar) {
-        this.progressBar.style.animation = `none`;
-        void this.progressBar.offsetWidth;
-        this.progressBar.style.animation = `ticker-progress ${duration}ms linear infinite`;
-      }
-      
-    } catch (error) {
-      console.error('Error calculating ticker animation distance:', error);
-      this.handleError(error, 'Error calculating ticker animation distance');
-    }
-  }
-  
-  togglePause() {
-    try {
-      if (this.state.isPaused) {
-        this.play();
-      } else {
-        this.pause();
-      }
-    } catch (error) {
-      this.handleError(error, 'Error toggling ticker pause state');
-    }
-  }
-  
-  pause() {
-    try {
-      if (!this.ticker) return;
-      
-      this.state.isPaused = true;
-      this.ticker.classList.add('paused');
-      
-      // Update progress bar
-      if (this.progressBar) {
-        this.progressBar.parentElement.classList.add('paused');
-      }
-      
-      // Update pause button
-      if (this.pauseBtn) {
-        this.pauseBtn.innerHTML = '<i class="fas fa-play" aria-hidden="true"></i>';
-        this.pauseBtn.setAttribute('aria-label', 'Play announcements');
-        this.pauseBtn.setAttribute('title', 'Play');
-      }
-    } catch (error) {
-      this.handleError(error, 'Error pausing ticker');
-    }
-  }
-  
-  play() {
-    try {
-      if (!this.ticker) return;
-      
-      this.state.isPaused = false;
-      this.ticker.classList.remove('paused');
-      
-      // Update progress bar
-      if (this.progressBar) {
-        this.progressBar.parentElement.classList.remove('paused');
-      }
-      
-      // Update pause button
-      if (this.pauseBtn) {
-        this.pauseBtn.innerHTML = '<i class="fas fa-pause" aria-hidden="true"></i>';
-        this.pauseBtn.setAttribute('aria-label', 'Pause announcements');
-        this.pauseBtn.setAttribute('title', 'Pause');
-      }
-    } catch (error) {
-      this.handleError(error, 'Error playing ticker');
-    }
-  }
-  
-  handleError(error, context = 'Ticker error') {
-    console.error(`${context}: ${error.message}`);
-    
-    // Attempt to retry initialization if needed
-    if (!this.state.isInitialized && this.state.retryCount < this.config.maxRetries) {
-      this.state.retryCount++;
-      console.log(`Retrying ticker initialization (${this.state.retryCount}/${this.config.maxRetries})`);
-      
-      setTimeout(() => {
-        this.init();
-      }, this.config.errorRetryDelay);
-    }
-    
-    // Display fallback content if we've hit the retry limit
-    if (this.state.retryCount >= this.config.maxRetries && !this.state.isInitialized) {
-      this.displayFallback();
-    }
-  }
-  
-  displayFallback() {
-    try {
-      // Find the ticker container
-      const container = document.querySelector('.ticker-container');
-      if (!container) return;
-      
-      // Create fallback content that doesn't require animation
-      const fallbackHtml = `
-        <div class="ticker-fallback">
-          <div class="container">
-            <div class="ticker-fallback-item">
-              <i class="fas fa-info-circle" aria-hidden="true"></i>
-              <span>Explore our collection of 50+ free online tools</span>
-            </div>
-          </div>
-        </div>
-      `;
-      
-      // Replace ticker with fallback
-      container.innerHTML = fallbackHtml;
-    } catch (error) {
-      console.error('Error displaying ticker fallback:', error);
-    }
-  }
-  
-  // Utility function to debounce resize events
-  debounce(func, delay) {
-    let timeout;
-    return function() {
-      const context = this;
-      const args = arguments;
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(context, args), delay);
-    };
-  }
-}
-
-// Initialize the ticker when DOM is ready
-window.addEventListener('load', function() {
-  // Small delay to ensure everything is rendered
-  setTimeout(function() {
-    try {
-      console.log('Initializing ticker after window load');
-      // Initialize the news ticker
-      const newsTicker = new NewsTicker({
-        tickerId: 'ticker',
-        tickerProgressBarId: 'ticker-progress-bar',
-        tickerPauseBtn: '.ticker-pause',
-        animationDuration: 30000
-      });
-      
-      // Store instance globally for debugging if needed
-      window.newsTicker = newsTicker;
-      
-      // Force recalculation of ticker positioning
-      if (window.newsTicker && typeof window.newsTicker.calculateAnimationDistance === 'function') {
-        window.newsTicker.calculateAnimationDistance();
-      }
-    } catch (error) {
-      console.error('Failed to initialize ticker:', error);
-      // Show fallback ticker
-      const tickerContainer = document.querySelector('.ticker-container');
-      if (tickerContainer) {
-        tickerContainer.innerHTML = `
-          <div class="ticker-fallback">
-            <div class="container">
-              <div class="ticker-fallback-item">
-                <i class="fas fa-info-circle" aria-hidden="true"></i>
-                <span>Explore our collection of 50+ free online tools</span>
-              </div>
-            </div>
-          </div>
-        `;
-      }
-    }
-  }, 500); // 500ms delay
-});
-
-// Troubleshooting code for ticker
-document.addEventListener('DOMContentLoaded', function() {
-  try {
-    console.log('DOM loaded - checking ticker elements');
-    const tickerContainer = document.querySelector('.ticker-container');
-    const ticker = document.getElementById('ticker');
-    
-    if (tickerContainer) {
-      console.log('Ticker container found:', tickerContainer);
-      console.log('Ticker container visibility:', getComputedStyle(tickerContainer).display);
-      console.log('Ticker container bounds:', tickerContainer.getBoundingClientRect());
-    } else {
-      console.error('Ticker container not found in DOM');
-    }
-    
-    if (ticker) {
-      console.log('Ticker content element found:', ticker);
-      console.log('Animation applied:', getComputedStyle(ticker).animation);
-    } else {
-      console.error('Ticker content element not found in DOM');
-    }
-    
-    // Check CSS variables
-    const rootStyles = getComputedStyle(document.documentElement);
-    console.log('--ticker-transform value:', rootStyles.getPropertyValue('--ticker-transform'));
-    
-  } catch (error) {
-    console.error('Error in ticker troubleshooting:', error);
-  }
-});
+                // Animate nav links with staggered delay
+                navLinks.forEach((link, index) => {
+                    link.style.opacity = '0';
+                    link.style.transform = 'translateY(-20px)';
+                    setTimeout(() => {
+                        link.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        link.style.opacity = '1';
+                        link.style.transform = 'translateY(0)';
+                    }, 300 + index * 100);
+                });
+            }
+        });

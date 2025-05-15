@@ -122,7 +122,9 @@
     <!-- Hero Section with Search -->
     <section class="hero section-animate" id="main-content">
         <div class="hero-background">
-            <div class="particles-container" id="particles-background"></div>
+            <div class="particles-container" id="particles-background">
+                <!-- Particles will be dynamically created by JavaScript -->
+            </div>
             <div class="hero-shape hero-shape-1"></div>
             <div class="hero-shape hero-shape-2"></div>
         </div>
@@ -130,34 +132,52 @@
             <div class="hero-content">
                 <h1 class="hero-title animate-element">Free Online Tools for Everyone</h1>
                 <p class="hero-subtitle animate-element">Simple. Fast. Free. No ads or registration required.</p>
-            </div>            <div class="search-box animate-element" role="search" aria-label="Search for tools">
-                <div class="search-input-wrapper">
-                    <div class="search-icon-left">
-                        <i class="fas fa-search" aria-hidden="true"></i>
+            </div>            
+            <div class="search-container animate-element">
+                <div class="search-box" role="search" aria-label="Search for tools">
+                    <div class="search-wrapper">
+                        <div class="search-input-container">
+                            <div class="search-icon">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                            </div>
+                            <label for="tool-search" class="sr-only">Search for a tool</label>
+                            <input 
+                                type="text" 
+                                id="tool-search" 
+                                class="search-input-field" 
+                                placeholder="Looking for a BMI calculator?" 
+                                aria-describedby="search-instructions" 
+                                autocomplete="off"
+                            >
+                            <div class="search-actions">
+                                <button id="voice-search" class="voice-search-btn" aria-label="Search by voice">
+                                    <i class="fas fa-microphone" aria-hidden="true"></i>
+                                </button>
+                                <button class="search-submit-btn" aria-label="Search">
+                                    <i class="fas fa-search search-btn-icon" aria-hidden="true"></i>
+                                    <span class="search-submit-btn-text">Search</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="search-instructions" class="sr-only">Type to search for a tool, or use the voice search button</div>
                     </div>
-                    <label for="tool-search" class="sr-only">Search for a tool</label>
-                    <input type="text" id="tool-search" placeholder="Search for a tool..." aria-describedby="search-instructions" autocomplete="off">
-                    <div class="search-actions">                        <button id="voice-search" aria-label="Search by voice" class="action-button">
-                            <i class="fas fa-microphone" aria-hidden="true"></i>
-                        </button>
-                        <button class="search-button" aria-label="Search">
-                            <span class="search-button-text">Search</span>
-                        </button>
-                    </div>
-                    <div id="search-instructions" class="sr-only">Type to search for a tool, or use the voice search button</div>
-                    <div class="search-status" aria-live="assertive"></div>
-                </div>                <div class="search-meta">
-                    <div class="search-popular">
-                        <span class="search-popular-label">Popular:</span>
+                    
+                    <div class="search-tags-container">
+                        <span class="search-tags-label">Popular</span>
                         <div class="search-tags">
-                            <button class="search-tag" data-tag="calculator">Calculator</button>
-                            <button class="search-tag" data-tag="password">Password</button>
-                            <button class="search-tag" data-tag="converter">Converter</button>
+                            <button class="search-tag-btn" data-tag="calculator">Calculator</button>
+                            <button class="search-tag-btn" data-tag="converter">Converter</button>
+                            <button class="search-tag-btn" data-tag="password">Password</button>
                         </div>
                     </div>
+                    
+                    <div id="recent-searches" aria-live="polite"></div>
+                    
+                    <div class="search-status-container">
+                        <div id="search-error" class="search-error" aria-live="assertive"></div>
+                        <div class="search-status" aria-live="assertive"></div>
+                    </div>
                 </div>
-                <div id="recent-searches" aria-live="polite"></div>
-                <div id="search-error" class="search-error" aria-live="polite"></div>
             </div>
         </div>
     </section>
@@ -608,7 +628,8 @@
             function handleIntersection(entries, observer) {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('in-viewport');
+                        // Add correct visibility class
+                        entry.target.classList.add('section-visible');
                         
                         // Animate elements with delay
                         const animElements = entry.target.querySelectorAll('.animate-element');
@@ -659,22 +680,12 @@
     <!-- Advanced Search UI -->
     <script src="search-ui.js"></script>
     <script>
-        // Ensure logo image gets proper size
+        // Remove the inline style overrides and let CSS handle responsive logo sizing
         document.addEventListener('DOMContentLoaded', function() {
             const logoImages = document.querySelectorAll('.logo-image');
             logoImages.forEach(img => {
-                // Force style update
-                if (window.innerWidth <= 480) {
-                    img.style.height = '32px';
-                } else if (window.innerWidth <= 768) {
-                    img.style.height = '40px';
-                } else {
-                    if (img.closest('.mobile-menu-header')) {
-                        img.style.height = '36px';
-                    } else {
-                        img.style.height = '48px';
-                    }
-                }
+                // Remove any inline height styles that might conflict with CSS
+                img.style.removeProperty('height');
             });
         });
     </script>
