@@ -4,22 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Everytool | Free Online Tools</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" href="images/favicon-32x32.png" type="image/png" sizes="32x32">
-    <meta name="description" content="Everytool offers free online tools including calculators, converters, generators, and SEO tools.">    <meta property="og:title" content="Everytool | Free Online Tools">
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Everytool offers free online tools including calculators, converters, generators, and SEO tools.">
+    <meta name="keywords" content="online tools, free tools, calculators, converters, generators, SEO tools">
+    <meta name="author" content="Everytool">
+    <meta name="theme-color" content="#06d6a0">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Everytool | Free Online Tools">
     <meta property="og:description" content="Free online tools for productivity and daily tasks. Calculators, converters, generators, and SEO tools.">
     <meta property="og:image" content="https://everytool.tech/images/social-preview.jpg">
     <meta property="og:url" content="https://everytool.tech">
     <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Everytool | Free Online Tools">
+    <meta name="twitter:description" content="Free online tools for productivity and daily tasks.">
+    <meta name="twitter:image" content="https://everytool.tech/images/social-preview.jpg">
+    
+    <!-- Canonical URL -->
     <link rel="canonical" href="https://everytool.tech">
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-    <link rel="manifest" href="images/site.webmanifest">
-    <!-- Preload critical resources -->    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
     <link rel="preload" href="styles.css" as="style">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Favicons - consolidated -->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="manifest" href="images/site.webmanifest">
+    
     <!-- Schema.org structured data -->
     <script type="application/ld+json">
     {
@@ -50,8 +71,7 @@
             <nav aria-label="Main Navigation">
                 <div class="logo">
                     <a href="index.html">
-                        <span class="logo-text">Everytool</span>
-                        <span class="logo-dot"></span>
+                        <img src="images/logo-icon.png" alt="Everytool Logo" class="logo-image" style="height: 48px; width: auto;">
                     </a>
                 </div>
                 <ul class="nav-links">
@@ -74,6 +94,7 @@
         <div class="mobile-menu-header">
             <div class="logo">
                 <a href="index.html">
+                    <img src="images/logo-icon.png" alt="Everytool Logo" class="logo-image" style="height: 36px; width: auto;">
                     <span class="logo-text">Everytool</span>
                     <span class="logo-dot"></span>
                 </a>
@@ -637,5 +658,25 @@
     </script>
     <!-- Advanced Search UI -->
     <script src="search-ui.js"></script>
+    <script>
+        // Ensure logo image gets proper size
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoImages = document.querySelectorAll('.logo-image');
+            logoImages.forEach(img => {
+                // Force style update
+                if (window.innerWidth <= 480) {
+                    img.style.height = '32px';
+                } else if (window.innerWidth <= 768) {
+                    img.style.height = '40px';
+                } else {
+                    if (img.closest('.mobile-menu-header')) {
+                        img.style.height = '36px';
+                    } else {
+                        img.style.height = '48px';
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
