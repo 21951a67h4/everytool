@@ -1,13 +1,17 @@
 /* About Page Styles */
 :root {
-    --primary-color: #4a6fa5;
-    --secondary-color: #166088;
-    --accent-color: #4fc3f7;
+    --primary-color: #4361ee;
+    --primary-light: #5e72eb;
+    --primary-dark: #3a56d4;
+    --secondary-color: #06d6a0;
+    --secondary-light: #3de2b2;
+    --secondary-dark: #05b485;
+    --accent-color: #ef476f;
     --background-color: #f8f9fa;
-    --text-color: #333;
-    --light-text: #777;
-    --border-color: #e0e0e0;
-    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --text-color: #2b2d42;
+    --light-text: #6c757d;
+    --border-color: #e9ecef;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     --section-spacing: 4rem;
 }
 

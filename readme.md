@@ -5,46 +5,7 @@
 This project hosts a collection of simple, useful web-based tools.  
 Each tool has its own dedicated **URL and folder**.
 
-Your job as an **AI Code Agent** is to generate the necessary files and structure for each new tool prompt given.
-
----
-
-## 🌐 Folder Structure
-
-Everytool.tech/
-├── readme.md
-└── Home-page/
-    ├── landing-page/
-    │   ├── index.html
-    │   ├── styles.css
-    │   └── script.js
-    │
-    ├── tools-page/
-    │   ├── calculator/
-    │   │   ├── age-calculator/
-    │   │   │   ├── index.html
-    │   │   │   ├── style.css
-    │   │   │   └── script.js
-    │   │
-    │   ├── converter/
-    │   ├── generator/
-    │   └── seo/
-    │
-    ├── about-page/
-    │   ├── about.html
-    │   ├── about.css
-    │   └── about.js
-    │
-    ├── contact-page/
-    │   ├── contact.html
-    │   ├── contact.css
-    │   └── contact.js
-    │
-    └── privacy policy-page/
-        ├── privacy policy.html
-        ├── privacy policy.css
-        └── privacy policy.js
-
+Your job as an **AI Code Agent** is to generate the necessary files and structure for each new tool prompt given. Only use advanced code snippets while maintaining simplicity in the code. Remember not to create new files for each section of the entire website to fix errors.
 
 ---
 

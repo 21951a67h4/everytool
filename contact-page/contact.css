@@ -1,12 +1,16 @@
 /* Base Styles */
 :root {
-  --primary-color: #3498db;
-  --secondary-color: #2c3e50;
-  --accent-color: #e74c3c;
+  --primary-color: #4361ee;
+  --primary-light: #5e72eb;
+  --primary-dark: #3a56d4;
+  --secondary-color: #06d6a0;
+  --secondary-light: #3de2b2;
+  --secondary-dark: #05b485;
+  --accent-color: #ef476f;
   --light-gray: #f4f4f4;
   --medium-gray: #ddd;
   --dark-gray: #333;
-  --text-color: #2c3e50;
+  --text-color: #2b2d42;
   --white: #ffffff;
   --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   --border-radius: 5px;

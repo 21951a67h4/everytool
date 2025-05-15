@@ -5,15 +5,18 @@
 
 /* ===== Base Styles ===== */
 :root {
-    --primary-color: #3498db;
-    --primary-dark: #2980b9;
-    --secondary-color: #2ecc71;
-    --accent-color: #e74c3c;
-    --text-color: #333;
-    --text-light: #666;
+    --primary-color: #4361ee;
+    --primary-light: #5e72eb;
+    --primary-dark: #3a56d4;
+    --secondary-color: #06d6a0;
+    --secondary-light: #3de2b2;
+    --secondary-dark: #05b485;
+    --accent-color: #ef476f;
+    --text-color: #2b2d42;
+    --text-light: #6c757d;
     --light-gray: #f5f5f5;
-    --border-color: #ddd;
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-color: #e9ecef;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     --transition-speed: 0.3s;
 }
 
