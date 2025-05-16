@@ -24,12 +24,18 @@
         <section class="hero section-animate">
             <div id="particles-background" class="particles"></div>
             <h1 class="animate-element">Free Online Tools for Everyone</h1>
-            <h2 class="animate-element">Simple. Fast. Free. No ads or registration required.</h2>
-            
-            <div class="search-wrapper animate-element">
-                <!-- The search input will be replaced by our enhanced search UI -->
-                <input type="text" id="search-input" placeholder="Looking for a tool?">
-                <input type="submit" value="Search">
+            <h2 class="animate-element">Simple. Fast. Free. No ads or registration required.</h2>              <div class="search-wrapper animate-element">
+                <!-- Enhanced search UI with structured layout -->
+                <div class="search-box">
+                    <input type="text" id="tool-search" placeholder="Looking for a tool?" aria-label="Search for tools">
+                    <i class="fas fa-microphone" aria-label="Search by voice"></i>
+                    <button type="submit" aria-label="Submit search">Search</button>
+                </div>                <div id="search-status" class="search-status" aria-live="assertive"><!-- Status updates will appear here --></div>
+                <div id="search-error" class="search-error" aria-hidden="true"><!-- Error messages will appear here --></div>
+                <div class="search-suggestions" aria-live="polite"></div>
+                <section id="search-results" class="search-results" aria-live="polite">
+                    <p class="placeholder-message">Search results will appear here.</p>
+                </section>
             </div>
         </section>
 
@@ -67,6 +73,7 @@
         <p>&copy; 2023 EveryTool. All rights reserved.</p>
     </footer>
 
+    <script src="utils.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

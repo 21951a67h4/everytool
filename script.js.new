@@ -1,0 +1,1167 @@
+/**
+ * EveryTool - Free online tools collection
+ * Main JavaScript file for the website functionality
+ * 
+ * This file handles all interactive features including:
+ * - Search functionality with advanced features
+ * - UI animations and enhancements
+ * - Tool filtering and discovery
+ */
+
+// Sample tools data (this would be replaced by your actual tools database)
+const toolsData = [
+  {
+    id: 1,
+    name: 'Age Calculator',
+    category: 'calculator',
+    description: 'Calculate age based on birthdate and another date',
+    icon: 'fa-calendar-alt',
+    url: '/calculator/age-calculator/',
+    tags: ['age', 'birthday', 'date', 'time', 'years', 'months', 'days']
+  },
+  {
+    id: 2,
+    name: 'BMI Calculator',
+    category: 'calculator',
+    description: 'Calculate your Body Mass Index',
+    icon: 'fa-weight',
+    url: '/calculator/bmi-calculator/',
+    tags: ['bmi', 'health', 'weight', 'height', 'body mass index']
+  },
+  {
+    id: 3,
+    name: 'Currency Converter',
+    category: 'converter',
+    description: 'Convert between different currencies with live rates',
+    icon: 'fa-dollar-sign',
+    url: '/converter/currency-converter/',
+    tags: ['currency', 'money', 'forex', 'exchange', 'rate', 'dollar', 'euro']
+  },
+  {
+    id: 4,
+    name: 'Unit Converter',
+    category: 'converter',
+    description: 'Convert between different measurement units',
+    icon: 'fa-ruler',
+    url: '/converter/unit-converter/',
+    tags: ['length', 'weight', 'volume', 'temperature', 'metric', 'imperial']
+  },
+  {
+    id: 5,
+    name: 'Password Generator',
+    category: 'generator',
+    description: 'Generate secure, random passwords',
+    icon: 'fa-key',
+    url: '/generator/password-generator/',
+    tags: ['password', 'security', 'random', 'secure', 'generator']
+  },
+  {
+    id: 6,
+    name: 'QR Code Generator',
+    category: 'generator',
+    description: 'Create QR codes for URLs, text, or contact information',
+    icon: 'fa-qrcode',
+    url: '/generator/qr-code-generator/',
+    tags: ['qr', 'code', 'url', 'scan', 'mobile']
+  },
+  {
+    id: 7,
+    name: 'Meta Tag Generator',
+    category: 'seo',
+    description: 'Generate meta tags for better SEO',
+    icon: 'fa-code',
+    url: '/seo/meta-tag-generator/',
+    tags: ['meta', 'tags', 'seo', 'html', 'website', 'optimization']
+  },
+  {
+    id: 8,
+    name: 'Keyword Density Checker',
+    category: 'seo',
+    description: 'Check keyword density for SEO optimization',
+    icon: 'fa-percentage',
+    url: '/seo/keyword-density-checker/',
+    tags: ['keywords', 'seo', 'density', 'content', 'optimization']
+  },
+  {
+    id: 9,
+    name: 'Mortgage Calculator',
+    category: 'calculator',
+    description: 'Calculate monthly mortgage payments and interest',
+    icon: 'fa-home',
+    url: '/calculator/mortgage-calculator/',
+    tags: ['mortgage', 'loan', 'home', 'interest', 'payment', 'finance']
+  },
+  {
+    id: 10,
+    name: 'Percentage Calculator',
+    category: 'calculator',
+    description: 'Calculate percentages, increases, and decreases',
+    icon: 'fa-percent',
+    url: '/calculator/percentage-calculator/',
+    tags: ['percent', 'percentage', 'discount', 'increase', 'decrease', 'math']
+  },
+  {
+    id: 11,
+    name: 'Color Converter',
+    category: 'converter',
+    description: 'Convert between RGB, HEX, HSL and other color formats',
+    icon: 'fa-palette',
+    url: '/converter/color-converter/',
+    tags: ['color', 'rgb', 'hex', 'hsl', 'design', 'web']
+  },
+  {
+    id: 12,
+    name: 'UUID Generator',
+    category: 'generator',
+    description: 'Generate random UUID/GUID values',
+    icon: 'fa-fingerprint',
+    url: '/generator/uuid-generator/',
+    tags: ['uuid', 'guid', 'id', 'unique', 'identifier']
+  }
+];
+
+/**
+ * Document ready handler
+ */
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize all UI components
+  initParticlesBackground();
+  initHeaderAnimations();
+  initSearchUI();
+  initSearchFunctionality();
+  initAccordion();
+});
+
+/**
+ * Hero section particles background effect
+ */
+function createParticle(container) {
+  // Create different types of particles for visual variety
+  const particleTypes = ['particle-dot', 'particle-circle', 'particle-square', 'particle-gradient'];
+  const particle = document.createElement('div');
+  particle.classList.add('particle');
+  
+  // Randomly select particle type
+  const particleType = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+  particle.classList.add(particleType);
+  
+  // Random properties with wider ranges for more variety
+  const size = Math.random() * 35 + 5; // 5-40px
+  const posX = Math.random() * 100;
+  const posY = Math.random() * 100;
+  const delay = Math.random() * 8; // Longer delays for more natural feel
+  const duration = Math.random() * 20 + 15; // 15-35s for slower, more gentle movement
+  
+  // Random movement pattern variables
+  const x1 = (Math.random() * 40 - 20) + 'px'; // Random x movement
+  const y1 = (Math.random() * 40 - 20) + 'px'; // Random y movement
+  const x2 = (Math.random() * 60 - 30) + 'px';
+  const y2 = (Math.random() * 60 - 30) + 'px';
+  const x3 = (Math.random() * 40 - 20) + 'px';
+  const y3 = (Math.random() * 40 - 20) + 'px';
+  
+  // Random rotation and scale for more dynamic motion
+  const r1 = Math.random() * 20 - 10 + 'deg';
+  const r2 = Math.random() * 40 - 20 + 'deg';
+  const r3 = Math.random() * 20 - 10 + 'deg';
+  
+  const s1 = 0.8 + Math.random() * 0.4;
+  const s2 = 0.8 + Math.random() * 0.6;
+  const s3 = 0.9 + Math.random() * 0.3;
+  
+  // Custom opacity based on size (smaller particles less opaque)
+  const maxOpacity = Math.min(0.2 + (size / 60), 0.5);
+  const peakOpacity = Math.min(maxOpacity + 0.2, 0.6);
+  
+  // Apply styles and custom properties for animations
+  particle.style.width = `${size}px`;
+  particle.style.height = `${size}px`;
+  particle.style.left = `${posX}%`;
+  particle.style.top = `${posY}%`;
+  particle.style.animationDelay = `${delay}s`;
+  particle.style.animationDuration = `${duration}s, ${duration * 0.8}s`; // Different durations for float and fade
+  
+  // Set custom properties for animation keyframes
+  particle.style.setProperty('--x1', x1);
+  particle.style.setProperty('--y1', y1);
+  particle.style.setProperty('--x2', x2);
+  particle.style.setProperty('--y2', y2);
+  particle.style.setProperty('--x3', x3);
+  particle.style.setProperty('--y3', y3);
+  particle.style.setProperty('--r1', r1);
+  particle.style.setProperty('--r2', r2);
+  particle.style.setProperty('--r3', r3);
+  particle.style.setProperty('--s1', s1);
+  particle.style.setProperty('--s2', s2);
+  particle.style.setProperty('--s3', s3);
+  particle.style.setProperty('--max-opacity', maxOpacity);
+  particle.style.setProperty('--peak-opacity', peakOpacity);
+  
+  // Add particle to container
+  container.appendChild(particle);
+}
+
+/**
+ * Initialize particle background
+ */
+function initParticlesBackground() {
+  const particlesContainer = document.getElementById('particles-background');
+  if (!particlesContainer) return;
+  
+  // Clear any existing particles
+  particlesContainer.innerHTML = '';
+  
+  // Create shimmer effect overlay
+  const shimmer = document.createElement('div');
+  shimmer.classList.add('particle-shimmer');
+  particlesContainer.appendChild(shimmer);
+  
+  // Create a set of particles
+  const particleCount = Math.min(30, Math.floor(window.innerWidth / 50)); // Responsive particle count
+  for (let i = 0; i < particleCount; i++) {
+    createParticle(particlesContainer);
+  }
+  
+  // Add resize handler to maintain proper particle density
+  window.addEventListener('resize', function() {
+    // Only recreate if the width change is significant
+    if (Math.abs(window.innerWidth - lastWidth) > 200) {
+      lastWidth = window.innerWidth;
+      initParticlesBackground();
+    }
+  });
+  
+  // Store current width for resize comparison
+  lastWidth = window.innerWidth;
+}
+
+// Track window width to optimize resize handling
+let lastWidth = window.innerWidth;
+
+/**
+ * Advanced placeholder cycling for search input
+ * @param {HTMLElement} input - The search input element
+ */
+function initPlaceholderCycling(input) {
+  if (!input) return;
+  
+  const placeholders = [
+    'Search for a tool...',
+    'Try "password generator"...',
+    'Need a "currency converter"?',
+    'Looking for a "BMI calculator"?',
+    'Try "color converter"...'
+  ];
+  
+  let currentPlaceholder = 0;
+  
+  // Change placeholder if not focused, with improved animation
+  const cyclePlaceholders = () => {
+    if (document.activeElement !== input) {
+      // Fade out
+      input.style.opacity = '0.7';
+      
+      setTimeout(() => {
+        // Update placeholder text
+        currentPlaceholder = (currentPlaceholder + 1) % placeholders.length;
+        input.setAttribute('placeholder', placeholders[currentPlaceholder]);
+        
+        // Fade back in
+        input.style.opacity = '1';
+      }, 300);
+    }
+  };
+  
+  // Start cycling placeholders after initial delay
+  setTimeout(() => {
+    setInterval(cyclePlaceholders, 3500);
+  }, 3000);
+}
+
+/**
+ * Enhanced typing particle effect manager for better performance
+ */
+class InputParticleManager {
+  constructor(container) {
+    this.container = container;
+    this.particlePool = [];
+    this.maxPoolSize = 20; // Limit particles for performance
+    this.active = false;
+    this.createParticlePool();
+  }
+  
+  createParticlePool() {
+    // Create reusable particles
+    for (let i = 0; i < this.maxPoolSize; i++) {
+      const particle = document.createElement('span');
+      particle.className = 'input-particle';
+      particle.style.display = 'none';
+      this.container.appendChild(particle);
+      this.particlePool.push(particle);
+    }
+  }
+  
+  getParticle() {
+    // Find an available particle from the pool
+    for (let i = 0; i < this.particlePool.length; i++) {
+      const particle = this.particlePool[i];
+      if (particle.style.display === 'none') {
+        return particle;
+      }
+    }
+    
+    // If no particles available, return the first one (recycle)
+    return this.particlePool[0];
+  }
+  
+  createParticle() {
+    if (!this.active) return;
+    
+    const particle = this.getParticle();
+    particle.style.display = 'block';
+    particle.style.left = `${Math.random() * 100}%`;
+    
+    // Add random size, color, and position variations
+    const size = 4 + Math.random() * 8;
+    const hue = Math.random() > 0.5 ? '215' : '160'; // Primary or secondary color hue
+    const top = 25 + Math.random() * 30;
+    
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.backgroundColor = `hsla(${hue}, 80%, 60%, 0.6)`;
+    particle.style.top = `${top}%`;
+    
+    // Return particle to pool after animation
+    setTimeout(() => {
+      particle.style.display = 'none';
+    }, 600);
+  }
+  
+  start() {
+    this.active = true;
+  }
+  
+  stop() {
+    this.active = false;
+  }
+  
+  // Clean up method to remove all particles
+  destroy() {
+    this.particlePool.forEach(particle => {
+      if (particle.parentNode) {
+        particle.parentNode.removeChild(particle);
+      }
+    });
+    this.particlePool = [];
+  }
+}
+
+/**
+ * Initialize dynamic search suggestions with animations
+ */
+function initDynamicSuggestions() {
+  const searchInput = document.getElementById('tool-search');
+  const searchBox = document.querySelector('.search-box');
+  
+  if (!searchInput) return;
+  
+  // Create or get suggestions container
+  let suggestionsContainer = document.querySelector('.search-suggestions');
+  if (!suggestionsContainer) {
+    suggestionsContainer = document.createElement('div');
+    suggestionsContainer.className = 'search-suggestions';
+    suggestionsContainer.setAttribute('aria-live', 'polite');
+    suggestionsContainer.setAttribute('role', 'listbox');
+    if (searchBox) searchBox.appendChild(suggestionsContainer);
+  }
+  
+  // Handle showing suggestions when typing
+  searchInput.addEventListener('input', function() {
+    const query = this.value.toLowerCase().trim();
+    const selectedCategory = document.querySelector('.filter-btn.active')?.dataset.category || 'all';
+    
+    // Clear suggestions when query is too short
+    if (query.length < 2) {
+      hideSuggestions();
+      return;
+    }
+    
+    // Get matches filtered by category
+    const matches = toolsData.filter(tool => {
+      const categoryMatch = selectedCategory === 'all' || tool.category === selectedCategory;
+      if (!categoryMatch) return false;
+      
+      // Check for matches in name, description, and tags
+      const nameMatch = tool.name.toLowerCase().includes(query);
+      const descMatch = tool.description.toLowerCase().includes(query);
+      const tagMatch = tool.tags.some(tag => tag.includes(query));
+      
+      return nameMatch || descMatch || tagMatch;
+    }).slice(0, 6); // Limit to avoid overwhelming the user
+    
+    // Update the suggestions display
+    updateSuggestions(matches, query);
+  });
+  
+  // Function to update suggestions
+  function updateSuggestions(matches, query) {
+    suggestionsContainer.innerHTML = '';
+    
+    if (matches.length > 0) {
+      // Show container with animation
+      suggestionsContainer.style.display = 'block';
+      setTimeout(() => {
+        suggestionsContainer.classList.add('visible');
+      }, 10);
+      
+      // Add each suggestion with staggered animation
+      matches.forEach((match, index) => {
+        const suggestion = createSuggestionElement(match, query, index);
+        suggestionsContainer.appendChild(suggestion);
+      });
+    } else if (query.length >= 2) {
+      // Show "no results" message
+      suggestionsContainer.style.display = 'block';
+      setTimeout(() => {
+        suggestionsContainer.classList.add('visible');
+      }, 10);
+      
+      const noResults = document.createElement('div');
+      noResults.className = 'suggestion-item no-results';
+      noResults.innerHTML = `<span class="no-results-icon"><i class="fas fa-search"></i></span> No matching tools found for "${query}"`;
+      noResults.style.opacity = '0';
+      noResults.style.transform = 'translateY(10px)';
+      
+      suggestionsContainer.appendChild(noResults);
+      
+      // Animate in
+      setTimeout(() => {
+        noResults.style.opacity = '1';
+        noResults.style.transform = 'translateY(0)';
+        noResults.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      }, 50);
+    }
+  }
+  
+  // Function to create a suggestion element
+  function createSuggestionElement(tool, query, index) {
+    const suggestion = document.createElement('div');
+    suggestion.className = 'suggestion-item';
+    suggestion.setAttribute('role', 'option');
+    suggestion.style.opacity = '0';
+    suggestion.style.transform = 'translateY(10px)';
+    
+    // Create icon element with tool's icon
+    const iconSpan = document.createElement('span');
+    iconSpan.className = 'suggestion-icon';
+    iconSpan.innerHTML = `<i class="fas ${tool.icon}"></i>`;
+    
+    // Create content container
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'suggestion-content';
+    
+    // Add tool name with highlighted query
+    const nameEl = document.createElement('div');
+    nameEl.className = 'suggestion-name';
+    const nameParts = tool.name.split(new RegExp(`(${query})`, 'i'));
+    let nameHTML = '';
+    nameParts.forEach(part => {
+      if (part.toLowerCase() === query.toLowerCase()) {
+        nameHTML += `<strong>${part}</strong>`;
+      } else {
+        nameHTML += part;
+      }
+    });
+    nameEl.innerHTML = nameHTML;
+    
+    // Add description (truncated if needed)
+    const descEl = document.createElement('div');
+    descEl.className = 'suggestion-description';
+    let desc = tool.description;
+    if (desc.length > 60) {
+      desc = desc.substring(0, 57) + '...';
+    }
+    descEl.textContent = desc;
+    
+    // Add category badge
+    const categoryEl = document.createElement('span');
+    categoryEl.className = 'suggestion-category';
+    categoryEl.textContent = tool.category.charAt(0).toUpperCase() + tool.category.slice(1);
+    
+    // Assemble the suggestion elements
+    contentDiv.appendChild(nameEl);
+    contentDiv.appendChild(descEl);
+    suggestion.appendChild(iconSpan);
+    suggestion.appendChild(contentDiv);
+    suggestion.appendChild(categoryEl);
+    
+    // Add hover effect
+    suggestion.addEventListener('mouseenter', function() {
+      // Clear focused class from all suggestions
+      document.querySelectorAll('.suggestion-item').forEach(item => {
+        item.classList.remove('focused');
+      });
+      
+      // Apply focus to this suggestion
+      this.classList.add('focused');
+      this.style.backgroundColor = 'rgba(67, 97, 238, 0.05)';
+      iconSpan.style.transform = 'scale(1.1)';
+    });
+    
+    suggestion.addEventListener('mouseleave', function() {
+      this.style.backgroundColor = '';
+      this.classList.remove('focused');
+      iconSpan.style.transform = '';
+    });
+    
+    // Navigate to tool on click
+    suggestion.addEventListener('click', () => {
+      // Add click effect
+      suggestion.style.backgroundColor = 'rgba(67, 97, 238, 0.15)';
+      
+      // Track this search
+      trackSearch(tool.name.toLowerCase());
+      
+      // Show status and redirect
+      showSearchStatus(`Opening ${tool.name}...`);
+      
+      setTimeout(() => {
+        window.location.href = tool.url;
+      }, 300);
+    });
+    
+    // Staggered animations
+    setTimeout(() => {
+      suggestion.style.opacity = '1';
+      suggestion.style.transform = 'translateY(0)';
+      suggestion.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    }, index * 50); // Stagger by 50ms per item
+    
+    return suggestion;
+  }
+  
+  // Function to hide suggestions
+  function hideSuggestions() {
+    suggestionsContainer.classList.remove('visible');
+    setTimeout(() => {
+      suggestionsContainer.style.display = 'none';
+      suggestionsContainer.innerHTML = '';
+    }, 300); // Wait for fade-out transition
+  }
+}
+
+/**
+ * Initialize the search user interface components
+ */
+function initSearchUI() {
+  try {
+    const searchInput = document.getElementById('tool-search');
+    const searchBox = document.querySelector('.search-box');
+    const searchButton = document.querySelector('.search-submit-btn');
+    const voiceButton = document.getElementById('voice-search');
+    const searchTags = document.querySelectorAll('.search-tag-btn');
+    
+    if (!searchInput || !searchBox) {
+      console.warn('Search elements not found in the DOM, aborting search UI initialization');
+      return;
+    }
+    
+    console.log('Initializing enhanced search UI');
+    
+    // Create and initialize particle manager for typing effects
+    const particleManager = new InputParticleManager(searchBox);
+    
+    // Add focus effects with subtle animation
+    searchInput.addEventListener('focus', function() {
+      searchBox.classList.add('search-focused');
+      particleManager.start();
+      
+      // Apply subtle animation
+      this.style.transform = 'translateX(5px)';
+      setTimeout(() => {
+        this.style.transform = '';
+      }, 300);
+    });
+    
+    searchInput.addEventListener('blur', function() {
+      setTimeout(() => {
+        // Only remove if we're not focusing on something inside the search box
+        if (!searchBox.contains(document.activeElement)) {
+          searchBox.classList.remove('search-focused');
+          particleManager.stop();
+        }
+      }, 150);
+    });
+    
+    // Add typing particle effect with improved performance
+    searchInput.addEventListener('input', function(e) {
+      if (this.value.trim().length > 0 && e.inputType !== 'deleteContentBackward') {
+        particleManager.createParticle();
+      }
+    });
+    
+    // Set up search button with ripple effect
+    if (searchButton) {
+      searchButton.addEventListener('click', function(e) {
+        // Create ripple effect
+        const ripple = document.createElement('span');
+        ripple.classList.add('btn-ripple');
+        
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height) * 2;
+        
+        // Calculate ripple position
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = `${size}px`;
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        
+        this.appendChild(ripple);
+        
+        // Remove ripple after animation
+        setTimeout(() => {
+          ripple.remove();
+        }, 700);
+        
+        // Trigger search
+        performSearch();
+      });
+    }
+    
+    // Set up voice button with ripple and interactive effects
+    if (voiceButton) {
+      voiceButton.addEventListener('mouseenter', function() {
+        if (!this.classList.contains('listening')) {
+          this.style.transform = 'translateY(-2px)';
+          this.style.boxShadow = '0 6px 15px rgba(67, 97, 238, 0.25)';
+        }
+      });
+      
+      voiceButton.addEventListener('mouseleave', function() {
+        if (!this.classList.contains('listening')) {
+          this.style.transform = '';
+          this.style.boxShadow = '';
+        }
+      });
+      
+      // Add ripple effect on click
+      voiceButton.addEventListener('click', function(e) {
+        if (!this.classList.contains('listening')) {
+          // Create ripple effect
+          const ripple = document.createElement('span');
+          ripple.classList.add('btn-ripple');
+          
+          const rect = this.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height) * 2;
+          
+          ripple.style.width = ripple.style.height = `${size}px`;
+          ripple.style.left = `${(e.clientX - rect.left - size / 2)}px`;
+          ripple.style.top = `${(e.clientY - rect.top - size / 2)}px`;
+          
+          this.appendChild(ripple);
+          
+          // Remove ripple after animation
+          setTimeout(() => ripple.remove(), 700);
+          
+          // Initialize voice search
+          initVoiceSearch();
+        }
+      });
+    }
+    
+    // Set up search tags with typing animation
+    if (searchTags && searchTags.length > 0) {
+      searchTags.forEach(tag => {
+        // Add hover effects
+        tag.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-2px)';
+          this.style.boxShadow = '0 4px 8px rgba(67, 97, 238, 0.15)';
+        });
+        
+        tag.addEventListener('mouseleave', function() {
+          this.style.transform = '';
+          this.style.boxShadow = '';
+        });
+        
+        // Add click with typing animation
+        tag.addEventListener('click', function() {
+          // Add click animation
+          this.classList.add('tag-clicked');
+          setTimeout(() => this.classList.remove('tag-clicked'), 500);
+          
+          const tagValue = this.getAttribute('data-tag');
+          if (!tagValue) return;
+          
+          // Focus the search input
+          searchInput.focus();
+          searchBox.classList.add('search-focused');
+          particleManager.start();
+          
+          // Clear current input
+          searchInput.value = '';
+          
+          // Animate typing effect with particles
+          let index = 0;
+          const typingSpeed = 50; // ms between characters
+          
+          function typeNextChar() {
+            if (index < tagValue.length) {
+              searchInput.value += tagValue.charAt(index);
+              
+              // Create particle effect for each character
+              particleManager.createParticle();
+              
+              index++;
+              setTimeout(typeNextChar, typingSpeed);
+            } else {
+              // Trigger input event when done typing
+              const inputEvent = new Event('input', { bubbles: true });
+              searchInput.dispatchEvent(inputEvent);
+              
+              // Add finishing animation
+              searchInput.classList.add('typing-complete');
+              setTimeout(() => {
+                searchInput.classList.remove('typing-complete');
+              }, 500);
+            }
+          }
+          
+          // Start typing with a small delay
+          setTimeout(typeNextChar, 100);
+        });
+      });
+    }
+    
+    // Start the dynamic placeholder cycling
+    initPlaceholderCycling(searchInput);
+    
+    // Initialize dynamic suggestions
+    initDynamicSuggestions();
+    
+  } catch (error) {
+    console.error('Error initializing search UI:', error);
+  }
+}
+
+/**
+ * Initialize the voice search functionality
+ */
+function initVoiceSearch() {
+  const voiceButton = document.getElementById('voice-search');
+  const searchInput = document.getElementById('tool-search');
+  
+  if (!voiceButton || !searchInput) return;
+  if (!window.webkitSpeechRecognition && !window.SpeechRecognition) {
+    console.warn('Speech recognition not supported in this browser');
+    voiceButton.style.display = 'none';
+    return;
+  }
+  
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
+  
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+  
+  // Start listening when voice button is clicked
+  voiceButton.addEventListener('click', function() {
+    if (this.classList.contains('listening')) {
+      recognition.stop();
+      return;
+    }
+    
+    // Clear previous results
+    searchInput.value = '';
+    
+    // Start pulsing animation
+    this.classList.add('listening');
+    searchInput.setAttribute('placeholder', 'Listening...');
+    
+    // Start recognition
+    recognition.start();
+    
+    // Show feedback
+    showSearchStatus('Listening for voice input...');
+  });
+  
+  // Process speech recognition results
+  recognition.onresult = function(event) {
+    const transcript = Array.from(event.results)
+      .map(result => result[0])
+      .map(result => result.transcript)
+      .join('');
+    
+    searchInput.value = transcript;
+    
+    // If we have final results, trigger search
+    if (event.results[0].isFinal) {
+      showSearchStatus('Voice input received');
+    }
+  };
+  
+  // Handle end of speech recognition
+  recognition.onend = function() {
+    voiceButton.classList.remove('listening');
+    searchInput.setAttribute('placeholder', 'Search for a tool...');
+    
+    // If we have text, perform search
+    if (searchInput.value.trim().length > 0) {
+      performSearch();
+    } else {
+      showSearchError('No voice input detected. Please try again.');
+    }
+  };
+  
+  // Handle errors
+  recognition.onerror = function(event) {
+    voiceButton.classList.remove('listening');
+    searchInput.setAttribute('placeholder', 'Search for a tool...');
+    
+    if (event.error === 'no-speech') {
+      showSearchError('No voice input detected. Please try again.');
+    } else {
+      showSearchError('Voice recognition error. Please try typing instead.');
+    }
+  };
+}
+
+/**
+ * Helper functions for search status and errors
+ */
+function showSearchStatus(message) {
+  const searchStatus = document.getElementById('search-status');
+  if (!searchStatus) return;
+  
+  searchStatus.textContent = message;
+  searchStatus.classList.add('visible');
+}
+
+function showSearchError(message) {
+  const searchError = document.getElementById('search-error');
+  if (!searchError) return;
+  
+  searchError.textContent = message;
+  searchError.classList.add('visible');
+  
+  // Vibration feedback if supported
+  if (navigator.vibrate) {
+    navigator.vibrate(100);
+  }
+  
+  // Auto-hide error after 5 seconds
+  setTimeout(() => {
+    clearSearchError();
+  }, 5000);
+}
+
+function clearSearchError() {
+  const searchError = document.getElementById('search-error');
+  const searchStatus = document.getElementById('search-status');
+  
+  if (searchError) {
+    searchError.textContent = '';
+    searchError.classList.remove('visible');
+  }
+  
+  // Also clear status
+  if (searchStatus) {
+    searchStatus.textContent = '';
+    searchStatus.classList.remove('visible');
+  }
+}
+
+/**
+ * Track recent searches in localStorage
+ */
+function trackSearch(query) {
+  if (!query || query.length < 2) return;
+  
+  try {
+    // Get existing searches from localStorage
+    let recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+    
+    // Add the new search at the beginning (if not already present)
+    if (!recentSearches.includes(query)) {
+      recentSearches.unshift(query);
+      
+      // Keep only the last 5 searches
+      recentSearches = recentSearches.slice(0, 5);
+      
+      // Save back to localStorage
+      localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+    }
+  } catch (error) {
+    console.warn('Error saving recent searches:', error);
+  }
+}
+
+/**
+ * Display recent searches to the user
+ */
+function showRecentSearches() {
+  try {
+    const suggestionsContainer = document.querySelector('.search-suggestions');
+    if (!suggestionsContainer) return;
+    
+    // Get recent searches
+    const recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+    if (recentSearches.length === 0) return;
+    
+    // Clear and show container
+    suggestionsContainer.innerHTML = '';
+    suggestionsContainer.style.display = 'block';
+    setTimeout(() => {
+      suggestionsContainer.classList.add('visible');
+    }, 10);
+    
+    // Add heading
+    const heading = document.createElement('div');
+    heading.className = 'suggestions-heading';
+    heading.innerHTML = '<i class="fas fa-history"></i> Recent Searches';
+    suggestionsContainer.appendChild(heading);
+    
+    // Add each recent search
+    recentSearches.forEach((search, index) => {
+      const item = document.createElement('div');
+      item.className = 'suggestion-item recent-search';
+      
+      // Create suggestion content
+      const iconSpan = document.createElement('span');
+      iconSpan.className = 'suggestion-icon';
+      iconSpan.innerHTML = '<i class="fas fa-search"></i>';
+      
+      const textSpan = document.createElement('span');
+      textSpan.className = 'suggestion-text';
+      textSpan.textContent = search;
+      
+      item.appendChild(iconSpan);
+      item.appendChild(textSpan);
+      
+      // Add click handler
+      item.addEventListener('click', () => {
+        const searchInput = document.getElementById('tool-search');
+        if (searchInput) {
+          searchInput.value = search;
+          performSearch();
+        }
+      });
+      
+      // Add with staggered animation
+      item.style.opacity = '0';
+      item.style.transform = 'translateY(10px)';
+      suggestionsContainer.appendChild(item);
+      
+      setTimeout(() => {
+        item.style.opacity = '1';
+        item.style.transform = 'translateY(0)';
+        item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      }, index * 50);
+    });
+  } catch (error) {
+    console.warn('Error showing recent searches:', error);
+  }
+}
+
+/**
+ * Find the best matching tool based on search query
+ */
+function findBestMatchingTool(query) {
+  if (!query || !toolsData) return null;
+  
+  query = query.toLowerCase().trim();
+  
+  // First try exact matches on name
+  let match = toolsData.find(tool => 
+    tool.name.toLowerCase() === query
+  );
+  
+  // Then try contains in name
+  if (!match) {
+    match = toolsData.find(tool => 
+      tool.name.toLowerCase().includes(query)
+    );
+  }
+  
+  // Then try tags
+  if (!match) {
+    match = toolsData.find(tool => 
+      tool.tags.some(tag => tag.includes(query))
+    );
+  }
+  
+  // Finally try description
+  if (!match) {
+    match = toolsData.find(tool => 
+      tool.description.toLowerCase().includes(query)
+    );
+  }
+  
+  return match;
+}
+
+/**
+ * Perform search functionality
+ */
+function performSearch() {
+  const searchInput = document.getElementById('tool-search');
+  if (!searchInput) return;
+  
+  // Clear previous error messages
+  clearSearchError();
+  
+  const query = searchInput.value.trim().toLowerCase();
+  if (query.length === 0) {
+    showSearchError('Please enter a search term');
+    searchInput.focus();
+    return;
+  }
+  
+  // Show searching status
+  showSearchStatus('Searching...');
+  
+  // Track this search in recent searches
+  trackSearch(query);
+  
+  // Find the first matching tool and redirect to it
+  const matchingTool = findBestMatchingTool(query);
+  if (matchingTool) {
+    showSearchStatus('Tool found! Redirecting...');
+    setTimeout(() => {
+      window.location.href = matchingTool.url;
+    }, 500);
+  } else {
+    showSearchError('No matching tools found. Try another search term.');
+    showRecentSearches(); // Show recent searches as suggestions
+  }
+}
+
+/**
+ * Initialize search functionality
+ */
+function initSearchFunctionality() {
+  const searchInput = document.getElementById('tool-search');
+  const searchButton = document.querySelector('.search-submit-btn') || document.querySelector('.search-button');
+  
+  // Event listeners for search functionality
+  if (searchButton) {
+    searchButton.addEventListener('click', performSearch);
+  }
+  
+  if (searchInput) {
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+  }
+}
+
+/**
+ * Initialize header animations
+ */
+function initHeaderAnimations() {
+  const header = document.querySelector('header');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const logo = document.querySelector('.logo');
+  const logoDot = document.querySelector('.logo-dot');
+  
+  // Add loading class to enable animations
+  if (header) {
+    header.classList.add('header-loading');
+  }
+  
+  // Initial animations for header elements
+  if (logo) {
+    logo.style.opacity = '0';
+    logo.style.transform = 'translateY(-20px)';
+    setTimeout(() => {
+      logo.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      logo.style.opacity = '1';
+      logo.style.transform = 'translateY(0)';
+    }, 300);
+  }
+  
+  // Animate nav links with staggered delay
+  navLinks.forEach((link, index) => {
+    link.style.opacity = '0';
+    link.style.transform = 'translateY(-20px)';
+    setTimeout(() => {
+      link.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      link.style.opacity = '1';
+      link.style.transform = 'translateY(0)';
+    }, 300 + index * 100);
+  });
+}
+
+/**
+ * Initialize accordion functionality
+ */
+function initAccordion() {
+  const accordionItems = document.querySelectorAll('.accordion-item');
+  
+  accordionItems.forEach(item => {
+    const header = item.querySelector('.accordion-header');
+    const content = item.querySelector('.accordion-content');
+    const icon = item.querySelector('.accordion-icon i');
+    
+    if (!header) return;
+    
+    // Add hover effect
+    header.addEventListener('mouseenter', () => {
+      if (!item.classList.contains('active')) {
+        header.style.backgroundColor = 'var(--background-alt)';
+        if (icon) {
+          icon.style.transform = 'rotate(45deg) scale(1.1)';
+        }
+      }
+    });
+    
+    header.addEventListener('mouseleave', () => {
+      if (!item.classList.contains('active')) {
+        header.style.backgroundColor = '';
+        if (icon) {
+          icon.style.transform = '';
+        }
+      }
+    });
+    
+    header.addEventListener('click', () => {
+      // Check if this item is already active
+      const isActive = item.classList.contains('active');
+      
+      // Close all accordion items with animation
+      accordionItems.forEach(accItem => {
+        const accContent = accItem.querySelector('.accordion-content');
+        const accIcon = accItem.querySelector('.accordion-icon i');
+        
+        if (accItem.classList.contains('active')) {
+          accItem.classList.remove('active');
+          if (accIcon) {
+            accIcon.style.transform = '';
+          }
+        }
+      });
+      
+      // If the clicked item wasn't active, open it with animation
+      if (!isActive) {
+        item.classList.add('active');
+        if (icon) {
+          icon.style.transform = 'rotate(45deg)';
+          icon.style.transition = 'transform 0.3s ease';
+        }
+        
+        // Highlight the content briefly
+        if (content) {
+          content.style.backgroundColor = 'var(--background-alt)';
+          setTimeout(() => {
+            content.style.backgroundColor = '';
+            content.style.transition = 'background-color 1s ease';
+          }, 200);
+        }
+      }
+    });
+  });
+}

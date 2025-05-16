@@ -25,7 +25,7 @@ body {
   margin: 0;
   padding: 0;
   color: var(--text-color);
-  background-color: #f9fafb;
+  background-color: #f9fafb; /* Could define --bg-light-gray for this */
   line-height: 1.6;
 }
 
@@ -33,17 +33,17 @@ body {
 .search-wrapper {
   position: relative;
   width: 100%;
-  max-width: 800px;
-  margin: 20px auto;
+  max-width: 800px; /* Could define --container-width-large for this */
+  margin: 20px auto; /* Could define --spacing-md for this */
 }
 
 /* Enhanced Search UI Styles */
 .search-container {
   position: relative;
-  max-width: 800px;
+  max-width: 800px; /* Could define --container-width-large for this */
   width: 100%;
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 10px 20px; /* Could define --padding-base for this */
   border-radius: var(--border-radius-large);
   background: var(--bg-light);
   box-shadow: var(--shadow-light);
@@ -55,59 +55,59 @@ body {
 
 .search-container:focus-within {
   box-shadow: var(--shadow-dark);
-  transform: translateY(-2px);
+  transform: translateY(-2px); /* Could define --hover-lift for this */
   border: 1px solid var(--primary-medium);
 }
 
 .search-icon {
-  margin-right: 12px;
+  margin-right: 12px; /* Could define --spacing-sm for this */
   color: var(--primary-color);
-  font-size: 18px;
+  font-size: 18px; /* Could define --font-size-md for this */
   display: flex;
   align-items: center;
 }
 
-.search-input {
+.search-input, #tool-search, #search-input {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 12px 5px;
-  font-size: 16px;
+  padding: 12px 5px; /* Could define --input-padding-y and --input-padding-x for these */
+  font-size: 16px; /* Could define --font-size-base for this */
   color: var(--text-color);
   outline: none;
   font-family: inherit;
   width: 100%; /* Ensure the input takes up available space */
 }
 
-.search-input::placeholder {
+.search-input::placeholder, #tool-search::placeholder, #search-input::placeholder {
   color: var(--text-light);
   opacity: 0.7;
   transition: opacity 0.3s ease;
 }
 
-.search-input:focus::placeholder {
+.search-input:focus::placeholder, #tool-search:focus::placeholder, #search-input:focus::placeholder {
   opacity: 0.5;
 }
 
 .search-button {
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
+  color: var(--bg-color); /* Using bg-color as it represents white */
   border: none;
   border-radius: var(--border-radius-large);
-  padding: 10px 20px;
+  padding: 10px 20px; /* Could define --button-padding for this */
   cursor: pointer;
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: 600; /* Could define --font-weight-semibold for this */
+  font-size: 15px; /* Could define --font-size-base for this */
   transition: var(--transition-standard);
   box-shadow: var(--shadow-light);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 8px; /* Could define --spacing-xs for this */
   white-space: nowrap; /* Prevent button text from wrapping */
 }
 
 .search-button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px); /* Could define --hover-lift for this */
   box-shadow: var(--shadow-dark);
 }
 
@@ -117,10 +117,10 @@ body {
 }
 
 .voice-search {
-  margin-right: 10px;
+  margin-right: 10px; /* Could define --spacing-xs for this */
   background: var(--primary-light);
-  width: 36px;
-  height: 36px;
+  width: 36px; /* Could define --icon-size-md for this */
+  height: 36px; /* Could define --icon-size-md for this */
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -131,42 +131,42 @@ body {
 }
 
 .voice-search:hover {
-  background: rgba(67, 97, 238, 0.2);
-  transform: scale(1.05);
+  background: rgba(67, 97, 238, 0.2); /* Could define --primary-hover for this */
+  transform: scale(1.05); /* Could define --hover-scale for this */
 }
 
 .voice-search i {
   color: var(--primary-color);
-  font-size: 16px;
+  font-size: 16px; /* Could define --font-size-base for this */
 }
 
 /* Popular Tags */
 .popular-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 15px;
+  gap: 8px; /* Could define --spacing-xs for this */
+  margin-top: 15px; /* Could define --spacing-sm for this */
   justify-content: center;
 }
 
 .search-tag {
-  padding: 5px 12px;
-  background: rgba(255, 255, 255, 0.7);
+  padding: 5px 12px; /* Could define --tag-padding for this */
+  background: rgba(255, 255, 255, 0.7); /* Could define --bg-translucent for this */
   border-radius: var(--border-radius-medium);
-  font-size: 14px;
+  font-size: 14px; /* Could define --font-size-sm for this */
   color: var(--primary-color);
   cursor: pointer;
   transition: var(--transition-quick);
   border: 1px solid var(--primary-light);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Could define --shadow-xs for this */
   user-select: none; /* Prevent text selection */
 }
 
 .search-tag:hover {
-  background: rgba(255, 255, 255, 0.9);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(67, 97, 238, 0.1);
-  border-color: rgba(67, 97, 238, 0.2);
+  background: rgba(255, 255, 255, 0.9); /* Could define --bg-translucent-hover for this */
+  transform: translateY(-2px); /* Could define --hover-lift for this */
+  box-shadow: 0 4px 8px rgba(67, 97, 238, 0.1); /* Could use var(--shadow-light) but values differ slightly */
+  border-color: rgba(67, 97, 238, 0.2); /* Could define --primary-border-light for this */
 }
 
 .search-tag.tag-clicked {
@@ -182,36 +182,42 @@ body {
 /* Autocomplete suggestions */
 .search-suggestions {
   position: absolute;
-  top: calc(100% + 5px);
+  top: calc(100% + 5px); /* Could define --spacing-xs for this */
   left: 0;
   right: 0;
-  background: white;
+  background: var(--bg-color);
   border-radius: var(--border-radius-small);
   box-shadow: var(--shadow-medium);
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-10px); /* Could define --offset-sm for this */
   pointer-events: none;
-  z-index: 100;
+  z-index: 100; /* Could define --z-index-dropdown for this */
   overflow: hidden;
-  max-height: 300px;
+  max-height: 300px; /* Could define --max-height-dropdown for this */
   overflow-y: auto;
   transition: var(--transition-standard);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin-top: 8px;
+}
+
+/* Common visibility class for animations */
+.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .search-suggestions.visible {
-  opacity: 1;
-  transform: translateY(0);
   pointer-events: auto;
 }
 
 .suggestion-item {
-  padding: 12px 15px;
+  padding: 12px 15px; /* Could define --padding-base for this */
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 12px; /* Could define --spacing-sm for this */
   cursor: pointer;
   transition: background-color 0.2s ease;
-  border-bottom: 1px solid #f0f4f9;
+  border-bottom: 1px solid #f0f4f9; /* Could define --border-light for this */
 }
 
 .suggestion-item:last-child {
@@ -220,18 +226,19 @@ body {
 
 .suggestion-item:hover, .suggestion-item.focused {
   background-color: var(--primary-light);
+  transform: translateX(3px);
 }
 
 .suggestion-icon {
   color: var(--primary-color);
-  width: 30px;
-  height: 30px;
+  width: 30px; /* Could define --icon-size-small for this */
+  height: 30px; /* Could define --icon-size-small for this */
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--border-radius-small);
   background: var(--primary-light);
-  transition: transform 0.2s ease;
+  transition: transform var(--transition-quick);
   flex-shrink: 0;
 }
 
@@ -241,9 +248,9 @@ body {
 }
 
 .suggestion-name {
-  font-weight: 500;
+  font-weight: 500; /* Could define --font-weight-medium for this */
   color: var(--text-color);
-  margin-bottom: 3px;
+  margin-bottom: 3px; /* Could define --spacing-xs for this */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -254,7 +261,7 @@ body {
 }
 
 .suggestion-description {
-  font-size: 13px;
+  font-size: 13px; /* Could define --font-size-xs for this */
   color: var(--text-light);
   white-space: nowrap;
   overflow: hidden;
@@ -262,8 +269,8 @@ body {
 }
 
 .suggestion-category {
-  font-size: 12px;
-  padding: 3px 8px;
+  font-size: 12px; /* Could define --font-size-xxs for this */
+  padding: 3px 8px; /* Could define --tag-padding-small for this */
   background: var(--primary-light);
   color: var(--primary-color);
   border-radius: var(--border-radius-medium);
@@ -274,37 +281,38 @@ body {
 /* Search status and error messages */
 .search-status, #search-error {
   position: absolute;
-  bottom: -30px;
+  bottom: -30px; /* Could define --offset-lg for this */
   left: 0;
   right: 0;
   text-align: center;
-  font-size: 14px;
+  font-size: 14px; /* Could define --font-size-sm for this */
   transition: var(--transition-standard);
   opacity: 0;
-  transform: translateY(-5px);
+  transform: translateY(-5px); /* Could define --offset-xs for this */
   pointer-events: none;
+  padding: 6px 12px;
+  border-radius: var(--border-radius-small);
+  margin-top: 8px;
+  font-weight: 500;
 }
 
-.search-status.visible {
-  opacity: 1;
-  transform: translateY(0);
+.search-status {
+  color: var(--primary-color);
+  background-color: var(--primary-light);
 }
 
 #search-error {
   color: var(--error-color);
-}
-
-#search-error.visible {
-  opacity: 1;
-  transform: translateY(0);
+  background-color: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.2);
 }
 
 /* Animation for input particles */
 .input-particle {
   position: absolute;
-  width: 6px;
-  height: 6px;
-  background-color: rgba(67, 97, 238, 0.5);
+  width: 6px; /* Could define --particle-size for this */
+  height: 6px; /* Could define --particle-size for this */
+  background-color: rgba(67, 97, 238, 0.5); /* Could define --primary-translucent for this */
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
@@ -315,10 +323,10 @@ body {
 @keyframes particleFloat {
   0% {
     transform: translateY(0) scale(0);
-    opacity: 0.8;
+    opacity: 0.8; /* Could define --opacity-high for this */
   }
   100% {
-    transform: translateY(-20px) scale(1);
+    transform: translateY(-20px) scale(1); /* Could define --animation-distance for this */
     opacity: 0;
   }
 }
@@ -326,7 +334,7 @@ body {
 /* Button ripple effect */
 .btn-ripple {
   position: absolute;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.7); /* Could define --bg-translucent for this */
   border-radius: 50%;
   transform: scale(0);
   animation: ripple 0.6s linear;
@@ -335,56 +343,66 @@ body {
 
 @keyframes ripple {
   to {
-    transform: scale(2.5);
+    transform: scale(2.5); /* Could define --ripple-scale for this */
     opacity: 0;
   }
 }
 
 /* Fix layout on small screens */
-@media (max-width: 768px) {
+@media (max-width: 768px) { /* Could define --breakpoint-md for this */
   .search-container {
     border-radius: var(--border-radius-medium);
-    padding: 8px 15px;
+    padding: 8px 15px; /* Could define --padding-small for this */
     flex-wrap: nowrap; /* Prevent wrapping on small screens */
   }
   
-  .search-input {
-    font-size: 15px;
-    padding: 10px 5px;
+  .search-box {
+    padding: 8px 12px;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+  
+  .search-suggestions {
+    max-height: 250px;
+  }
+  
+  .search-input, #tool-search, #search-input {
+    font-size: 15px; /* Could define --font-size-base-mobile for this */
+    padding: 10px 5px; /* Could define --input-padding-mobile for this */
     min-width: 0; /* Allow input to shrink */
   }
   
   .search-button {
-    padding: 8px 15px;
-    font-size: 14px;
+    padding: 8px 15px; /* Could define --button-padding-small for this */
+    font-size: 14px; /* Could define --font-size-sm for this */
   }
   
   .voice-search {
-    width: 32px;
-    height: 32px;
-    margin-right: 8px;
+    width: 32px; /* Could define --icon-size-sm for this */
+    height: 32px; /* Could define --icon-size-sm for this */
+    margin-right: 8px; /* Could define --spacing-xs for this */
   }
   
   .popular-tags {
-    margin-top: 10px;
+    margin-top: 10px; /* Could define --spacing-sm for this */
     justify-content: flex-start; /* Better alignment on mobile */
     overflow-x: auto; /* Allow horizontal scrolling for tags */
-    padding-bottom: 5px; /* Space for scrollbar */
+    padding-bottom: 5px; /* Could define --spacing-xs for this */
   }
   
   .search-tag {
-    font-size: 13px;
-    padding: 4px 10px;
+    font-size: 13px; /* Could define --font-size-xs for this */
+    padding: 4px 10px; /* Could define --tag-padding-small for this */
     flex-shrink: 0; /* Prevent tags from shrinking */
   }
   
   .suggestion-item {
-    padding: 10px 12px;
+    padding: 10px 12px; /* Could define --padding-small for this */
   }
   
   .suggestion-icon {
-    width: 24px;
-    height: 24px;
+    width: 24px; /* Could define --icon-size-xs for this */
+    height: 24px; /* Could define --icon-size-xs for this */
   }
 }
 
@@ -395,7 +413,7 @@ body {
 
 @keyframes typingComplete {
   0% { box-shadow: 0 0 0 rgba(67, 97, 238, 0); }
-  50% { box-shadow: 0 0 8px rgba(67, 97, 238, 0.3); }
+  50% { box-shadow: 0 0 8px rgba(67, 97, 238, 0.3); /* Could use var(--primary-color) with opacity */ }
   100% { box-shadow: 0 0 0 rgba(67, 97, 238, 0); }
 }
 
@@ -404,20 +422,38 @@ body {
   position: relative;
   border-radius: var(--border-radius-large);
   transition: var(--transition-standard);
+  padding: 10px 15px;
+  border: 1px solid var(--primary-light);
+  background: var(--bg-light);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-light);
+  width: 100%;
 }
 
 .search-box.search-focused {
   box-shadow: var(--shadow-dark);
+  border-color: var(--primary-medium);
+  transform: translateY(-2px);
 }
 
-/* Make search input compatible with both class structures */
-#tool-search, #search-input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  padding: 12px 5px;
-  font-size: 16px;
-  color: var(--text-color);
-  outline: none;
-  font-family: inherit;
+/* Note: Search input styles are now combined with .search-input above */
+
+/* Search Results Section */
+#search-results, .search-results {
+  margin-top: 20px; /* Could define --spacing-md for this */
+  width: 100%;
+  padding: 15px; /* Could define --padding-base for this */
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius-small);
+  box-shadow: var(--shadow-medium);
+  transition: var(--transition-standard);
+}
+
+.placeholder-message {
+  text-align: center;
+  color: var(--text-light);
+  padding: 20px 0; /* Could define --spacing-md for this */
+  font-style: italic;
 }
