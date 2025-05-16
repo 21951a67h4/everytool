@@ -329,11 +329,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Handle popular search tag clicks
-    const searchTags = document.querySelectorAll('.search-tag');
-    const searchInput = document.getElementById('tool-search');
+    const popularSearchTags = document.querySelectorAll('.search-tag');
     
-    if (searchTags && searchInput) {
-        searchTags.forEach(tag => {
+    if (popularSearchTags && searchInput) {
+        popularSearchTags.forEach(tag => {
             tag.addEventListener('click', function() {
                 // Get tag value
                 const tagValue = this.getAttribute('data-tag');
@@ -378,15 +377,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Dynamic placeholder text
+    // Dynamic placeholder text
     if (searchInput) {
-        const placeholders = [
+        let placeholders = [
             'Search for a tool...',
             'Try "password generator"...',
             'Need a "currency converter"?',
             'Looking for a "BMI calculator"?',
             'Try "color converter"...'
         ];
-        
         let currentPlaceholder = 0;
         
         // Change placeholder every 3 seconds if not focused
@@ -604,7 +603,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function initSearchBoxEnhancements() {
     const searchInput = document.getElementById('tool-search');
     const searchBox = document.querySelector('.search-box');
-    const searchButton = document.querySelector('.search-submit-btn');
+    const searchSubmitButton = document.querySelector('.search-submit-btn');
     const voiceButton = document.getElementById('voice-search');
     const searchTags = document.querySelectorAll('.search-tag-btn');
     
@@ -635,8 +634,8 @@ function initSearchBoxEnhancements() {
     });
     
     // Add ripple effect to search button
-    if (searchButton) {
-        searchButton.addEventListener('click', function(e) {
+    if (searchSubmitButton) {
+        searchSubmitButton.addEventListener('click', function(e) {
             // Create ripple effect
             const ripple = document.createElement('span');
             ripple.classList.add('btn-ripple');
@@ -664,7 +663,62 @@ function initSearchBoxEnhancements() {
         });
     }
     
-    // Add micro-animation effects for voice search
+    // Enhanced search tags with typing animation
+    const searchTagsElements = document.querySelectorAll('.search-tag');
+    
+    if (searchTagsElements && searchInput) {
+        searchTagsElements.forEach(tag => {
+            tag.addEventListener('click', function() {
+                // Get tag value
+                const tagValue = this.getAttribute('data-tag');
+                
+                // Set search input focus
+                searchInput.focus();
+                
+                // Clear existing search value
+                searchInput.value = '';
+                
+                // Animate typing effect
+                let index = 0;
+                const typingSpeed = 50; // ms between characters
+                
+                function typeNextChar() {
+                    if (index < tagValue.length) {
+                        searchInput.value += tagValue.charAt(index);
+                        index++;
+                        setTimeout(typeNextChar, typingSpeed);
+                    } else {
+                        // Trigger input event to show suggestions when done typing
+                        const inputEvent = new Event('input', { bubbles: true });
+                        searchInput.dispatchEvent(inputEvent);
+                    }
+                }
+                
+                // Start the typing effect after a small delay
+                setTimeout(typeNextChar, 100);
+                
+                // Add slight highlight animation to the tag
+                this.classList.add('tag-clicked');
+                setTimeout(() => {
+                    this.classList.remove('tag-clicked');
+                }, 500);
+            });
+            
+            // Add hover effects
+            tag.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 4px 8px rgba(67, 97, 238, 0.15)';
+            });
+            
+            tag.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.boxShadow = '';
+            });
+        });
+    }
+    
+    // Enhance voice search button animations
+    const voiceButton = document.getElementById('voice-search');
     if (voiceButton) {
         voiceButton.addEventListener('mouseenter', function() {
             if (!this.classList.contains('listening')) {
@@ -678,9 +732,422 @@ function initSearchBoxEnhancements() {
             }
         });
         
+        // Add ripple effect to voice button
         voiceButton.addEventListener('click', function(e) {
-            // Create ripple effect if not already listening
             if (!this.classList.contains('listening')) {
+                const ripple = document.createElement('span');
+                ripple.className = 'button-ripple';
+                
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height) * 2;
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = `${size}px`;
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 700);
+            }
+        });
+    }
+
+    // Enhance search input with advanced micro-animations
+    if (searchInput) {
+        const searchBox = document.querySelector('.search-box');
+        
+        // Focus/blur effects with added animations
+        searchInput.addEventListener('focus', function() {
+            if (searchBox) {
+                searchBox.classList.add('search-focused');
+                
+                // Apply subtle shift animation on focus
+                this.style.transform = 'translateX(5px)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 300);
+            }
+        });
+        
+        searchInput.addEventListener('blur', function() {
+            if (searchBox) {
+                // Delayed removal of focus class to allow clicking inside search components
+                setTimeout(() => {
+                    if (!searchBox.contains(document.activeElement)) {
+                        searchBox.classList.remove('search-focused');
+                    }
+                }, 150);
+            }
+        });
+        
+        // Add typing completion animation
+        searchInput.addEventListener('input', function() {
+            if (this.value.trim().length > 0) {
+                // Add subtle particle effect for each keystroke
+                const particle = document.createElement('span');
+                particle.className = 'input-particle';
+                particle.style.left = `${Math.random() * 100}%`;
+                searchBox.appendChild(particle);
+                
+                // Remove particle after animation completes
+                setTimeout(() => particle.remove(), 600);
+            }
+        });
+    }
+    
+    // Enhanced dynamic placeholder cycling with smoother transitions
+    if (searchInput) {
+        const placeholders = [
+            'Search for a tool...',
+            'Try "password generator"...',
+            'Need a "currency converter"?',
+            'Looking for a "BMI calculator"?',
+            'Try "color converter"...'
+        ];
+        
+        let currentPlaceholder = 0;
+        
+        // Change placeholder if not focused, with improved animation
+        const cyclePlaceholders = () => {
+            if (document.activeElement !== searchInput) {
+                // Fade out
+                searchInput.style.opacity = '0.7';
+                
+                setTimeout(() => {
+                    // Update placeholder text
+                    currentPlaceholder = (currentPlaceholder + 1) % placeholders.length;
+                    searchInput.setAttribute('placeholder', placeholders[currentPlaceholder]);
+                    
+                    // Fade back in
+                    searchInput.style.opacity = '1';
+                }, 300);
+            }
+        };
+        
+        // Start cycling placeholders after initial delay
+        setTimeout(() => {
+            setInterval(cyclePlaceholders, 3500);
+        }, 3000);
+    }
+    
+    // FAQ Accordion functionality
+    const accordionItems = document.querySelectorAll('.accordion-item');
+    
+    accordionItems.forEach(item => {
+        const header = item.querySelector('.accordion-header');
+        const content = item.querySelector('.accordion-content');
+        const icon = item.querySelector('.accordion-icon i');
+        
+        // Add hover effect
+        header.addEventListener('mouseenter', () => {
+            if (!item.classList.contains('active')) {
+                header.style.backgroundColor = 'var(--background-alt)';
+                if (icon) {
+                    icon.style.transform = 'rotate(45deg) scale(1.1)';
+                }
+            }
+        });
+        
+        header.addEventListener('mouseleave', () => {
+            if (!item.classList.contains('active')) {
+                header.style.backgroundColor = '';
+                if (icon) {
+                    icon.style.transform = '';
+                }
+            }
+        });
+        
+        header.addEventListener('click', () => {
+            // Check if this item is already active
+            const isActive = item.classList.contains('active');
+            
+            // Close all accordion items with animation
+            accordionItems.forEach(accItem => {
+                const accContent = accItem.querySelector('.accordion-content');
+                const accIcon = accItem.querySelector('.accordion-icon i');
+                
+                if (accItem.classList.contains('active')) {
+                    accItem.classList.remove('active');
+                    if (accIcon) {
+                        accIcon.style.transform = '';
+                    }
+                }
+            });
+            
+            // If the clicked item wasn't active, open it with animation
+            if (!isActive) {
+                item.classList.add('active');
+                if (icon) {
+                    icon.style.transform = 'rotate(45deg)';
+                    icon.style.transition = 'transform 0.3s ease';
+                }
+                
+                // Highlight the content briefly
+                if (content) {
+                    content.style.backgroundColor = 'var(--background-alt)';
+                    setTimeout(() => {
+                        content.style.backgroundColor = '';
+                        content.style.transition = 'background-color 1s ease';
+                    }, 200);
+                }
+            }
+        });
+    });
+    
+    // Initialize search components
+    initSearchFilters();
+    initEnhancedSearchAutocomplete();
+    initVoiceSearch();
+    showRecentSearches();
+    
+    // Handle search functionality
+    const searchButton = document.querySelector('.search-button');
+    const searchError = document.getElementById('search-error');
+    const searchStatus = document.querySelector('.search-status');
+    
+    function performSearch() {
+        // Clear previous error messages
+        clearSearchError();
+        
+        const query = searchInput.value.trim().toLowerCase();
+        if (query.length === 0) {
+            showSearchError('Please enter a search term');
+            searchInput.focus();
+            return;
+        }
+        
+        // Show searching status
+        showSearchStatus('Searching...');
+        
+        // Track this search in recent searches
+        trackSearch(query);
+        
+        // Find the first matching tool and redirect to it
+        const matchingTool = findBestMatchingTool(query);
+        if (matchingTool) {
+            showSearchStatus('Tool found! Redirecting...');
+            setTimeout(() => {
+                window.location.href = matchingTool.url;
+            }, 500);
+        } else {
+            showSearchError('No matching tools found. Try another search term.');
+            showRecentSearches(); // Show recent searches as suggestions
+        }
+    }
+    
+    function showSearchError(message) {
+        if (!searchError) return;
+        
+        searchError.textContent = message;
+        searchError.classList.add('visible');
+        
+        // Vibration feedback if supported
+        if (navigator.vibrate) {
+            navigator.vibrate(100);
+        }
+        
+        // Auto-hide error after 5 seconds
+        setTimeout(() => {
+            clearSearchError();
+        }, 5000);
+    }
+    
+    function clearSearchError() {
+        if (!searchError) return;
+        searchError.textContent = '';
+        searchError.classList.remove('visible');
+        
+        // Also clear status
+        if (searchStatus) {
+            searchStatus.textContent = '';
+            searchStatus.classList.remove('visible');
+        }
+    }
+    
+    function showSearchStatus(message) {
+        if (!searchStatus) return;
+        searchStatus.textContent = message;
+        searchStatus.classList.add('visible');
+    }
+    
+    // Event listeners for search functionality
+    if (searchButton) {
+        searchButton.addEventListener('click', performSearch);
+    }
+    
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    }
+    
+    // Mobile Menu functionality and enhanced header animations
+    const header = document.querySelector('header');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const logo = document.querySelector('.logo');
+    const logoDot = document.querySelector('.logo-dot');
+    
+    // Add loading class to enable animations
+    if (header) {
+        header.classList.add('header-loading');
+    }
+    
+    // Initial animations for header elements
+    function animateHeaderElements() {
+        if (logo) {
+            logo.style.opacity = '0';
+            logo.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                logo.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                logo.style.opacity = '1';
+                logo.style.transform = 'translateY(0)';
+            }, 300);
+        }
+        
+                // Animate nav links with staggered delay
+                navLinks.forEach((link, index) => {
+                    link.style.opacity = '0';
+                    link.style.transform = 'translateY(-20px)';
+                    setTimeout(() => {
+                        link.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        link.style.opacity = '1';
+                        link.style.transform = 'translateY(0)';
+                    }, 300 + index * 100);
+                });
+            }
+        });
+// Enhanced typing particle effect manager for better performance
+class InputParticleManager {
+    constructor(container) {
+        this.container = container;
+        this.particlePool = [];
+        this.maxPoolSize = 20; // Limit particles for performance
+        this.active = false;
+        this.createParticlePool();
+    }
+    
+    createParticlePool() {
+        // Create reusable particles
+        for (let i = 0; i < this.maxPoolSize; i++) {
+            const particle = document.createElement('span');
+            particle.className = 'input-particle';
+            particle.style.display = 'none';
+            this.container.appendChild(particle);
+            this.particlePool.push(particle);
+        }
+    }
+    
+    getParticle() {
+        // Find an available particle from the pool
+        for (let i = 0; i < this.particlePool.length; i++) {
+            const particle = this.particlePool[i];
+            if (particle.style.display === 'none') {
+                return particle;
+            }
+        }
+        
+        // If no particles available, return the first one (recycle)
+        return this.particlePool[0];
+    }
+    
+    createParticle() {
+        if (!this.active) return;
+        
+        const particle = this.getParticle();
+        particle.style.display = 'block';
+        particle.style.left = `${Math.random() * 100}%`;
+        
+        // Add random size, color, and position variations
+        const size = 4 + Math.random() * 8;
+        const hue = Math.random() > 0.5 ? '215' : '160'; // Primary or secondary color hue
+        const top = 25 + Math.random() * 30;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.backgroundColor = `hsla(${hue}, 80%, 60%, 0.6)`;
+        particle.style.top = `${top}%`;
+        
+        // Return particle to pool after animation
+        setTimeout(() => {
+            particle.style.display = 'none';
+        }, 600);
+    }
+    
+    start() {
+        this.active = true;
+    }
+    
+    stop() {
+        this.active = false;
+    }
+    
+    // Clean up method to remove all particles
+    destroy() {
+        this.particlePool.forEach(particle => {
+            if (particle.parentNode) {
+                particle.parentNode.removeChild(particle);
+            }
+        });
+        this.particlePool = [];
+    }
+}
+
+// Function to initialize our enhanced search UI
+function initSearchUI() {
+    try {
+        const searchInput = document.getElementById('tool-search');
+        const searchBox = document.querySelector('.search-box');
+        const searchButton = document.querySelector('.search-submit-btn');
+        const voiceButton = document.getElementById('voice-search');
+        const searchTags = document.querySelectorAll('.search-tag-btn');
+        
+        if (!searchInput || !searchBox) {
+            console.warn('Search elements not found in the DOM, aborting search UI initialization');
+            return;
+        }
+        
+        console.log('Initializing enhanced search UI');
+        
+        // Create and initialize particle manager for typing effects
+        const particleManager = new InputParticleManager(searchBox);
+        
+        // Add focus effects with subtle animation
+        searchInput.addEventListener('focus', function() {
+            searchBox.classList.add('search-focused');
+            particleManager.start();
+            
+            // Apply subtle animation
+            this.style.transform = 'translateX(5px)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 300);
+        });
+        
+        searchInput.addEventListener('blur', function() {
+            setTimeout(() => {
+                // Only remove if we're not focusing on something inside the search box
+                if (!searchBox.contains(document.activeElement)) {
+                    searchBox.classList.remove('search-focused');
+                    particleManager.stop();
+                }
+            }, 150);
+        });
+        
+        // Add typing particle effect with improved performance
+        searchInput.addEventListener('input', function(e) {
+            if (this.value.trim().length > 0 && e.inputType !== 'deleteContentBackward') {
+                particleManager.createParticle();
+            }
+        });
+        
+        // Set up search button with ripple effect
+        if (searchButton) {
+            searchButton.addEventListener('click', function(e) {
+                // Create ripple effect
                 const ripple = document.createElement('span');
                 ripple.classList.add('btn-ripple');
                 
@@ -701,125 +1168,417 @@ function initSearchBoxEnhancements() {
                 setTimeout(() => {
                     ripple.remove();
                 }, 700);
-            }
-        });
-    }
-    
-    // Enhanced tag click effect with typing animation
-    if (searchTags.length) {
-        searchTags.forEach(tag => {
-            tag.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-3px)';
+                
+                // Trigger search
+                if (typeof performSearch === 'function') {
+                    performSearch();
+                } else {
+                    console.error('performSearch function not available');
+                }
             });
-            
-            tag.addEventListener('mouseleave', function() {
-                this.style.transform = '';
-            });
-            
-            tag.addEventListener('click', function() {
-                // Add click animation
-                this.classList.add('tag-clicked');
-                setTimeout(() => this.classList.remove('tag-clicked'), 600);
-                
-                // Get tag value
-                const tagValue = this.getAttribute('data-tag');
-                
-                // Set input focus
-                searchInput.focus();
-                searchBox.classList.add('search-focused');
-                
-                // Animate typing effect
-                animateTypingEffect(searchInput, tagValue);
-            });
-        });
-    }
-    
-    // Simulate typing effect
-    function animateTypingEffect(input, text) {
-        // Clear current input
-        input.value = '';
-        
-        // Focus the input
-        input.focus();
-        
-        let i = 0;
-        const typingSpeed = 50; // ms between characters
-        
-        function typeNextChar() {
-            if (i < text.length) {
-                input.value += text.charAt(i);
-                i++;
-                setTimeout(typeNextChar, typingSpeed);
-            } else {
-                // Trigger input event to show suggestions when done typing
-                const inputEvent = new Event('input', { bubbles: true });
-                input.dispatchEvent(inputEvent);
-                
-                // Add slight pulsing effect to input when done typing
-                input.classList.add('typing-complete');
-                setTimeout(() => {
-                    input.classList.remove('typing-complete');
-                }, 500);
-            }
         }
         
-        // Start the typing effect
-        setTimeout(typeNextChar, 100);
+        // Set up voice button with ripple and interactive effects
+        if (voiceButton) {
+            voiceButton.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('listening')) {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 6px 15px rgba(67, 97, 238, 0.25)';
+                }
+            });
+            
+            voiceButton.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('listening')) {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                }
+            });
+            
+            // Add ripple effect on click
+            voiceButton.addEventListener('click', function(e) {
+                if (!this.classList.contains('listening')) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('btn-ripple');
+                    
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height) * 2;
+                    
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${(e.clientX - rect.left - size / 2)}px`;
+                    ripple.style.top = `${(e.clientY - rect.top - size / 2)}px`;
+                    
+                    this.appendChild(ripple);
+                    
+                    // Remove ripple after animation
+                    setTimeout(() => ripple.remove(), 700);
+                }
+            });
+        }
+        
+        // Set up search tags with typing animation
+        if (searchTags && searchTags.length > 0) {
+            searchTags.forEach(tag => {
+                // Add hover effects
+                tag.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 4px 8px rgba(67, 97, 238, 0.15)';
+                });
+                
+                tag.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+                
+                // Add click with typing animation
+                tag.addEventListener('click', function() {
+                    // Add click animation
+                    this.classList.add('tag-clicked');
+                    setTimeout(() => this.classList.remove('tag-clicked'), 500);
+                    
+                    const tagValue = this.getAttribute('data-tag');
+                    if (!tagValue) return;
+                    
+                    // Focus the search input
+                    searchInput.focus();
+                    searchBox.classList.add('search-focused');
+                    particleManager.start();
+                    
+                    // Clear current input
+                    searchInput.value = '';
+                    
+                    // Animate typing effect with particles
+                    let index = 0;
+                    const typingSpeed = 50; // ms between characters
+                    
+                    function typeNextChar() {
+                        if (index < tagValue.length) {
+                            searchInput.value += tagValue.charAt(index);
+                            
+                            // Create particle effect for each character
+                            particleManager.createParticle();
+                            
+                            index++;
+                            setTimeout(typeNextChar, typingSpeed);
+                        } else {
+                            // Trigger input event when done typing
+                            const inputEvent = new Event('input', { bubbles: true });
+                            searchInput.dispatchEvent(inputEvent);
+                            
+                            // Add finishing animation
+                            searchInput.classList.add('typing-complete');
+                            setTimeout(() => {
+                                searchInput.classList.remove('typing-complete');
+                            }, 500);
+                        }
+                    }
+                    
+                    // Start typing with a small delay
+                    setTimeout(typeNextChar, 100);
+                });
+            });
+        }
+        
+        // Start the dynamic placeholder cycling
+        const cleanup = initAdvancedPlaceholderCycling(searchInput);
+        
+        // Return a cleanup function
+        return function() {
+            particleManager.destroy();
+            if (cleanup) cleanup();
+        };
+    } catch (error) {
+        console.error('Error initializing search UI:', error);
+    }
+}
+
+// Initialize dynamic autocomplete suggestions with animations
+function initDynamicSuggestions() {
+    const searchInput = document.getElementById('tool-search');
+    const searchBox = document.querySelector('.search-box');
+    
+    if (!searchInput) return;
+    
+    // Create or get suggestions container
+    let suggestionsContainer = document.querySelector('.search-suggestions');
+    if (!suggestionsContainer) {
+        suggestionsContainer = document.createElement('div');
+        suggestionsContainer.className = 'search-suggestions';
+        suggestionsContainer.setAttribute('aria-live', 'polite');
+        suggestionsContainer.setAttribute('role', 'listbox');
+        if (searchBox) searchBox.appendChild(suggestionsContainer);
     }
     
-    // Placeholder cycling with smooth transitions
-    initPlaceholderCycling(searchInput);
-}
-
-// Placeholder cycling function with smoother animations
-function initPlaceholderCycling(input) {
-    if (!input) return;
-    
-    const placeholders = [
-        'Search for a tool...',
-        'Try "password generator"...',
-        'Need a "currency converter"?',
-        'Looking for a "BMI calculator"?',
-        'Try "color converter"...'
-    ];
-    
-    let currentIndex = 0;
-    
-    // Change placeholder every 3.5 seconds if not focused
-    const changePlaceholder = () => {
-        if (document.activeElement !== input) {
-            // Fade out
-            input.style.opacity = '0.6';
-            
-            setTimeout(() => {
-                // Change placeholder
-                currentIndex = (currentIndex + 1) % placeholders.length;
-                input.setAttribute('placeholder', placeholders[currentIndex]);
-                
-                // Fade in
-                input.style.opacity = '1';
-            }, 300);
+    // Handle showing suggestions when typing
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        const selectedCategory = document.querySelector('.filter-btn.active')?.dataset.category || 'all';
+        
+        // Clear suggestions when query is too short
+        if (query.length < 2) {
+            hideSuggestions();
+            return;
         }
-    };
-    
-    // Start cycling after initial delay
-    setTimeout(() => {
-        setInterval(changePlaceholder, 3500);
-    }, 5000);
-}
-
-// Main initialization when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize enhanced particles
-    initializeParticles();
-    
-    // Re-initialize particles on window resize (debounced)
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(initializeParticles, 250);
+        
+        // Get matches filtered by category
+        const matches = toolsData.filter(tool => {
+            const categoryMatch = selectedCategory === 'all' || tool.category === selectedCategory;
+            if (!categoryMatch) return false;
+            
+            // Check for matches in name, description, and tags
+            const nameMatch = tool.name.toLowerCase().includes(query);
+            const descMatch = tool.description.toLowerCase().includes(query);
+            const tagMatch = tool.tags.some(tag => tag.includes(query));
+            
+            return nameMatch || descMatch || tagMatch;
+        }).slice(0, 6); // Limit to avoid overwhelming the user
+        
+        // Update the suggestions display
+        updateSuggestions(matches, query);
     });
     
+    // Function to update suggestions
+    function updateSuggestions(matches, query) {
+        suggestionsContainer.innerHTML = '';
+        
+        if (matches.length > 0) {
+            // Show container with animation
+            suggestionsContainer.style.display = 'block';
+            setTimeout(() => {
+                suggestionsContainer.classList.add('visible');
+            }, 10);
+            
+            // Add each suggestion with staggered animation
+            matches.forEach((match, index) => {
+                const suggestion = createSuggestionElement(match, query, index);
+                suggestionsContainer.appendChild(suggestion);
+            });
+        } else if (query.length >= 2) {
+            // Show "no results" message
+            suggestionsContainer.style.display = 'block';
+            setTimeout(() => {
+                suggestionsContainer.classList.add('visible');
+            }, 10);
+            
+            const noResults = document.createElement('div');
+            noResults.className = 'suggestion-item no-results';
+            noResults.innerHTML = `<span class="no-results-icon"><i class="fas fa-search"></i></span> No matching tools found for "${query}"`;
+            noResults.style.opacity = '0';
+            noResults.style.transform = 'translateY(10px)';
+            
+            suggestionsContainer.appendChild(noResults);
+            
+            // Animate in
+            setTimeout(() => {
+                noResults.style.opacity = '1';
+                noResults.style.transform = 'translateY(0)';
+                noResults.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            }, 50);
+        }
+    }
+    
+    // Function to create a suggestion element
+    function createSuggestionElement(tool, query, index) {
+        const suggestion = document.createElement('div');
+        suggestion.className = 'suggestion-item';
+        suggestion.setAttribute('role', 'option');
+        suggestion.style.opacity = '0';
+        suggestion.style.transform = 'translateY(10px)';
+        
+        // Create icon element with tool's icon
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'suggestion-icon';
+        iconSpan.innerHTML = `<i class="fas ${tool.icon}"></i>`;
+        
+        // Create content container
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'suggestion-content';
+        
+        // Add tool name with highlighted query
+        const nameEl = document.createElement('div');
+        nameEl.className = 'suggestion-name';
+        const nameParts = tool.name.split(new RegExp(`(${query})`, 'i'));
+        let nameHTML = '';
+        nameParts.forEach(part => {
+            if (part.toLowerCase() === query.toLowerCase()) {
+                nameHTML += `<strong>${part}</strong>`;
+            } else {
+                nameHTML += part;
+            }
+        });
+        nameEl.innerHTML = nameHTML;
+        
+        // Add description (truncated if needed)
+        const descEl = document.createElement('div');
+        descEl.className = 'suggestion-description';
+        let desc = tool.description;
+        if (desc.length > 60) {
+            desc = desc.substring(0, 57) + '...';
+        }
+        descEl.textContent = desc;
+        
+        // Add category badge
+        const categoryEl = document.createElement('span');
+        categoryEl.className = 'suggestion-category';
+        categoryEl.textContent = tool.category.charAt(0).toUpperCase() + tool.category.slice(1);
+        
+                // Assemble the suggestion elements
+                contentDiv.appendChild(nameEl);
+                contentDiv.appendChild(descEl);
+                suggestion.appendChild(iconSpan);
+                suggestion.appendChild(contentDiv);
+                suggestion.appendChild(categoryEl);
+                
+                return suggestion;
+            }
+            
+            // Function to hide suggestions
+            function hideSuggestions() {
+                suggestionsContainer.classList.remove('visible');
+                setTimeout(() => {
+                    suggestionsContainer.style.display = 'none';
+                    suggestionsContainer.innerHTML = '';
+                }, 300); // Wait for fade-out transition
+            }
+        }
+        suggestion.appendChild(iconSpan);
+        suggestion.appendChild(contentDiv);
+        suggestion.appendChild(categoryEl);
+        
+        // Add hover effect
+        suggestion.addEventListener('mouseenter', function() {
+            // Clear focused class from all suggestions
+            document.querySelectorAll('.suggestion-item').forEach(item => {
+                item.classList.remove('focused');
+            });
+            
+            // Apply focus to this suggestion
+            this.classList.add('focused');
+            this.style.backgroundColor = 'rgba(67, 97, 238, 0.05)';
+            iconSpan.style.transform = 'scale(1.1)';
+        });
+        
+        suggestion.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = '';
+            this.classList.remove('focused');
+            iconSpan.style.transform = '';
+        });
+        
+        // Navigate to tool on click
+        suggestion.addEventListener('click', () => {
+            // Add click effect
+            suggestion.style.backgroundColor = 'rgba(67, 97, 238, 0.15)';
+            
+            // Track this search
+            if (typeof trackSearch === 'function') {
+                trackSearch(tool.name.toLowerCase());
+            }
+            
+            // Show status and redirect
+            const searchStatus = document.querySelector('.search-status');
+            if (searchStatus) {
+                searchStatus.textContent = `Opening ${tool.name}...`;
+                searchStatus.classList.add('visible');
+            }
+            
+            setTimeout(() => {
+                window.location.href = tool.url;
+            }, 300);
+        });
+        
+        // Staggered animations
+        setTimeout(() => {
+            suggestion.style.opacity = '1';
+            suggestion.style.transform = 'translateY(0)';
+            suggestion.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        }, index * 50); // Stagger by 50ms per item
+        
+        return suggestion;
+    }
+    
+    // Function to hide suggestions
+    function hideSuggestions() {
+        suggestionsContainer.classList.remove('visible');
+        setTimeout(() => {
+            suggestionsContainer.style.display = 'none';
+            suggestionsContainer.innerHTML = '';
+        }, 300); // Wait for fade-out transition
+    }
+    
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+            hideSuggestions();
+        }
+    });
+    
+    // Show suggestions again when focusing on input with content
+    searchInput.addEventListener('focus', function() {
+        if (this.value.trim().length >= 2) {
+            // Trigger input event to refresh suggestions
+            const inputEvent = new Event('input', { bubbles: true });
+            this.dispatchEvent(inputEvent);
+        }
+    });
+    
+    // Keyboard navigation for suggestions
+    searchInput.addEventListener('keydown', function(e) {
+        const suggestions = suggestionsContainer.querySelectorAll('.suggestion-item:not(.no-results)');
+        if (!suggestions.length) return;
+        
+        // Find current focused item
+        const focused = suggestionsContainer.querySelector('.suggestion-item.focused');
+        let index = -1;
+        
+        if (focused) {
+            suggestions.forEach((suggestion, i) => {
+                if (suggestion === focused) index = i;
+            });
+        }
+        
+        // Handle arrow keys
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (index < suggestions.length - 1) {
+                if (focused) {
+                    focused.classList.remove('focused');
+                    focused.style.backgroundColor = '';
+                }
+                
+                suggestions[index + 1].classList.add('focused');
+                suggestions[index + 1].style.backgroundColor = 'rgba(67, 97, 238, 0.1)';
+                suggestions[index + 1].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (index > 0) {
+                if (focused) {
+                    focused.classList.remove('focused');
+                    focused.style.backgroundColor = '';
+                }
+                
+                suggestions[index - 1].classList.add('focused');
+                suggestions[index - 1].style.backgroundColor = 'rgba(67, 97, 238, 0.1)';
+                suggestions[index - 1].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+        } else if (e.key === 'Enter' && focused) {
+            e.preventDefault();
+            focused.click();
+        } else if (e.key === 'Escape') {
+            hideSuggestions();
+        }
+    });
+}
+
+// Run the initialization when the DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize enhanced search UI
+    initSearchUI();
+    
+    // Initialize dynamic suggestions
+    initDynamicSuggestions();
+    
+    // Initialize other components
     // ---- Improved section animation with consistent approach ----
     // Create dedicated function for handling section animations
     function initSectionAnimations() {
@@ -940,11 +1699,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Handle popular search tag clicks
-    const searchTags = document.querySelectorAll('.search-tag');
-    const searchInput = document.getElementById('tool-search');
+    const popularSearchTags = document.querySelectorAll('.search-tag');
     
-    if (searchTags && searchInput) {
-        searchTags.forEach(tag => {
+    if (popularSearchTags && searchInput) {
+        popularSearchTags.forEach(tag => {
             tag.addEventListener('click', function() {
                 // Get tag value
                 const tagValue = this.getAttribute('data-tag');
@@ -989,15 +1747,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Dynamic placeholder text
+    // Dynamic placeholder text
     if (searchInput) {
-        const placeholders = [
+        let placeholders = [
             'Search for a tool...',
             'Try "password generator"...',
             'Need a "currency converter"?',
             'Looking for a "BMI calculator"?',
             'Try "color converter"...'
         ];
-        
         let currentPlaceholder = 0;
         
         // Change placeholder every 3 seconds if not focused
@@ -1211,3 +1969,552 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
+// Enhanced typing particle effect manager for better performance
+class InputParticleManager {
+    constructor(container) {
+        this.container = container;
+        this.particlePool = [];
+        this.maxPoolSize = 20; // Limit particles for performance
+        this.active = false;
+        this.createParticlePool();
+    }
+    
+    createParticlePool() {
+        // Create reusable particles
+        for (let i = 0; i < this.maxPoolSize; i++) {
+            const particle = document.createElement('span');
+            particle.className = 'input-particle';
+            particle.style.display = 'none';
+            this.container.appendChild(particle);
+            this.particlePool.push(particle);
+        }
+    }
+    
+    getParticle() {
+        // Find an available particle from the pool
+        for (let i = 0; i < this.particlePool.length; i++) {
+            const particle = this.particlePool[i];
+            if (particle.style.display === 'none') {
+                return particle;
+            }
+        }
+        
+        // If no particles available, return the first one (recycle)
+        return this.particlePool[0];
+    }
+    
+    createParticle() {
+        if (!this.active) return;
+        
+        const particle = this.getParticle();
+        particle.style.display = 'block';
+        particle.style.left = `${Math.random() * 100}%`;
+        
+        // Add random size, color, and position variations
+        const size = 4 + Math.random() * 8;
+        const hue = Math.random() > 0.5 ? '215' : '160'; // Primary or secondary color hue
+        const top = 25 + Math.random() * 30;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.backgroundColor = `hsla(${hue}, 80%, 60%, 0.6)`;
+        particle.style.top = `${top}%`;
+        
+        // Return particle to pool after animation
+        setTimeout(() => {
+            particle.style.display = 'none';
+        }, 600);
+    }
+    
+    start() {
+        this.active = true;
+    }
+    
+    stop() {
+        this.active = false;
+    }
+    
+    // Clean up method to remove all particles
+    destroy() {
+        this.particlePool.forEach(particle => {
+            if (particle.parentNode) {
+                particle.parentNode.removeChild(particle);
+            }
+        });
+        this.particlePool = [];
+    }
+}
+
+// Function to initialize our enhanced search UI
+function initSearchUI() {
+    try {
+        const searchInput = document.getElementById('tool-search');
+        const searchBox = document.querySelector('.search-box');
+        const searchButton = document.querySelector('.search-submit-btn');
+        const voiceButton = document.getElementById('voice-search');
+        const searchTags = document.querySelectorAll('.search-tag-btn');
+        
+        if (!searchInput || !searchBox) {
+            console.warn('Search elements not found in the DOM, aborting search UI initialization');
+            return;
+        }
+        
+        console.log('Initializing enhanced search UI');
+        
+        // Create and initialize particle manager for typing effects
+        const particleManager = new InputParticleManager(searchBox);
+        
+        // Add focus effects with subtle animation
+        searchInput.addEventListener('focus', function() {
+            searchBox.classList.add('search-focused');
+            particleManager.start();
+            
+            // Apply subtle animation
+            this.style.transform = 'translateX(5px)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 300);
+        });
+        
+        searchInput.addEventListener('blur', function() {
+            setTimeout(() => {
+                // Only remove if we're not focusing on something inside the search box
+                if (!searchBox.contains(document.activeElement)) {
+                    searchBox.classList.remove('search-focused');
+                    particleManager.stop();
+                }
+            }, 150);
+        });
+        
+        // Add typing particle effect with improved performance
+        searchInput.addEventListener('input', function(e) {
+            if (this.value.trim().length > 0 && e.inputType !== 'deleteContentBackward') {
+                particleManager.createParticle();
+            }
+        });
+        
+        // Set up search button with ripple effect
+        if (searchButton) {
+            searchButton.addEventListener('click', function(e) {
+                // Create ripple effect
+                const ripple = document.createElement('span');
+                ripple.classList.add('btn-ripple');
+                
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height) * 2;
+                
+                // Calculate ripple position
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = `${size}px`;
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                
+                this.appendChild(ripple);
+                
+                // Remove ripple after animation
+                setTimeout(() => {
+                    ripple.remove();
+                }, 700);
+                
+                // Trigger search
+                if (typeof performSearch === 'function') {
+                    performSearch();
+                } else {
+                    console.error('performSearch function not available');
+                }
+            });
+        }
+        
+        // Set up voice button with ripple and interactive effects
+        if (voiceButton) {
+            voiceButton.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('listening')) {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 6px 15px rgba(67, 97, 238, 0.25)';
+                }
+            });
+            
+            voiceButton.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('listening')) {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                }
+            });
+            
+            // Add ripple effect on click
+            voiceButton.addEventListener('click', function(e) {
+                if (!this.classList.contains('listening')) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('btn-ripple');
+                    
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height) * 2;
+                    
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${(e.clientX - rect.left - size / 2)}px`;
+                    ripple.style.top = `${(e.clientY - rect.top - size / 2)}px`;
+                    
+                    this.appendChild(ripple);
+                    
+                    // Remove ripple after animation
+                    setTimeout(() => ripple.remove(), 700);
+                }
+            });
+        }
+        
+        // Set up search tags with typing animation
+        if (searchTags && searchTags.length > 0) {
+            searchTags.forEach(tag => {
+                // Add hover effects
+                tag.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 4px 8px rgba(67, 97, 238, 0.15)';
+                });
+                
+                tag.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+                
+                // Add click with typing animation
+                tag.addEventListener('click', function() {
+                    // Add click animation
+                    this.classList.add('tag-clicked');
+                    setTimeout(() => this.classList.remove('tag-clicked'), 500);
+                    
+                    const tagValue = this.getAttribute('data-tag');
+                    if (!tagValue) return;
+                    
+                    // Focus the search input
+                    searchInput.focus();
+                    searchBox.classList.add('search-focused');
+                    particleManager.start();
+                    
+                    // Clear current input
+                    searchInput.value = '';
+                    
+                    // Animate typing effect with particles
+                    let index = 0;
+                    const typingSpeed = 50; // ms between characters
+                    
+                    function typeNextChar() {
+                        if (index < tagValue.length) {
+                            searchInput.value += tagValue.charAt(index);
+                            
+                            // Create particle effect for each character
+                            particleManager.createParticle();
+                            
+                            index++;
+                            setTimeout(typeNextChar, typingSpeed);
+                        } else {
+                            // Trigger input event when done typing
+                            const inputEvent = new Event('input', { bubbles: true });
+                            searchInput.dispatchEvent(inputEvent);
+                            
+                            // Add finishing animation
+                            searchInput.classList.add('typing-complete');
+                            setTimeout(() => {
+                                searchInput.classList.remove('typing-complete');
+                            }, 500);
+                        }
+                    }
+                    
+                    // Start typing with a small delay
+                    setTimeout(typeNextChar, 100);
+                });
+            });
+        }
+        
+        // Start the dynamic placeholder cycling
+        const cleanup = initAdvancedPlaceholderCycling(searchInput);
+        
+        // Return a cleanup function
+        return function() {
+            particleManager.destroy();
+            if (cleanup) cleanup();
+        };
+    } catch (error) {
+        console.error('Error initializing search UI:', error);
+    }
+}
+
+// Initialize dynamic autocomplete suggestions with animations
+function initDynamicSuggestions() {
+    const searchInput = document.getElementById('tool-search');
+    const searchBox = document.querySelector('.search-box');
+    
+    if (!searchInput) return;
+    
+    // Create or get suggestions container
+    let suggestionsContainer = document.querySelector('.search-suggestions');
+    if (!suggestionsContainer) {
+        suggestionsContainer = document.createElement('div');
+        suggestionsContainer.className = 'search-suggestions';
+        suggestionsContainer.setAttribute('aria-live', 'polite');
+        suggestionsContainer.setAttribute('role', 'listbox');
+        if (searchBox) searchBox.appendChild(suggestionsContainer);
+    }
+    
+    // Handle showing suggestions when typing
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        const selectedCategory = document.querySelector('.filter-btn.active')?.dataset.category || 'all';
+        
+        // Clear suggestions when query is too short
+        if (query.length < 2) {
+            hideSuggestions();
+            return;
+        }
+        
+        // Get matches filtered by category
+        const matches = toolsData.filter(tool => {
+            const categoryMatch = selectedCategory === 'all' || tool.category === selectedCategory;
+            if (!categoryMatch) return false;
+            
+            // Check for matches in name, description, and tags
+            const nameMatch = tool.name.toLowerCase().includes(query);
+            const descMatch = tool.description.toLowerCase().includes(query);
+            const tagMatch = tool.tags.some(tag => tag.includes(query));
+            
+            return nameMatch || descMatch || tagMatch;
+        }).slice(0, 6); // Limit to avoid overwhelming the user
+        
+        // Update the suggestions display
+        updateSuggestions(matches, query);
+    });
+    
+    // Function to update suggestions
+    function updateSuggestions(matches, query) {
+        suggestionsContainer.innerHTML = '';
+        
+        if (matches.length > 0) {
+            // Show container with animation
+            suggestionsContainer.style.display = 'block';
+            setTimeout(() => {
+                suggestionsContainer.classList.add('visible');
+            }, 10);
+            
+            // Add each suggestion with staggered animation
+            matches.forEach((match, index) => {
+                const suggestion = createSuggestionElement(match, query, index);
+                suggestionsContainer.appendChild(suggestion);
+            });
+        } else if (query.length >= 2) {
+            // Show "no results" message
+            suggestionsContainer.style.display = 'block';
+            setTimeout(() => {
+                suggestionsContainer.classList.add('visible');
+            }, 10);
+            
+            const noResults = document.createElement('div');
+            noResults.className = 'suggestion-item no-results';
+            noResults.innerHTML = `<span class="no-results-icon"><i class="fas fa-search"></i></span> No matching tools found for "${query}"`;
+            noResults.style.opacity = '0';
+            noResults.style.transform = 'translateY(10px)';
+            
+            suggestionsContainer.appendChild(noResults);
+            
+            // Animate in
+            setTimeout(() => {
+                noResults.style.opacity = '1';
+                noResults.style.transform = 'translateY(0)';
+                noResults.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            }, 50);
+        }
+    }
+    
+    // Function to create a suggestion element
+    function createSuggestionElement(tool, query, index) {
+        const suggestion = document.createElement('div');
+        suggestion.className = 'suggestion-item';
+        suggestion.setAttribute('role', 'option');
+        suggestion.style.opacity = '0';
+        suggestion.style.transform = 'translateY(10px)';
+        
+        // Create icon element with tool's icon
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'suggestion-icon';
+        iconSpan.innerHTML = `<i class="fas ${tool.icon}"></i>`;
+        
+        // Create content container
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'suggestion-content';
+        
+        // Add tool name with highlighted query
+        const nameEl = document.createElement('div');
+        nameEl.className = 'suggestion-name';
+        const nameParts = tool.name.split(new RegExp(`(${query})`, 'i'));
+        let nameHTML = '';
+        nameParts.forEach(part => {
+            if (part.toLowerCase() === query.toLowerCase()) {
+                nameHTML += `<strong>${part}</strong>`;
+            } else {
+                nameHTML += part;
+            }
+        });
+        nameEl.innerHTML = nameHTML;
+        
+        // Add description (truncated if needed)
+        const descEl = document.createElement('div');
+        descEl.className = 'suggestion-description';
+        let desc = tool.description;
+        if (desc.length > 60) {
+            desc = desc.substring(0, 57) + '...';
+        }
+        descEl.textContent = desc;
+        
+        // Add category badge
+        const categoryEl = document.createElement('span');
+        categoryEl.className = 'suggestion-category';
+        categoryEl.textContent = tool.category.charAt(0).toUpperCase() + tool.category.slice(1);
+        
+                // Assemble the suggestion elements
+                contentDiv.appendChild(nameEl);
+                contentDiv.appendChild(descEl);
+                suggestion.appendChild(iconSpan);
+                suggestion.appendChild(contentDiv);
+                suggestion.appendChild(categoryEl);
+                
+                return suggestion;
+            }
+            
+            // Function to hide suggestions
+            function hideSuggestions() {
+                suggestionsContainer.classList.remove('visible');
+                setTimeout(() => {
+                    suggestionsContainer.style.display = 'none';
+                    suggestionsContainer.innerHTML = '';
+                }, 300); // Wait for fade-out transition
+            }
+        }
+        suggestion.appendChild(iconSpan);
+        suggestion.appendChild(contentDiv);
+        suggestion.appendChild(categoryEl);
+        
+        // Add hover effect
+        suggestion.addEventListener('mouseenter', function() {
+            // Clear focused class from all suggestions
+            document.querySelectorAll('.suggestion-item').forEach(item => {
+                item.classList.remove('focused');
+            });
+            
+            // Apply focus to this suggestion
+            this.classList.add('focused');
+            this.style.backgroundColor = 'rgba(67, 97, 238, 0.05)';
+            iconSpan.style.transform = 'scale(1.1)';
+        });
+        
+        suggestion.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = '';
+            this.classList.remove('focused');
+            iconSpan.style.transform = '';
+        });
+        
+        // Navigate to tool on click
+        suggestion.addEventListener('click', () => {
+            // Add click effect
+            suggestion.style.backgroundColor = 'rgba(67, 97, 238, 0.15)';
+            
+            // Track this search
+            if (typeof trackSearch === 'function') {
+                trackSearch(tool.name.toLowerCase());
+            }
+            
+            // Show status and redirect
+            const searchStatus = document.querySelector('.search-status');
+            if (searchStatus) {
+                searchStatus.textContent = `Opening ${tool.name}...`;
+                searchStatus.classList.add('visible');
+            }
+            
+            setTimeout(() => {
+                window.location.href = tool.url;
+            }, 300);
+        });
+        
+        // Staggered animations
+        setTimeout(() => {
+            suggestion.style.opacity = '1';
+            suggestion.style.transform = 'translateY(0)';
+            suggestion.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        }, index * 50); // Stagger by 50ms per item
+        
+        return suggestion;
+    }
+    
+    // Function to hide suggestions
+    function hideSuggestions() {
+        suggestionsContainer.classList.remove('visible');
+        setTimeout(() => {
+            suggestionsContainer.style.display = 'none';
+            suggestionsContainer.innerHTML = '';
+        }, 300); // Wait for fade-out transition
+    }
+    
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+            hideSuggestions();
+        }
+    });
+    
+    // Show suggestions again when focusing on input with content
+    searchInput.addEventListener('focus', function() {
+        if (this.value.trim().length >= 2) {
+            // Trigger input event to refresh suggestions
+            const inputEvent = new Event('input', { bubbles: true });
+            this.dispatchEvent(inputEvent);
+        }
+    });
+    
+    // Keyboard navigation for suggestions
+    searchInput.addEventListener('keydown', function(e) {
+        const suggestions = suggestionsContainer.querySelectorAll('.suggestion-item:not(.no-results)');
+        if (!suggestions.length) return;
+        
+        // Find current focused item
+        const focused = suggestionsContainer.querySelector('.suggestion-item.focused');
+        let index = -1;
+        
+        if (focused) {
+            suggestions.forEach((suggestion, i) => {
+                if (suggestion === focused) index = i;
+            });
+        }
+        
+        // Handle arrow keys
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (index < suggestions.length - 1) {
+                if (focused) {
+                    focused.classList.remove('focused');
+                    focused.style.backgroundColor = '';
+                }
+                
+                suggestions[index + 1].classList.add('focused');
+                suggestions[index + 1].style.backgroundColor = 'rgba(67, 97, 238, 0.1)';
+                suggestions[index + 1].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (index > 0) {
+                if (focused) {
+                    focused.classList.remove('focused');
+                    focused.style.backgroundColor = '';
+                }
+                
+                suggestions[index - 1].classList.add('focused');
+                suggestions[index - 1].style.backgroundColor = 'rgba(67, 97, 238, 0.1)';
+                suggestions[index - 1].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+        } else if (e.key === 'Enter' && focused) {
+            e.preventDefault();
+            focused.click();
+        } else if (e.key === 'Escape') {
+            hideSuggestions();
+        }
+    });
+}
